@@ -2,11 +2,12 @@
   "name": "pear-client",
   "productName": "Pear",
   "version": "0.0.1",
-  "description": "A Quasar App",
-  "repository": "git@github.com:goweiwen/pear-client.git",
+  "description": "",
+  "repository": "https://github.com/goweiwen/pear-client",
   "contributors": [
+    "Si Kai Ng <sikai.ngsk@gmail.com>",
     "Goh Wei Wen <goweiwen@gmail.com>",
-    "Si Kai Ng<sikai.ngsk@gmail.com>"
+    "Ana Chua <anaprimawaty@gmail.com>"
   ],
   "license": "MIT",
   "scripts": {
