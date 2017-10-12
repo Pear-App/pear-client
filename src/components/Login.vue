@@ -1,7 +1,7 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
-    <q-btn class="facebook-login" loader color="blue" icon="fa-facebook" @click="login">
+    <q-btn class="facebook-login is-centered" loader color="blue" icon="fa-facebook" @click="login">
       Sign in with Facebook
     </q-btn>
   </div>
@@ -36,8 +36,4 @@ export default {
 <style lang="stylus" scoped>
 .facebook-login
   background-color #3B5998 !important
-  position absolute
-  top 50%
-  left 50%
-  transform translateX(-50%) translateY(-50%)
 </style>
