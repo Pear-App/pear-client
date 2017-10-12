@@ -10,6 +10,9 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 // require(`quasar/dist/quasar.ie`)
 // require(`quasar/dist/quasar.ie.${__THEME}.css`)
 
+import './util/polyfill'
+import './util/facebookSdk'
+
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
@@ -23,7 +26,7 @@ if (__THEME === 'mat') {
 }
 import 'quasar-extras/material-icons'
 // import 'quasar-extras/ionicons'
-// import 'quasar-extras/fontawesome'
+import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 
 Quasar.start(() => {
