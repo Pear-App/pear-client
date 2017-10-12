@@ -1,7 +1,7 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
-    <q-btn class="facebook-login" color="blue" icon="fa-facebook" @click="login">
+    <q-btn class="facebook-login" loader color="blue" icon="fa-facebook" @click="login">
       Sign in with Facebook
     </q-btn>
   </div>
@@ -18,12 +18,16 @@ export default {
   },
 
   data () {
-    return {} },
+    return {}
+  },
 
   methods: {
     login () {
       /* global FB */
-      FB.login(res => this.$store.dispatch('facebookLogin', res))
+      FB.login(res => this.$store.dispatch('facebookLogin', {
+        ...res,
+        redirect: this.$route.query.redirect
+      }))
     }
   }
 }
