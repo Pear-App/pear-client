@@ -9,6 +9,7 @@ module.exports = {
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
+    'prettier',
     'standard'
   ],
   // required to lint *.vue files
