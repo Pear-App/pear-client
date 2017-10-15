@@ -29,6 +29,7 @@ const router = new VueRouter({
     { path: '/login', component: load('Login') },
     { path: '/onboard/1', component: load('onboard/1') },
     { path: '/onboard/2', component: load('onboard/2') },
+    { path: '/onboard/3', component: load('onboard/3') },
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found

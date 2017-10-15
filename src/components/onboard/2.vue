@@ -1,42 +1,36 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding justify-center">
-    <p class="caption">Tell me more about your friend!</p>
     <form class="personal-information">
-      <q-field
-        label="Name"
-        :error="nameHasError"
-        error-label="We need a name!"
-        :count="100"
-      >
-        <q-input v-model="name" />
-      </q-field>
       <q-field
         label="Looking for"
       >
+      <q-btn
+        class="women full-width"
+        :class="{ 'is-active': lookingFor === 0 }"
+        big
+        :color="lookingFor === 0 ? 'primary' : 'black'"
+        icon="fa-venus"
+        @click="lookingFor = 0"
+      >
+        Women
+      </q-btn>
         <q-btn
           class="men full-width"
-          :class="{ 'is-active': lookingFor === 0 }"
-          big
-          :color="lookingFor === 0 && 'primary'" icon="fa-mars"
-          @click="lookingFor = 0"
-        >
-          Men
-        </q-btn>
-        <q-btn
-          class="women full-width"
           :class="{ 'is-active': lookingFor === 1 }"
           big
-          :color="lookingFor === 1 && 'primary'" icon="fa-venus"
+          :color="lookingFor === 1 ? 'primary' : 'black'"
+          icon="fa-mars"
           @click="lookingFor = 1"
         >
-          Women
+          Men
         </q-btn>
         <q-btn
           class="both full-width"
           :class="{ 'is-active': lookingFor === 2 }"
           big
-          :color="lookingFor === 2 && 'primary'" icon="fa-genderless"
+          :color="lookingFor === 2 ? 'primary' : 'black'"
+          icon="fa-genderless"
           @click="lookingFor = 2"
         >
           Either
@@ -52,6 +46,9 @@
           label-always
         />
       </q-field>
+      <q-btn class="pull-left" color="primary" big @click="back">
+        Back
+      </q-btn>
       <q-btn class="pull-right" color="primary" big @click="submit">
         Next
       </q-btn>
@@ -79,7 +76,6 @@ export default {
 
   data () {
     return {
-      name: '',
       lookingFor: 0,
       ageRange: { min: 18, max: 80 }
     }
@@ -90,6 +86,9 @@ export default {
   },
 
   methods: {
+    back () {
+      this.$router.push('1')
+    },
     submit () {
       this.$router.push('3')
     }
