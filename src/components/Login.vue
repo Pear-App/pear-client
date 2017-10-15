@@ -1,8 +1,9 @@
 <template>
-  <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding login">
+  <div class="layout-padding">
     <div class="row justify-center">
-      <img src="~assets/logo.png">
+      <img class="block" src="~assets/logo.png" width="200" height="200">
+    </div>
+    <div class="row justify-center">
       <q-btn class="facebook-login" big loader color="blue" icon="fa-facebook" @click="login">
         Continue with Facebook
       </q-btn>

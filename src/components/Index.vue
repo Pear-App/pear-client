@@ -2,7 +2,9 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
     <div class="row justify-center">
-      A tutorial should be here
+      <p>A tutorial should be here</p>
+    </div>
+    <div class="row justify-center">
       <q-btn color="primary" @click="next">
         Let's go!
       </q-btn>

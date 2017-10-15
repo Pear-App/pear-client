@@ -2,36 +2,34 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
     <p class="caption">Tell me more about your friend!</p>
-    <form class="personal-information">
-      <q-field
-        label="Name"
-        :error="nameHasError"
-        error-label="We need a name!"
-        :count="100"
+    <q-field
+      label="Name"
+      :error="nameHasError"
+      error-label="We need a name!"
+      :count="100"
+    >
+      <q-input v-model="name" />
+    </q-field>
+    <q-field
+      label="Interests"
+    >
+      <q-btn
+        v-for="interest in interests"
+        key="interest.name"
+        big
+        color='primary'
+        :flat="!interest.active"
+        @click="interest.active = !interest.active"
       >
-        <q-input v-model="name" />
-      </q-field>
-      <q-field
-        label="Interests"
-      >
-        <q-btn
-          v-for="interest in interests"
-          key="interest.name"
-          big
-          color='primary'
-          :flat="!interest.active"
-          @click="interest.active = !interest.active"
-        >
-          {{ interest.name }}
-        </q-btn>
-      </q-field>
-      <q-btn class="pull-left" color="primary" big @click="back">
-        Back
+        {{ interest.name }}
       </q-btn>
-      <q-btn class="pull-right" color="primary" big @click="submit">
-        Next
-      </q-btn>
-    </form>
+    </q-field>
+    <q-btn class="pull-left" color="primary" big @click="back">
+      Back
+    </q-btn>
+    <q-btn class="pull-right" color="primary" big @click="submit">
+      Next
+    </q-btn>
   </div>
 </template>
 
@@ -88,11 +86,7 @@ export default {
 <style lang="stylus" scoped>
 @import '~variables'
 
-.personal-information
-  width 500px
-  max-width 90vw
-
-  .q-btn
-    margin 5px
-    border-radius 4px
+.q-btn
+  margin 5px
+  border-radius 4px
 </style>
