@@ -24,7 +24,7 @@ const router = new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Hello') },
+    { path: '/', component: load('Index') },
     { path: '/swipe', component: load('Swipe') },
     { path: '/login', component: load('Login') },
     { path: '/onboard/1', component: load('onboard/1') },

@@ -1,9 +1,12 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
-    <q-btn class="facebook-login is-centered" loader color="blue" icon="fa-facebook" @click="login">
-      Sign in with Facebook
-    </q-btn>
+  <div class="layout-padding login">
+    <div class="row justify-center">
+      <img src="~assets/logo.png">
+      <q-btn class="facebook-login" big loader color="blue" icon="fa-facebook" @click="login">
+        Continue with Facebook
+      </q-btn>
+    </div>
   </div>
 </template>
 
@@ -34,6 +37,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.login
+  padding-top 20vh
+
 .facebook-login
   background-color #3B5998 !important
 </style>
