@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding justify-center">
+  <div class="layout-padding">
     <p class="caption">Tell me more about your friend!</p>
     <form class="personal-information">
       <q-field

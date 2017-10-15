@@ -11,13 +11,9 @@
         </q-card-title>
         <q-card-separator />
         <q-card-main>
-          Card Content
+          Age: a billion<br />
+          Likes: nothing
         </q-card-main>
-        <q-card-actions align="around">
-          <q-btn flat round small color="red" @click="throwout"><q-icon name="favorite" /></q-btn>
-          <q-btn flat round small color="faded"><q-icon name="bookmark" /></q-btn>
-          <q-btn flat round small color="primary"><q-icon name="share" /></q-btn>
-        </q-card-actions>
       </q-card>
     </vue-swing>
   </div>
@@ -87,5 +83,5 @@ export default {
   pointer-events none
 
 .person-picture
-  width 80vw
+  width 90vw
 </style>

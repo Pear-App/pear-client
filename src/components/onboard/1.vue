@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding justify-center">
+  <div class="layout-padding">
     <p>Find a Pear for</p>
     <q-btn class="full-width" big color="blue" @click="friend">A Friend</q-btn>
     <q-btn class="full-width" big color="blue" @click="me">Me</q-btn>
