@@ -75,15 +75,15 @@ export default {
     QRange
   },
 
-  data () {
-    return {
-      lookingFor: 0,
-      ageRange: { min: 18, max: 80 }
-    }
-  },
-
   computed: {
-    nameHasError () { return false }
+    lookingFor: {
+      get () { return this.$store.state.friend.lookingFor },
+      set (lookingFor) { this.$store.dispatch('updateFriend', { lookingFor }) }
+    },
+    ageRange: {
+      get () { return this.$store.state.friend.ageRange },
+      set (ageRange) { this.$store.dispatch('updateFriend', { ageRange }) }
+    }
   },
 
   methods: {

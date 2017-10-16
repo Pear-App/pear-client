@@ -5,7 +5,6 @@
     <q-field
       label="Name"
       :error="nameHasError"
-      error-label="We need a name!"
       :count="100"
     >
       <q-input v-model="name" />
@@ -34,7 +33,6 @@
 </template>
 
 <script>
-import { shuffle } from 'lodash'
 import {
   QBtn,
   QField,
@@ -52,24 +50,16 @@ export default {
     QRange
   },
 
-  data () {
-    return {
-      name: '',
-      interests: shuffle([
-        { name: 'Art', active: false },
-        { name: 'Books', active: false },
-        { name: 'Dance', active: false },
-        { name: 'Movies', active: false },
-        { name: 'Music', active: false },
-        { name: 'Sports', active: false },
-        { name: 'TV Shows', active: false },
-        { name: 'Video Games', active: false }
-      ])
-    }
-  },
-
   computed: {
-    nameHasError () { return false }
+    name: {
+      get () { return this.$store.state.friend.name },
+      set (name) { this.$store.dispatch('updateFriend', { name }) }
+    },
+    interests: {
+      get () { return this.$store.state.friend.interests },
+      set (interests) { this.$store.dispatch('updateFriend', { interests }) }
+    },
+    nameHasError () { return this.name.length === 0 }
   },
 
   methods: {

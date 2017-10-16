@@ -1,8 +1,8 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
-    <vue-swing @throwout="throwout" class="row justify-center">
-      <q-card class="card" v-for="person in persons" key="person.name">
+    <vue-swing @throwoutleft="reject" @throwoutright="accept" class="row justify-center">
+      <q-card class="card" v-for="person in persons.queue" key="person.name">
         <q-card-media>
           <img class="person-picture no-select" :src="person.picture">
         </q-card-media>
@@ -45,33 +45,35 @@ export default {
     VueSwing
   },
 
+  computed: {
+    persons: {
+      get () { return this.$store.state.persons },
+      set (persons) { this.$store.dispatch('updatePersons', persons) }
+    }
+  },
+
   data () {
     return {
-      counter: 0,
-      persons: []
+      counter: 0
     }
   },
 
   mounted () {
-    this.fetchPerson()
+    this.$store.dispatch('fetchPerson')
   },
 
   methods: {
-    throwout () {
-      if (++this.counter >= 5) this.$router.push('/sort')
-      this.persons.pop()
-      this.fetchPerson()
+    reject () {
+      const person = this.persons.queue.pop()
+      this.persons.rejected.push(person)
+      if (++this.counter >= 5) return this.$router.push('/sort')
+      this.$store.dispatch('fetchPerson')
     },
-
-    async fetchPerson () {
-      const res = await fetch('https://randomuser.me/api/?inc=gender,name,picture')
-      const data = await res.json()
-      const person = data.results[0]
-      this.persons.push({
-        picture: person.picture.large,
-        name: `${person.name.first} ${person.name.last}`,
-        gender: person.gender === 'male' ? 1 : 0
-      })
+    accept () {
+      const person = this.persons.queue.pop()
+      this.persons.accepted.push(person)
+      if (++this.counter >= 5) return this.$router.push('/sort')
+      this.$store.dispatch('fetchPerson')
     }
   }
 }
@@ -80,6 +82,8 @@ export default {
 <style lang="stylus" scoped>
 .card
   max-width 400px
+  position absolute
+  background white
 
 .no-select
   user-select none
