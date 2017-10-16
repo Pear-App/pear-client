@@ -47,6 +47,7 @@ export default {
 
   data () {
     return {
+      counter: 0,
       persons: []
     }
   },
@@ -57,9 +58,11 @@ export default {
 
   methods: {
     throwout () {
+      if (++this.counter >= 5) this.$router.push('/sort')
       this.persons.pop()
       this.fetchPerson()
     },
+
     async fetchPerson () {
       const res = await fetch('https://randomuser.me/api/?inc=gender,name,picture')
       const data = await res.json()
