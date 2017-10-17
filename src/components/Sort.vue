@@ -5,10 +5,10 @@
     <q-list inset-separator>
       <draggable v-model="persons" :options="dragOptions">
         <transition-group name="sort">
-          <q-item class="card sortable" v-for="person in persons.accepted" :key="person.name">
-            <q-item-side :avatar="person.picture" />
+          <q-item class="card sortable" v-for="person in persons" :key="person.id">
+            <q-item-side :avatar="`//graph.facebook.com/${person.facebookId}/picture?type=large`" />
             <q-item-main>
-              {{ person.name }}
+              {{ person.facebookName }}
             </q-item-main>
             <q-item-side right icon="fa-bars" />
           </q-item>
@@ -41,17 +41,10 @@ export default {
     Draggable
   },
 
-  computed: {
-    persons: {
-      get () { return this.$store.state.persons },
-      set (persons) { this.$store.dispatch('updatePersons', persons) }
-    }
-  },
-
   data () {
     return {
+      persons: this.$store.state.persons.filter(p => p.accepted),
       dragOptions: {
-        delay: 0,
         animation: 150
       }
     }

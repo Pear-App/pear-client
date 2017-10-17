@@ -19,12 +19,11 @@ export default {
 
   methods: {
     friend () {
-      this.$store.dispatch('findingFor', 0)
+      // this.$store.dispatch('addFriend')
       this.$router.push('2')
     },
 
     me () {
-      this.$store.dispatch('findingFor', 1)
       this.$router.push('2')
     }
   }

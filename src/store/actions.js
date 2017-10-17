@@ -1,11 +1,16 @@
+import jwtDecode from 'jwt-decode'
+
 import router from '../router'
-import { log, post } from '../util'
+import { get, post } from '../util'
 
 export default {
-  async facebookLogin ({ commit }, { status, authResponse, redirect }) {
+  // Auth
+  async facebookLogin ({ commit, dispatch }, { status, authResponse, redirect }) {
     if (status === 'connected') {
-      await post('/login', { accessToken: authResponse.accessToken }).catch(log)
-      commit('loggedIn', { userID: authResponse.userID })
+      const { jwt } = await post('/authenticate', { fbToken: authResponse.accessToken })
+      const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
+      commit('loggedIn', { facebookId: authResponse.userID, id: userId, jwt })
+      dispatch('fetchMe')
       router.push(redirect)
     }
     if (status === 'unknown') {
@@ -13,23 +18,38 @@ export default {
     }
   },
 
-  findingFor ({ state, commit }, findingFor) {
-    commit('findingFor', findingFor)
+  // Swipe
+  async fetchPerson ({ commit }) {
+    const person = await get('/user/single')
+    person.accepted = null
+    commit('addPerson', person)
   },
 
-  async fetchPerson ({ state, commit }) {
-    const gender = state.friend.lookingFor === 0 ? 'female' : 'male'
-    const res = await fetch(`https://randomuser.me/api/?gender=${gender}&inc=gender,name,picture`)
-    const data = await res.json()
-    const person = data.results[0]
-    commit('addPerson', {
-      picture: person.picture.large,
-      name: `${person.name.first} ${person.name.last}`,
-      gender: person.gender === 'male' ? 1 : 0
-    })
+  setPerson ({ commit }, person) {
+    commit('setPerson', person)
   },
 
-  updateFriend ({ commit }, friend) {
-    commit('updateFriend', friend)
+  // Profile
+  async fetchMe ({ state, commit }) {
+    commit('setMe', await get(`/user/${state.me.id}`))
+  },
+
+  async fetchFriend ({ commit }) {
+    commit('setFriend', await get('/user/friend'))
+  },
+
+  async setMe ({ state, commit }, me) {
+    await post(`/user/${state.me.id}/edit`, { me })
+    commit('setMe', me)
+  },
+
+  async setFriend ({ commit }, friend) {
+    await post(`/user/${friend.id}/edit`, { friend })
+    commit('setFriend', friend)
+  },
+
+  async addFriend ({ commit }) {
+    commit('addFriend', await post('/user/friend/add'))
   }
+
 }

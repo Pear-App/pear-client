@@ -1,18 +1,17 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
-    <vue-swing @throwoutleft="reject" @throwoutright="accept" class="row justify-center">
-      <q-card class="card" v-for="person in persons.queue" key="person.name">
+    <vue-swing @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="row justify-center">
+      <q-card class="card" v-for="person in persons" :data-id="person.id" :key="person.id">
         <q-card-media>
-          <img class="person-picture no-select" :src="person.picture">
+          <img class="no-select" :src="`//graph.facebook.com/${person.facebookId}/picture?type=large`">
         </q-card-media>
         <q-card-title>
-          {{ person.name }}
+          {{ person.facebookName }}
         </q-card-title>
         <q-card-separator />
         <q-card-main>
-          Age: a billion<br />
-          Likes: nothing
+          {{ person.desc }}
         </q-card-main>
       </q-card>
     </vue-swing>
@@ -45,33 +44,36 @@ export default {
     VueSwing
   },
 
-  computed: {
-    persons: {
-      get () { return this.$store.state.persons },
-      set (persons) { this.$store.dispatch('updatePersons', persons) }
-    }
-  },
-
   data () {
     return {
-      counter: 0
+      counter: 0,
+      swingConfig: {
+        isThrowOut: (x, y, el, confidence) => confidence > 0.3,
+        minThrowOutDistance: 200,
+        maxThrowOutDistance: 300
+      },
+      persons: this.$store.state.persons
     }
   },
 
   mounted () {
+    this.$store.dispatch('setPersons', [])
+    this.$store.dispatch('fetchPerson')
     this.$store.dispatch('fetchPerson')
   },
 
   methods: {
-    reject () {
-      const person = this.persons.queue.pop()
-      this.persons.rejected.push(person)
+    reject (e) {
+      const person = this.persons.find(p => p.id === parseInt(e.target.dataset.id))
+      person.accepted = false
+      this.$store.dispatch('setPerson', person)
       if (++this.counter >= 5) return this.$router.push('/sort')
       this.$store.dispatch('fetchPerson')
     },
-    accept () {
-      const person = this.persons.queue.pop()
-      this.persons.accepted.push(person)
+    accept (e) {
+      const person = this.persons.find(p => p.id === parseInt(e.target.dataset.id))
+      person.accepted = true
+      this.$store.dispatch('setPerson', person)
       if (++this.counter >= 5) return this.$router.push('/sort')
       this.$store.dispatch('fetchPerson')
     }
@@ -88,7 +90,4 @@ export default {
 .no-select
   user-select none
   pointer-events none
-
-.person-picture
-  width 90vw
 </style>

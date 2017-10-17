@@ -1,6 +1,5 @@
-export function log (...args) {
-  console.log('LOG: ', ...args)
-}
+import { API_URL } from '../constants'
+import store from '../store'
 
 async function api (method, path, body) {
   if (process.env.NODE_ENV !== 'production') log(`${method} ${path}`)
@@ -8,25 +7,37 @@ async function api (method, path, body) {
   const options = body != null
     ? {
       method,
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${store.state.jwt}`
+      },
       body: JSON.stringify(body)
     }
     : {
       method,
-      credentials: 'include'
+      headers: {
+        'Authorization': `Bearer ${store.state.jwt}`
+      }
     }
 
-  const res = await fetch(path, options)
+  const res = await fetch(`${API_URL}${path}`, options)
 
   if (!res.ok) {
     throw new Error(res.statusText)
   }
 
-  return res
+  return res.json()
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  global.api = api
 }
 
 export const get = api.papp('GET')
 export const post = api.papp('POST')
 export const patch = api.papp('PATCH')
 export const del = api.papp('DELETE')
+
+export function log (...args) {
+  console.log('LOG: ', ...args)
+}
