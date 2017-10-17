@@ -16,6 +16,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
+        <preference name="android-minSdkVersion" value="16" />
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
@@ -31,5 +32,9 @@
         <variable name="XWALK_COMMANDLINE" value="--disable-pull-to-refresh-effect" />
         <variable name="XWALK_MODE" value="embedded" />
         <variable name="XWALK_MULTIPLEAPK" value="true" />
+    </plugin>
+    <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
+        <variable name="APP_ID" value="2012482058985830" />
+        <variable name="APP_NAME" value="Pear" />
     </plugin>
 </widget>
