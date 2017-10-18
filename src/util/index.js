@@ -41,3 +41,9 @@ export const del = api.papp('DELETE')
 export function log (...args) {
   console.log('LOG: ', ...args)
 }
+
+export function promisify (fn) {
+  return new Promise((resolve, reject) => {
+    fn(resolve, (...args) => reject(new Error(...args)))
+  })
+}

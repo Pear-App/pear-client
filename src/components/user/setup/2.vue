@@ -33,27 +33,17 @@
 </template>
 
 <script>
-import {
-  QBtn,
-  QField,
-  QInput,
-  QLayout,
-  QRange
-} from 'quasar'
+import { QBtn, QField, QInput, QLayout, QRange } from 'quasar'
 
 export default {
-  components: {
-    QBtn,
-    QField,
-    QInput,
-    QLayout,
-    QRange
-  },
+  name: 'user-setup-2',
+
+  components: { QBtn, QField, QInput, QLayout, QRange },
 
   data () {
     return {
-      nickname: this.$store.state.friend.nickname,
-      desc: this.$store.state.friend.desc
+      nickname: this.$store.state.friend[this.id].nickname,
+      desc: this.$store.state.friend[this.id].desc
     }
   },
 
@@ -65,21 +55,19 @@ export default {
   methods: {
     back () {
       const { nickname, interests } = this
-      this.$store.dispatch('setFriend', { nickname, interests })
-      this.$router.push('2')
+      this.$store.dispatch('setFriend', { id: this.id, nickname, interests })
+      this.$router.push(`/user/${this.id}/setup/1`)
     },
     submit () {
       const { nickname, interests } = this
-      this.$store.dispatch('setFriend', { nickname, interests })
-      this.$router.push('/swipe')
+      this.$store.dispatch('setFriend', { id: this.id, nickname, interests })
+      this.$router.push(`/user/${this.id}`)
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '~variables'
-
 .q-btn
   margin 5px
   border-radius 4px

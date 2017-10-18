@@ -18,6 +18,12 @@ export default {
     updatedAt: ''
   },
 
+  // People trying to match you up
+  friends: [],
+
+  // People you are trying to match up
+  singles: [],
+
   // Friend's profile
   friend: {
     id: null,

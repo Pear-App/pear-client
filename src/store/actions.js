@@ -5,13 +5,12 @@ import { get, post } from '../util'
 
 export default {
   // Auth
-  async facebookLogin ({ commit, dispatch }, { status, authResponse, redirect }) {
+  async facebookLogin ({ commit, dispatch }, { status, authResponse }) {
     if (status === 'connected') {
       const { jwt } = await post('/authenticate', { fbToken: authResponse.accessToken })
       const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
       commit('loggedIn', { facebookId: authResponse.userID, id: userId, jwt })
-      dispatch('fetchMe')
-      router.push(redirect)
+      router.push('/')
     }
     if (status === 'unknown') {
       commit('notLoggedIn')
@@ -39,12 +38,12 @@ export default {
   },
 
   async setMe ({ state, commit }, me) {
-    await post(`/user/${state.me.id}/edit`, { me })
+    if (state.me.id != null) await post(`/user/${state.me.id}/edit`, { me })
     commit('setMe', me)
   },
 
   async setFriend ({ commit }, friend) {
-    await post(`/user/${friend.id}/edit`, { friend })
+    if (friend.id != null) await post(`/user/${friend.id}/edit`, { friend })
     commit('setFriend', friend)
   },
 

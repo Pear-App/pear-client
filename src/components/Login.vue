@@ -4,7 +4,7 @@
       <img class="block" src="~assets/logo.png" width="200" height="200">
     </div>
     <div class="row justify-center">
-      <q-btn class="facebook-login" big loader color="blue" icon="fa-facebook" @click="login">
+      <q-btn class="facebook-login" big color="blue" icon="fa-facebook" @click="login">
         Continue with Facebook
       </q-btn>
     </div>
@@ -12,26 +12,22 @@
 </template>
 
 <script>
-import {
-  QBtn
-} from 'quasar'
+import { QBtn } from 'quasar'
+import { promisify } from '../util'
 
 export default {
   components: {
     QBtn
   },
 
-  data () {
-    return {}
+  mounted () {
+    if (this.$store.state.isLoggedIn === true) this.$router.replace('/')
   },
 
   methods: {
-    login () {
+    async login () {
       /* global FB */
-      FB.login(res => this.$store.dispatch('facebookLogin', {
-        ...res,
-        redirect: this.$route.query.redirect
-      }))
+      this.$store.dispatch('facebookLogin', await promisify(FB.login))
     }
   }
 }

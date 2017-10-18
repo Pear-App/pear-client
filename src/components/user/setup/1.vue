@@ -58,56 +58,40 @@
       <q-range v-model="ageRange" :min="18" :max="80" label-always />
     </q-field>
 
-    <q-btn class="pull-left" color="primary" big @click="back">Back</q-btn>
     <q-btn class="pull-right" color="primary" big @click="submit">Next</q-btn>
 
   </div>
 </template>
 
 <script>
-import {
-  QBtn,
-  QField,
-  QInput,
-  QLayout,
-  QRange
-} from 'quasar'
+import { QBtn, QField, QInput, QLayout, QRange } from 'quasar'
 
 export default {
-  components: {
-    QBtn,
-    QField,
-    QInput,
-    QLayout,
-    QRange
-  },
+  name: 'user-setup-1',
+
+  components: { QBtn, QField, QInput, QLayout, QRange },
+
+  props: ['id'],
 
   data () {
     return {
-      sex: this.$store.state.friend.sex,
-      sexualOrientation: this.$store.state.friend.sexualOrientation,
-      ageRange: this.$store.state.friend.ageRange
+      sex: this.$store.state.friend[this.id].sex,
+      sexualOrientation: this.$store.state.friend[this.id].sexualOrientation,
+      ageRange: this.$store.state.friend[this.id].ageRange
     }
   },
 
   methods: {
-    back () {
-      const { sex, sexualOrientation, ageRange } = this
-      this.$store.dispatch('setFriend', { sex, sexualOrientation, ageRange })
-      this.$router.push('1')
-    },
     submit () {
       const { sex, sexualOrientation, ageRange } = this
-      this.$store.dispatch('setFriend', { sex, sexualOrientation, ageRange })
-      this.$router.push('3')
+      this.$store.dispatch('setFriend', { id: this.id, sex, sexualOrientation, ageRange })
+      this.$router.push(`/user/${this.id}/setup/2`)
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '~variables'
-
 .q-btn
   margin 5px
   border-radius 4px

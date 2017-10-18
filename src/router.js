@@ -24,13 +24,15 @@ const router = new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Index') },
+    { path: '/', component: load('Tutorial') },
+    { path: '/login', component: load('Login') },
+
+    { path: '/user/:id', props: true, component: load('user/Profile') },
+    { path: '/user/:id/setup/1', props: true, component: load('user/setup/1') },
+    { path: '/user/:id/setup/2', props: true, component: load('user/setup/2') },
+
     { path: '/swipe', component: load('Swipe') },
     { path: '/sort', component: load('Sort') },
-    { path: '/login', component: load('Login') },
-    { path: '/onboard/1', component: load('onboard/1') },
-    { path: '/onboard/2', component: load('onboard/2') },
-    { path: '/onboard/3', component: load('onboard/3') },
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
@@ -38,8 +40,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') return next()
-  if (!store.state.isLoggedIn) return next(`login?redirect=${to.fullPath}`)
+  if (to.path !== '/login' && !store.state.isLoggedIn) return next('/login')
   next()
 })
 
