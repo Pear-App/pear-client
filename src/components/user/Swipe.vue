@@ -1,8 +1,12 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
+  <loader v-if="matches == null"/>
+  <div v-else-if="matches.length === 0">
+    There's nothing here...
+  </div>
+  <div v-else class="layout-padding">
     <vue-swing @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="row justify-center">
-      <q-card class="card" v-for="person in persons" :data-id="person.id" :key="person.id">
+      <q-card class="card" v-for="person in matches" :data-id="person.id" :key="person.id">
         <q-card-media>
           <img class="no-select" :src="`//graph.facebook.com/${person.facebookId}/picture?type=large`">
         </q-card-media>
@@ -30,6 +34,7 @@ import {
   QIcon
 } from 'quasar'
 import VueSwing from 'vue-swing'
+import Loader from '../Loader'
 
 export default {
   components: {
@@ -41,8 +46,11 @@ export default {
     QCardSeparator,
     QCardMain,
     QIcon,
-    VueSwing
+    VueSwing,
+    Loader
   },
+
+  props: ['id'],
 
   data () {
     return {
@@ -51,31 +59,31 @@ export default {
         isThrowOut: (x, y, el, confidence) => confidence > 0.3,
         minThrowOutDistance: 200,
         maxThrowOutDistance: 300
-      },
-      persons: this.$store.state.persons
+      }
     }
   },
 
-  mounted () {
-    this.$store.dispatch('setPersons', [])
-    this.$store.dispatch('fetchPerson')
-    this.$store.dispatch('fetchPerson')
+  computed: {
+    matches () {
+      const user = this.$store.state.users[this.id]
+      return user != null && user.matches
+    }
+  },
+
+  mounted () { this.$store.dispatch('fetchMatches', this.id) },
+
+  watch: {
+    id (id) { this.$store.dispatch('fetchMatches', id) }
   },
 
   methods: {
     reject (e) {
-      const person = this.persons.find(p => p.id === parseInt(e.target.dataset.id))
-      person.accepted = false
-      this.$store.dispatch('setPerson', person)
-      if (++this.counter >= 5) return this.$router.push('/sort')
-      this.$store.dispatch('fetchPerson')
+      const candidateId = e.target.dataset.id
+      this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
     accept (e) {
-      const person = this.persons.find(p => p.id === parseInt(e.target.dataset.id))
-      person.accepted = true
-      this.$store.dispatch('setPerson', person)
-      if (++this.counter >= 5) return this.$router.push('/sort')
-      this.$store.dispatch('fetchPerson')
+      const candidateId = e.target.dataset.id
+      this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     }
   }
 }

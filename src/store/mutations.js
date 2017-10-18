@@ -10,17 +10,9 @@ export default {
   notLoggedIn (state) { state.isLoggedIn = false },
 
   // Swiping
-  addPerson (state, person) { state.persons.push(person) },
-  setPerson (state, person) {
-    const index = state.persons.findIndex(p => p.id === person.id)
-    if (index === -1) {
-      state.persons.push(person)
-    }
-    else {
-      state.persons[index] = { ...state.persons[index], ...person }
-    }
+  removeMatch (state, { id, candidateId }) {
+    state.users[id].matches = state.users[id].matches.filter(_ => _.id !== candidateId)
   },
-  setPersons (state, persons) { state.persons = [ ...state.persons, ...persons ] },
 
   // Profile
   initialise (state, { users, me, friends, singles }) {

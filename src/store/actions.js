@@ -18,14 +18,19 @@ export default {
   },
 
   // Swipe
-  async fetchPerson ({ commit }) {
-    const person = await get('/user/single')
-    person.accepted = null
-    commit('addPerson', person)
+  async fetchMatches ({ commit }, id) {
+    const matches = await get(`/match/friend/${id}`)
+    commit('setUser', { id, matches })
   },
 
-  setPerson ({ commit }, person) {
-    commit('setPerson', person)
+  async acceptMatch ({ commit }, { id, candidateId }) {
+    await post(`/match/friend/${id}`, { candidateId, friendChoice: true })
+    commit('removeMatch', { id, candidateId })
+  },
+
+  async rejectMatch ({ commit }, { id, candidateId }) {
+    await post(`/match/friend/${id}`, { candidateId, friendChoice: false })
+    commit('removeMatch', { id, candidateId })
   },
 
   // Profile
@@ -57,7 +62,7 @@ export default {
   },
 
   async addFriend ({ commit }) {
-    commit('addFriend', await post('/user/friend/add'))
+    commit('addFriend', await post('/user/friend'))
   }
 
 }
