@@ -42,8 +42,8 @@ export default {
 
   data () {
     return {
-      nickname: this.$store.state.friend[this.id].nickname,
-      desc: this.$store.state.friend[this.id].desc
+      nickname: this.$store.state.users[this.id].nickname,
+      desc: this.$store.state.users[this.id].desc
     }
   },
 
@@ -55,12 +55,12 @@ export default {
   methods: {
     back () {
       const { nickname, interests } = this
-      this.$store.dispatch('setFriend', { id: this.id, nickname, interests })
+      this.$store.dispatch('setUser', { id: this.id, nickname, interests })
       this.$router.push(`/user/${this.id}/setup/1`)
     },
     submit () {
       const { nickname, interests } = this
-      this.$store.dispatch('setFriend', { id: this.id, nickname, interests })
+      this.$store.dispatch('setUser', { id: this.id, nickname, interests })
       this.$router.push(`/user/${this.id}`)
     }
   }

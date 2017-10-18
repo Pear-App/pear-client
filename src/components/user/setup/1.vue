@@ -75,16 +75,16 @@ export default {
 
   data () {
     return {
-      sex: this.$store.state.friend[this.id].sex,
-      sexualOrientation: this.$store.state.friend[this.id].sexualOrientation,
-      ageRange: this.$store.state.friend[this.id].ageRange
+      sex: this.$store.state.users[this.id].sex,
+      sexualOrientation: this.$store.state.users[this.id].sexualOrientation,
+      ageRange: this.$store.state.users[this.id].ageRange
     }
   },
 
   methods: {
     submit () {
       const { sex, sexualOrientation, ageRange } = this
-      this.$store.dispatch('setFriend', { id: this.id, sex, sexualOrientation, ageRange })
+      this.$store.dispatch('setUser', { id: this.id, sex, sexualOrientation, ageRange })
       this.$router.push(`/user/${this.id}/setup/2`)
     }
   }

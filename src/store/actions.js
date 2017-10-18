@@ -9,7 +9,7 @@ export default {
     if (status === 'connected') {
       const { jwt } = await post('/authenticate', { fbToken: authResponse.accessToken })
       const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
-      commit('loggedIn', { facebookId: authResponse.userID, id: userId, jwt })
+      commit('loggedIn', { facebookId: authResponse.userID, me: userId, jwt })
       router.push('/')
     }
     if (status === 'unknown') {
@@ -31,26 +31,28 @@ export default {
   // Profile
   async fetchMe ({ state, commit }) {
     const data = {
-      me: await get(`/user/${state.me.id}`),
+      me: await get(`/user/${state.me}`),
       friends: (await get('/user/friend')).friend,
       singles: (await get('/user/single')).single
     }
-    commit('initialise', data)
+    const users = {}
+    users[data.me.id] = data.me
+    data.friends.map(_ => { users[_.id] = _ })
+    data.singles.map(_ => { users[_.id] = _ })
+    const me = data.me.id
+    const friends = data.friends.map(_ => _.id)
+    const singles = data.singles.map(_ => _.id)
+    commit('initialise', { users, me, friends, singles })
     // commit('initialise', await get('/user/me'))
   },
 
-  async fetchFriend ({ commit }) {
-    commit('setFriend', await get('/user/friend'))
+  async fetchUser ({ commit }, id) {
+    commit('setUser', await get(`/user/${id}`))
   },
 
-  async setMe ({ state, commit }, me) {
-    if (state.me.id != null) await post(`/user/${state.me.id}/edit`, { me })
-    commit('setMe', me)
-  },
-
-  async setFriend ({ commit }, friend) {
-    if (friend.id != null) await post(`/user/${friend.id}/edit`, { friend })
-    commit('setFriend', friend)
+  async setUser ({ commit }, user) {
+    if (user.id != null) await post(`/user/${user.id}/edit`, user)
+    commit('setUser', user)
   },
 
   async addFriend ({ commit }) {

@@ -1,11 +1,11 @@
 export default {
 
   // Auth
-  loggedIn (state, { facebookId, id, jwt }) {
+  loggedIn (state, { facebookId, me, jwt }) {
     state.isLoggedIn = true
     state.jwt = jwt
-    state.me.id = id
-    state.me.facebookId = facebookId
+    state.me = me
+    state.users[me] = { facebookId }
   },
   notLoggedIn (state) { state.isLoggedIn = false },
 
@@ -23,13 +23,13 @@ export default {
   setPersons (state, persons) { state.persons = [ ...state.persons, ...persons ] },
 
   // Profile
-  initialise (state, { me, friends, singles }) {
+  initialise (state, { users, me, friends, singles }) {
+    state.users = users
     state.me = me
     state.friends = friends
     state.singles = singles
   },
-  setMe (state, me) { state.me = { ...state.me, ...me } },
-  setFriend (state, friend) { state.friend = { ...state.friend, ...friend } },
+  setUser (state, user) { state.users[user.id] = { ...state.users[user.id], ...user } },
   addFriend (state, friendId) { state.friend.id = friendId }
 
 }
