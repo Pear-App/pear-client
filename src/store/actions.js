@@ -30,7 +30,13 @@ export default {
 
   // Profile
   async fetchMe ({ state, commit }) {
-    commit('setMe', await get(`/user/${state.me.id}`))
+    const data = {
+      me: await get(`/user/${state.me.id}`),
+      friends: (await get('/user/friend')).friend,
+      singles: (await get('/user/single')).single
+    }
+    commit('initialise', data)
+    // commit('initialise', await get('/user/me'))
   },
 
   async fetchFriend ({ commit }) {

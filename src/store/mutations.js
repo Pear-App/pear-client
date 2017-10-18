@@ -23,6 +23,11 @@ export default {
   setPersons (state, persons) { state.persons = [ ...state.persons, ...persons ] },
 
   // Profile
+  initialise (state, { me, friends, singles }) {
+    state.me = me
+    state.friends = friends
+    state.singles = singles
+  },
   setMe (state, me) { state.me = { ...state.me, ...me } },
   setFriend (state, friend) { state.friend = { ...state.friend, ...friend } },
   addFriend (state, friendId) { state.friend.id = friendId }
