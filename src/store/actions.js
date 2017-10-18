@@ -30,20 +30,21 @@ export default {
 
   // Profile
   async fetchMe ({ state, commit }) {
-    const data = {
-      me: await get(`/user/${state.me}`),
-      friends: (await get('/user/friend')).friend,
-      singles: (await get('/user/single')).single
-    }
+    const data = await get('/user/me')
+
     const users = {}
-    users[data.me.id] = data.me
-    data.friends.map(_ => { users[_.id] = _ })
-    data.singles.map(_ => { users[_.id] = _ })
-    const me = data.me.id
-    const friends = data.friends.map(_ => _.id)
-    const singles = data.singles.map(_ => _.id)
+
+    data.friend.map(_ => { users[_.id] = _ })
+    data.single.map(_ => { users[_.id] = _ })
+    const friends = data.friend.map(_ => _.id)
+    const singles = data.single.map(_ => _.id)
+
+    const me = data.id
+    delete data.friend
+    delete data.single
+    users[me] = data
+
     commit('initialise', { users, me, friends, singles })
-    // commit('initialise', await get('/user/me'))
   },
 
   async fetchUser ({ commit }, id) {
