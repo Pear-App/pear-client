@@ -31,6 +31,5 @@ export default {
   singles: [],
 
   // List of people to swipe
-  persons: []
-
+  persons: [],
 }

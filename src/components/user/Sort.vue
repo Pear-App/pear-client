@@ -22,13 +22,7 @@
 </template>
 
 <script>
-import {
-  QBtn,
-  QList,
-  QItem,
-  QItemSide,
-  QItemMain
-} from 'quasar'
+import { QBtn, QList, QItem, QItemSide, QItemMain } from 'quasar'
 import Draggable from 'vuedraggable'
 
 export default {
@@ -38,23 +32,23 @@ export default {
     QItem,
     QItemSide,
     QItemMain,
-    Draggable
+    Draggable,
   },
 
-  data () {
+  data() {
     return {
       persons: this.$store.state.persons.filter(p => p.accepted),
       dragOptions: {
-        animation: 150
-      }
+        animation: 150,
+      },
     }
   },
 
   methods: {
-    submit () {
+    submit() {
       this.$router.push('/')
-    }
-  }
+    },
+  },
 }
 </script>
 

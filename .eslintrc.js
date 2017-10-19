@@ -1,21 +1,24 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    sourceType: 'module'
+    parser: 'babel-eslint',
+    sourceType: 'module',
+    ecmaVersion: 8
   },
   env: {
     browser: true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
-    'prettier',
-    'standard'
+    'standard',
+    'plugin:vue/recommended',
+    'prettier'
   ],
   // required to lint *.vue files
   plugins: [
+    'vue',
     'html',
-    'import',
     'prettier'
   ],
   globals: {
@@ -26,6 +29,20 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    // prettier
+    'generator-star-spacing': 0,
+    'space-before-function-paren': ['warn', 'never'],
+    'prettier/prettier': [
+      'warn',
+      {
+        singleQuote: true,
+        trailingComma: 'es5',
+        bracketSpacing: true,
+        jsxBracketSameLine: true,
+        parser: 'babylon',
+        semi: false,
+      },
+    ],
     // allow paren-less arrow functions
     'arrow-parens': 0,
     'one-var': 0,

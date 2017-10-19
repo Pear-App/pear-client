@@ -16,8 +16,10 @@ export default {
   components: { Login, Index },
 
   computed: {
-    isLoggedIn () { return this.$store.state.isLoggedIn }
-  }
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn
+    },
+  },
 }
 </script>
 

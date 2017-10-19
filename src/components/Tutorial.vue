@@ -13,24 +13,22 @@
 </template>
 
 <script>
-import {
-  QBtn
-} from 'quasar'
+import { QBtn } from 'quasar'
 
 export default {
   components: {
-    QBtn
+    QBtn,
   },
 
-  data () {
+  data() {
     return {}
   },
 
   methods: {
-    next () {
+    next() {
       this.$router.push('/')
-    }
-  }
+    },
+  },
 }
 </script>
 

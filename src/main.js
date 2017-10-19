@@ -35,6 +35,6 @@ Quasar.start(() => {
     el: '#q-app',
     router,
     store,
-    render: h => h(require('./App').default)
+    render: h => h(require('./App').default),
   })
 })

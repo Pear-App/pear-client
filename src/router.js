@@ -6,7 +6,7 @@ import store from './store'
 
 Vue.use(VueRouter)
 
-function load (component) {
+function load(component) {
   // '@' is aliased to src/components
   return () => import(`@/${component}.vue`)
 }
@@ -36,8 +36,8 @@ const router = new VueRouter({
     { path: '/user/:id/sort', props: true, component: load('user/Sort') },
 
     // Always leave this last one
-    { path: '*', component: load('Error404') } // Not found
-  ]
+    { path: '*', component: load('Error404') }, // Not found
+  ],
 })
 
 if (process.env.NODE_ENV !== 'production') {

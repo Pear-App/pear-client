@@ -38,8 +38,8 @@ export default {
   computed: mapState({
     me: ({ users, me }) => users[me],
     singles: ({ users, singles }) => singles.map(_ => users[_]),
-    friends: ({ users, friends }) => friends.map(_ => users[_])
-  })
+    friends: ({ users, friends }) => friends.map(_ => users[_]),
+  }),
 }
 </script>
 

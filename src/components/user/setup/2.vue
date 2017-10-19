@@ -40,30 +40,34 @@ export default {
 
   components: { QBtn, QField, QInput, QLayout, QRange },
 
-  data () {
+  data() {
     return {
       nickname: this.$store.state.users[this.id].nickname,
-      desc: this.$store.state.users[this.id].desc
+      desc: this.$store.state.users[this.id].desc,
     }
   },
 
   computed: {
-    nicknameHasError () { return this.nickname.length > 50 },
-    descHasError () { return this.desc.length > 120 }
+    nicknameHasError() {
+      return this.nickname.length > 50
+    },
+    descHasError() {
+      return this.desc.length > 120
+    },
   },
 
   methods: {
-    back () {
+    back() {
       const { nickname, interests } = this
       this.$store.dispatch('setUser', { id: this.id, nickname, interests })
       this.$router.push(`/user/${this.id}/setup/1`)
     },
-    submit () {
+    submit() {
       const { nickname, interests } = this
       this.$store.dispatch('setUser', { id: this.id, nickname, interests })
       this.$router.push(`/user/${this.id}`)
-    }
-  }
+    },
+  },
 }
 </script>
 

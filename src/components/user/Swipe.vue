@@ -31,7 +31,7 @@ import {
   QCardTitle,
   QCardSeparator,
   QCardMain,
-  QIcon
+  QIcon,
 } from 'quasar'
 import VueSwing from 'vue-swing'
 import Loader from '../Loader'
@@ -47,45 +47,49 @@ export default {
     QCardMain,
     QIcon,
     VueSwing,
-    Loader
+    Loader,
   },
 
   props: ['id'],
 
-  data () {
+  data() {
     return {
       counter: 0,
       swingConfig: {
         isThrowOut: (x, y, el, confidence) => confidence > 0.3,
         minThrowOutDistance: 200,
-        maxThrowOutDistance: 300
-      }
+        maxThrowOutDistance: 300,
+      },
     }
   },
 
   computed: {
-    matches () {
+    matches() {
       const user = this.$store.state.users[this.id]
       return user != null && user.matches
-    }
+    },
   },
 
-  mounted () { this.$store.dispatch('fetchMatches', this.id) },
+  mounted() {
+    this.$store.dispatch('fetchMatches', this.id)
+  },
 
   watch: {
-    id (id) { this.$store.dispatch('fetchMatches', id) }
+    id(id) {
+      this.$store.dispatch('fetchMatches', id)
+    },
   },
 
   methods: {
-    reject (e) {
+    reject(e) {
       const candidateId = e.target.dataset.id
       this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
-    accept (e) {
+    accept(e) {
       const candidateId = e.target.dataset.id
       this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
-    }
-  }
+    },
+  },
 }
 </script>
 

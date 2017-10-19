@@ -20,12 +20,16 @@ export default {
   props: ['id'],
 
   computed: {
-    user () { return this.$store.state.users[this.id] }
+    user() {
+      return this.$store.state.users[this.id]
+    },
   },
 
   watch: {
-    id (id) { this.$store.dispatch('fetchMatches', id) }
-  }
+    id(id) {
+      this.$store.dispatch('fetchMatches', id)
+    },
+  },
 }
 </script>
 

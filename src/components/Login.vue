@@ -17,19 +17,19 @@ import { promisify } from '../util'
 
 export default {
   components: {
-    QBtn
+    QBtn,
   },
 
-  mounted () {
+  mounted() {
     if (this.$store.state.isLoggedIn === true) this.$router.replace('/')
   },
 
   methods: {
-    async login () {
+    async login() {
       /* global FB */
       this.$store.dispatch('facebookLogin', await promisify(FB.login))
-    }
-  }
+    },
+  },
 }
 </script>
 

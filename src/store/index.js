@@ -9,12 +9,12 @@ import actions from './actions'
 Vue.use(Vuex)
 
 const persist = createPersistedState({
-  paths: ['isLoggedIn', 'jwt', 'me']
+  paths: ['isLoggedIn', 'jwt', 'me'],
 })
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  plugins: [persist]
+  plugins: [persist],
 })

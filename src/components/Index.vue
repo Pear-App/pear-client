@@ -40,13 +40,13 @@ export default {
 
   components: { QBtn, QIcon, QLayout, QToolbar, QToolbarTitle, Sidebar },
 
-  data () {
+  data() {
     return {}
   },
 
-  mounted () {
+  mounted() {
     this.$store.dispatch('fetchMe')
-  }
+  },
 }
 </script>
 

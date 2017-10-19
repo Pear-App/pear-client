@@ -1,24 +1,25 @@
 import { API_URL } from '../constants'
 import store from '../store'
 
-async function api (method, path, body) {
+async function api(method, path, body) {
   if (process.env.NODE_ENV !== 'production') log(`${method} ${path}`)
 
-  const options = body != null
-    ? {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${store.state.jwt}`
-      },
-      body: JSON.stringify(body)
-    }
-    : {
-      method,
-      headers: {
-        'Authorization': `Bearer ${store.state.jwt}`
-      }
-    }
+  const options =
+    body != null
+      ? {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${store.state.jwt}`,
+          },
+          body: JSON.stringify(body),
+        }
+      : {
+          method,
+          headers: {
+            Authorization: `Bearer ${store.state.jwt}`,
+          },
+        }
 
   const res = await fetch(`${API_URL}${path}`, options)
 
@@ -38,11 +39,11 @@ export const post = api.papp('POST')
 export const patch = api.papp('PATCH')
 export const del = api.papp('DELETE')
 
-export function log (...args) {
+export function log(...args) {
   console.log('LOG: ', ...args)
 }
 
-export function promisify (fn) {
+export function promisify(fn) {
   return new Promise((resolve, reject) => {
     fn(resolve, (...args) => reject(new Error(...args)))
   })

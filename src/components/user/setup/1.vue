@@ -73,21 +73,26 @@ export default {
 
   props: ['id'],
 
-  data () {
+  data() {
     return {
       sex: this.$store.state.users[this.id].sex,
       sexualOrientation: this.$store.state.users[this.id].sexualOrientation,
-      ageRange: this.$store.state.users[this.id].ageRange
+      ageRange: this.$store.state.users[this.id].ageRange,
     }
   },
 
   methods: {
-    submit () {
+    submit() {
       const { sex, sexualOrientation, ageRange } = this
-      this.$store.dispatch('setUser', { id: this.id, sex, sexualOrientation, ageRange })
+      this.$store.dispatch('setUser', {
+        id: this.id,
+        sex,
+        sexualOrientation,
+        ageRange,
+      })
       this.$router.push(`/user/${this.id}/setup/2`)
-    }
-  }
+    },
+  },
 }
 </script>
 
