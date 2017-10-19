@@ -58,7 +58,7 @@
       <q-range v-model="ageRange" :min="18" :max="80" label-always />
     </q-field>
 
-    <q-btn class="pull-right" color="primary" big @click="submit">Next</q-btn>
+    <q-btn class="pull-right" color="primary" big @click="$router.push('/invite/2')">Next</q-btn>
 
   </div>
 </template>
@@ -71,26 +71,39 @@ export default {
 
   components: { QBtn, QField, QInput, QLayout, QRange },
 
-  props: ['id'],
+  data: () => ({ id: 'new' }),
 
-  data() {
-    return {
-      sex: this.$store.state.users[this.id].sex,
-      sexualOrientation: this.$store.state.users[this.id].sexualOrientation,
-      ageRange: this.$store.state.users[this.id].ageRange,
-    }
-  },
-
-  methods: {
-    submit() {
-      const { sex, sexualOrientation, ageRange } = this
-      this.$store.dispatch('setUser', {
-        id: this.id,
-        sex,
-        sexualOrientation,
-        ageRange,
-      })
-      this.$router.push(`/user/${this.id}/setup/2`)
+  computed: {
+    sex: {
+      get() {
+        return this.$store.state.users[this.id].sex
+      },
+      set(sex) {
+        this.$store.dispatch('setUser', { id: this.id, sex })
+      },
+    },
+    sexualOrientation: {
+      get() {
+        return this.$store.state.users[this.id].sexualOrientation
+      },
+      set(sexualOrientation) {
+        this.$store.dispatch('setUser', { id: this.id, sexualOrientation })
+      },
+    },
+    ageRange: {
+      get() {
+        return {
+          min: this.$store.state.users[this.id].minAge,
+          max: this.$store.state.users[this.id].maxAge,
+        }
+      },
+      set(ageRange) {
+        this.$store.dispatch('setUser', {
+          id: this.id,
+          minAge: ageRange.min,
+          maxAge: ageRange.max,
+        })
+      },
     },
   },
 }

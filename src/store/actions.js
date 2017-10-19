@@ -38,6 +38,7 @@ export default {
   // Profile
   async fetchMe({ state, commit }) {
     const data = await get('/user/me')
+    data.invitation = await get('/invitation/me')
 
     const users = {}
 
@@ -47,15 +48,20 @@ export default {
     data.single.map(_ => {
       users[_.id] = _
     })
+    data.invitation.map(_ => {
+      users[_.id] = _
+    })
     const friends = data.friend.map(_ => _.id)
     const singles = data.single.map(_ => _.id)
+    const invitations = data.invitation.map(_ => _.id)
 
     const me = data.id
     delete data.friend
     delete data.single
+    // delete data.invitation
     users[me] = data
 
-    commit('initialise', { users, me, friends, singles })
+    commit('initialise', { users, me, friends, singles, invitations })
   },
 
   async fetchUser({ commit }, id) {
@@ -63,11 +69,12 @@ export default {
   },
 
   async setUser({ commit }, user) {
-    if (user.id != null) await post(`/user/${user.id}/edit`, user)
+    if (user.id != null && user.id !== 'new')
+      await post(`/user/${user.id}/edit`, user)
     commit('setUser', user)
   },
 
-  async addFriend({ commit }) {
-    commit('addFriend', await post('/user/friend'))
+  async addInvitation({ state, commit }) {
+    commit('addInvitation', await post('/invitation', state.users.new))
   },
 }

@@ -9,17 +9,30 @@
       </q-item-main>
     </q-item>
     <q-list-header>Singles</q-list-header>
-    <q-item v-for="single in singles" :key="single.id" @click="$router.push(`/user/${single.id}`)">
-      <q-item-side :avatar="`//graph.facebook.com/${single.facebookId}/picture?type=large`" />
+    <q-item v-for="person in singles" :key="person.id" @click="$router.push(`/user/${person.id}`)">
+      <q-item-side :avatar="`//graph.facebook.com/${person.facebookId}/picture?type=large`" />
       <q-item-main>
-        {{ single.facebookName }}
+        {{ person.facebookName }}
+      </q-item-main>
+    </q-item>
+    <q-item key="addInvitation" @click="$router.push('/invite/1')">
+      <q-item-side icon="add" />
+      <q-item-main>
+        Recommend for a friend!
       </q-item-main>
     </q-item>
     <q-list-header>Friends</q-list-header>
-    <q-item v-for="friend in friends" :key="friend.id" @click="$router.push(`/user/${friend.id}`)">
-      <q-item-side :avatar="`//graph.facebook.com/${friend.facebookId}/picture?type=large`" />
+    <q-item v-for="person in friends" :key="person.id" @click="$router.push(`/user/${person.id}`)">
+      <q-item-side :avatar="`//graph.facebook.com/${person.facebookId}/picture?type=large`" />
       <q-item-main>
-        {{ friend.facebookName }}
+        {{ person.facebookName }}
+      </q-item-main>
+    </q-item>
+    <q-list-header>Invitations</q-list-header>
+    <q-item v-for="person in invitations" :key="person.id" @click="$router.push(`/user/${person.id}`)">
+      <q-item-side :avatar="`//graph.facebook.com/${person.facebookId}/picture?type=large`" />
+      <q-item-main>
+        {{ person.nickname }}
       </q-item-main>
     </q-item>
   </q-list>
@@ -39,6 +52,7 @@ export default {
     me: ({ users, me }) => users[me],
     singles: ({ users, singles }) => singles.map(_ => users[_]),
     friends: ({ users, friends }) => friends.map(_ => users[_]),
+    invitations: ({ users, invitations }) => invitations.map(_ => users[_]),
   }),
 }
 </script>

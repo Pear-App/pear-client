@@ -26,8 +26,8 @@
     </q-field>
  -->
 
-    <q-btn class="pull-left" color="primary" big @click="back">Back</q-btn>
-    <q-btn class="pull-right" color="primary" big @click="submit">Next</q-btn>
+    <q-btn class="pull-left" color="primary" big @click="$router.push('/invite/1')">Back</q-btn>
+    <q-btn class="pull-right" color="primary" big @click="$store.dispatch('addInvitation')">Next</q-btn>
 
   </div>
 </template>
@@ -36,36 +36,34 @@
 import { QBtn, QField, QInput, QLayout, QRange } from 'quasar'
 
 export default {
-  name: 'user-setup-2',
+  name: 'user-add-2',
 
   components: { QBtn, QField, QInput, QLayout, QRange },
 
-  data() {
-    return {
-      nickname: this.$store.state.users[this.id].nickname,
-      desc: this.$store.state.users[this.id].desc,
-    }
-  },
+  data: () => ({ id: 'new' }),
 
   computed: {
+    nickname: {
+      get() {
+        return this.$store.state.users[this.id].nickname
+      },
+      set(nickname) {
+        this.$store.dispatch('setUser', { id: this.id, nickname })
+      },
+    },
+    desc: {
+      get() {
+        return this.$store.state.users[this.id].desc
+      },
+      set(desc) {
+        this.$store.dispatch('setUser', { id: this.id, desc })
+      },
+    },
     nicknameHasError() {
       return this.nickname.length > 50
     },
     descHasError() {
       return this.desc.length > 120
-    },
-  },
-
-  methods: {
-    back() {
-      const { nickname, interests } = this
-      this.$store.dispatch('setUser', { id: this.id, nickname, interests })
-      this.$router.push(`/user/${this.id}/setup/1`)
-    },
-    submit() {
-      const { nickname, interests } = this
-      this.$store.dispatch('setUser', { id: this.id, nickname, interests })
-      this.$router.push(`/user/${this.id}`)
     },
   },
 }

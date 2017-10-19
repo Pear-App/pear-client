@@ -30,10 +30,12 @@ const router = new VueRouter({
 
     // Users
     { path: '/user/:id', props: true, component: load('user/Profile') },
-    { path: '/user/:id/setup/1', props: true, component: load('user/setup/1') },
-    { path: '/user/:id/setup/2', props: true, component: load('user/setup/2') },
     { path: '/user/:id/swipe', props: true, component: load('user/Swipe') },
     { path: '/user/:id/sort', props: true, component: load('user/Sort') },
+
+    // Invite friends
+    { path: '/invite/1', component: load('invite/1') },
+    { path: '/invite/2', component: load('invite/2') },
 
     // Always leave this last one
     { path: '*', component: load('Error404') }, // Not found
