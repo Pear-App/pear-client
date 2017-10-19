@@ -21,7 +21,7 @@ async function api(method, path, body) {
   if (!res.ok) {
     switch (res.status) {
       case 401:
-        store.dispatch('notLoggedIn')
+        store.commit('logout')
         break
       case 500:
         console.log(res)

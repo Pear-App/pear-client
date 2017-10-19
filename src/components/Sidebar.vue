@@ -35,6 +35,11 @@
         {{ person.nickname }}
       </q-item-main>
     </q-item>
+    <q-item key="logout" @click="$store.dispatch('logout')">
+      <q-item-main>
+        Log out
+      </q-item-main>
+    </q-item>
   </q-list>
 </template>
 

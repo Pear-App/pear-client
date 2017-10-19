@@ -24,12 +24,6 @@ export default {
       return this.$store.state.users[this.id]
     },
   },
-
-  watch: {
-    id(id) {
-      this.$store.dispatch('fetchMatches', id)
-    },
-  },
 }
 </script>
 

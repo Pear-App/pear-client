@@ -10,6 +10,7 @@ export default {
   },
   notLoggedIn(state) {
     state.isLoggedIn = false
+    state.jwt = null
   },
 
   // Swiping

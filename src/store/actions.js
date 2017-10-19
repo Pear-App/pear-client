@@ -1,6 +1,5 @@
 import jwtDecode from 'jwt-decode'
 
-import router from '../router'
 import { get, post } from '../util'
 
 export default {
@@ -12,11 +11,14 @@ export default {
       })
       const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
       commit('loggedIn', { facebookId: authResponse.userID, me: userId, jwt })
-      router.push('/')
     }
     if (status === 'unknown') {
       commit('notLoggedIn')
     }
+  },
+
+  logout({ commit }) {
+    commit('notLoggedIn')
   },
 
   // Swipe
@@ -82,7 +84,23 @@ export default {
     commit('setUser', user)
   },
 
+  // Invitations
   async addInvitation({ state, commit }) {
     commit('addInvitation', await post('/invitation', state.users.new))
+  },
+
+  async fetchInvitation({ state, commit }, id) {
+    commit('setUser', await get(`/invitation/${id}`))
+  },
+
+  async fetchMyInvitation({ state, commit }, id) {
+    const data = await get(`/invitation/${id}`)
+    commit('initialise', {
+      users: { [id]: data, [data.inviter.id]: data.inviter },
+      me: id,
+      friends: [data.inviter.id],
+      singles: [],
+      invitations: [],
+    })
   },
 }
