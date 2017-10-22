@@ -1,7 +1,7 @@
 <template>
   <loader v-if="user == null"/>
   <div v-else class="layout-padding">
-    <img :src="`//graph.facebook.com/${user.facebookId}/picture?type=large`" />
+    <img :src="`https://graph.facebook.com/${user.facebookId}/picture?type=large`" />
     {{ user.facebookName }}, {{ user.age }}
     {{ user.desc }}
     <router-link :to="`/user/${user.id}/swipe`">Swipe</router-link>

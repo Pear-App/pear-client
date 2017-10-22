@@ -6,7 +6,7 @@
       <draggable v-model="persons" :options="dragOptions">
         <transition-group name="sort">
           <q-item class="card sortable" v-for="person in persons" :key="person.id">
-            <q-item-side :avatar="`//graph.facebook.com/${person.facebookId}/picture?type=large`" />
+            <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
             <q-item-main>
               {{ person.facebookName }}
             </q-item-main>

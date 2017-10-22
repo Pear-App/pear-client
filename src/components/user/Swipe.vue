@@ -4,20 +4,19 @@
   <div v-else-if="matches.length === 0">
     There's nothing here...
   </div>
-  <div v-else class="layout-padding">
-    <vue-swing @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="row justify-center">
-      <q-card class="card" v-for="person in matches" :data-id="person.id" :key="person.id">
-        <q-card-media>
-          <img class="no-select" :src="`//graph.facebook.com/${person.facebookId}/picture?type=large`">
-        </q-card-media>
-        <q-card-title>
-          {{ person.facebookName }}
-        </q-card-title>
-        <q-card-separator />
-        <q-card-main>
-          {{ person.desc }}
-        </q-card-main>
-      </q-card>
+  <div v-else>
+    <vue-swing @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipeable row justify-center">
+      <div class="person" v-for="person in matches" :data-id="person.id" :key="person.id">
+        <q-card>
+          <q-card-media>
+            <img class="no-select" :src="`https://graph.facebook.com/${person.facebookId}/picture?type=large`">
+          </q-card-media>
+          <q-card-main>
+            <p class="title">{{ person.facebookName }}, {{ person.age }}</p>
+            <p class="subtitle">blahblah {{ person.desc }}</p>
+          </q-card-main>
+        </q-card>
+      </div>
     </vue-swing>
   </div>
 </template>
@@ -57,8 +56,8 @@ export default {
       counter: 0,
       swingConfig: {
         isThrowOut: (x, y, el, confidence) => confidence > 0.3,
-        minThrowOutDistance: 200,
-        maxThrowOutDistance: 300,
+        minThrowOutDistance: 320,
+        maxThrowOutDistance: 400,
       },
     }
   },
@@ -94,10 +93,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.card
-  max-width 400px
-  position absolute
-  background white
+.swipeable
+
+  .person
+    padding 20px
+    width 100%
+    position absolute
+    background white
 
 .no-select
   user-select none
