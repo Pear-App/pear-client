@@ -40,7 +40,6 @@ export default {
   // Profile
   async fetchMe({ state, commit }) {
     const data = await get('/user/me')
-    if (data.invitation == null) data.invitation = await get('/invitation/me')
 
     const users = {}
 
@@ -56,13 +55,13 @@ export default {
         users[_.id] = _
       }
     })
-    data.invitation.map(_ => {
+    data.inviter.map(_ => {
       _.isInvitation = true
       users[_.id] = _
     })
     const friends = data.friend.map(_ => _.id)
     const singles = data.single.map(_ => _.id)
-    const invitations = data.invitation.map(_ => _.id)
+    const invitations = data.inviter.map(_ => _.id)
 
     const me = data.id
     delete data.friend

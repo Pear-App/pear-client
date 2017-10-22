@@ -1,17 +1,23 @@
 <template>
   <!-- Configure "view" prop for QLayout -->
   <q-layout ref="layout" view="lHr LpR lfr">
-    <q-toolbar slot="header">
+
+    <q-toolbar slot="header" class="text-black bg-white">
       <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
-        <q-icon name="menu" />
+        <img class="user-photo" :src="`//graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
       </q-btn>
+
       <q-toolbar-title>
-        Title
+        <img class="banner" src="~assets/banner.png" width="86" height="40">
       </q-toolbar-title>
+
+      <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
+        <img src="~assets/overflow.png" width="24" height="24">
+      </q-btn>
     </q-toolbar>
 
     <div slot="left">
-      <sidebar slot="left" />
+      <sidebar slot="left" @close="$refs.layout.hideLeft()" />
     </div>
 
     <!-- Right Side Panel
@@ -32,6 +38,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { QBtn, QIcon, QLayout, QToolbar, QToolbarTitle } from 'quasar'
 import Sidebar from './Sidebar'
 
@@ -44,11 +51,17 @@ export default {
     return {}
   },
 
+  computed: mapState({
+    me: ({ users, me }) => users[me],
+  }),
+
   mounted() {
     this.$store.dispatch('fetchMe')
   },
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+.user-photo
+  border-radius 100%
 </style>

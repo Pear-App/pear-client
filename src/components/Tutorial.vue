@@ -1,36 +1,95 @@
 <template>
-  <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
-    <div class="row justify-center">
-      <p>A tutorial should be here</p>
-    </div>
-    <div class="row justify-center">
-      <q-btn color="primary" @click="next">
-        Let's go!
-      </q-btn>
-    </div>
-  </div>
+  <q-layout ref="layout" view="lHr LpR lfr"> 
+
+    <q-toolbar slot="header" class="text-black bg-white">
+      <q-toolbar-title>
+        <img class="banner" src="~assets/banner.png" width="86" height="40">
+      </q-toolbar-title>
+    </q-toolbar>
+
+    <q-carousel arrows dots @slide="slide">
+      <div slot="slide" class="slide">
+        <div class="tutorial bg-primary">
+          <p class="title">For Matchmakers,</p>
+          <img class="image" src="~assets/tutorial-1.png" width="154" height="204">
+          <p class="subtitle">Curate potential dates for your BFFs/Bros</p>
+          <p class="content">Play cupid for your single and eligible friends!</p>
+        </div>
+      </div>
+
+      <div slot="slide" class="slide">
+        <div class="tutorial bg-primary">
+          <p class="title">For Dates,</p>
+          <img class="image" src="~assets/tutorial-2.png" width="154" height="204">
+          <p class="subtitle">Find partners recommended by your best friends</p>
+          <p class="content">Sometimes, the best matches come from people who know you best.</p>
+        </div>
+      </div>
+
+      <div slot="slide" class="slide">
+        <div class="tutorial bg-primary">
+          <img class="image" src="~assets/tutorial-3.png" width="154" height="204">
+          <p class="subtitle">Have singles that should not be single?</p>
+          <p class="content">Swipe left to pear them up now!</p>
+          <q-btn color="secondary" @click="finish">Let's go!</q-btn>
+        </div>
+      </div>
+
+    </q-carousel>
+
+  </q-layout>
+
 </template>
 
 <script>
-import { QBtn } from 'quasar'
+import { mapState } from 'vuex'
+import { QLayout, QToolbar, QToolbarTitle, QBtn, QCarousel } from 'quasar'
 
 export default {
   components: {
+    QLayout,
+    QToolbar,
+    QToolbarTitle,
     QBtn,
+    QCarousel,
   },
 
   data() {
-    return {}
+    return {
+      index: 0,
+    }
   },
 
+  computed: mapState(['me']),
+
   methods: {
-    next() {
-      this.$router.push('/')
+    finish() {
+      this.$store.commit('finishedTutorial')
     },
   },
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+.slide
+  padding 20px
+
+  .tutorial
+    padding 1.5em 1.5em
+    border-radius 20px
+    text-align center
+    color #443123
+
+    .title
+      font-weight bold
+
+    .image
+      display block
+      margin 1.5em auto
+      max-width 30vw
+      height auto
+
+    .subtitle
+      font-weight bold
+      font-size 1.2em
 </style>

@@ -1,27 +1,44 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <index v-if="isLoggedIn" />
-    <login v-else />
+    <login v-if="!isLoggedIn" />
+    <tutorial v-else-if="!hasSeenTutorial" />
+    <index v-else />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Login from './components/Login'
+import Tutorial from './components/Tutorial'
 import Index from './components/Index'
 
 export default {
   name: 'app',
 
-  components: { Login, Index },
+  components: { Login, Tutorial, Index },
 
-  computed: {
-    isLoggedIn() {
-      return this.$store.state.isLoggedIn
-    },
-  },
+  computed: mapState(['isLoggedIn', 'hasSeenTutorial']),
 }
 </script>
 
+<style lang="css">
+@font-face {
+  font-family: Montserrat;
+  src: url(~assets/font/Montserrat-Regular.ttf);
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-weight: bold;
+  src: url(~assets/font/Montserrat-Bold.ttf);
+}
+</style>
+
 <style lang="stylus">
+body
+  font-family Montserrat, sans-serif
+
+.layout-header
+  border none
 </style>

@@ -2,6 +2,7 @@ import { initialUser } from '../util'
 
 export default {
   isLoggedIn: null,
+  hasSeenTutorial: false,
   jwt: null,
 
   // Map of ID -> User (me, friend, single)

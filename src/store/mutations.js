@@ -12,6 +12,9 @@ export default {
     state.isLoggedIn = false
     state.jwt = null
   },
+  finishedTutorial(state) {
+    state.hasSeenTutorial = true
+  },
 
   // Swiping
   removeMatch(state, { id, candidateId }) {
@@ -39,9 +42,10 @@ export default {
   },
 
   // Invitations
-  addInvitation(state, id) {
-    state.users[id] = state.users.new
-    state.users[id].id = id
+  addInvitation(state, invitation) {
+    state.users[invitation.id] = invitation
+    state.invitations.push(invitation.id)
+    state.lastInvited = invitation.id
     state.users.new = initialUser('new')
   },
 }

@@ -1,15 +1,21 @@
 <template>
-  <div class="layout-padding">
+  <div class="layout-padding login">
     <div v-if="isInvited" class="row justify-center">
       {{ inviter.facebookName }} set you up!
-      <img class="block" src="~assets/logo.png" width="200" height="200">
+      <img class="intro" src="~assets/intro.png" width="347" height="237">
     </div>
     <div v-else class="row justify-center">
-      <img class="block" src="~assets/logo.png" width="200" height="200">
+      <img class="intro" src="~assets/intro.png" width="347" height="237">
+    </div>
+    <div class="row justify-center text-center">
+      <p class="tagline">
+        Let us help you find<br>
+        your perfect <strong class="text-bold">Pear</strong>!
+      </p>
     </div>
     <div class="row justify-center">
-      <q-btn class="facebook-login" big color="blue" icon="fa-facebook" @click="login">
-        Continue with Facebook
+      <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="login">
+        Login with Facebook
       </q-btn>
     </div>
   </div>
@@ -57,9 +63,25 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import '../themes/app.variables'
+
 .login
+  background-color $primary
   padding-top 20vh
+  height 100vh
+
+.intro
+  display block
+  margin-left 10px
+  margin-right 50px
+  max-width calc(90vw - 60px)
+  height auto
+
+.tagline
+  font-size 1.4em
+  margin 2em
 
 .facebook-login
   background-color #3B5998 !important
+  padding 10px 12px 10px 12px
 </style>

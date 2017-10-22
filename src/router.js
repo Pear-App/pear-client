@@ -24,7 +24,7 @@ const router = new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Tutorial') },
+    { path: '/', component: load('Loader') },
     { path: '/login', component: load('Login') },
 
     // Users
