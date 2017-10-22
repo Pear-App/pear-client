@@ -1,19 +1,20 @@
 <template>
   <div class="layout-padding login">
-    <div v-if="isInvited" class="row justify-center">
-      {{ inviter.facebookName }} set you up!
+    <div v-if="isInvited">
       <img class="intro" src="~assets/intro.png" width="347" height="237">
+      <p class="tagline">
+        {{ inviter.facebookName }} set you up!
+      </p>
+      <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="login">
+        Login with Facebook
+      </q-btn>
     </div>
-    <div v-else class="row justify-center">
+    <div v-else class="centered">
       <img class="intro" src="~assets/intro.png" width="347" height="237">
-    </div>
-    <div class="row justify-center text-center">
       <p class="tagline">
         Let us help you find<br>
         your perfect <strong class="text-bold">Pear</strong>!
       </p>
-    </div>
-    <div class="row justify-center">
       <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="login">
         Login with Facebook
       </q-btn>
@@ -69,11 +70,12 @@ export default {
   background-color $secondary
   padding-top 20vh
   height 100vh
+  text-align center
 
 .intro
   display block
-  margin-left 10px
-  margin-right 50px
+  padding-right 20px
+  margin 0 auto
   max-width calc(90vw - 60px)
   height auto
 
