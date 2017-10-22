@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { initialUser } from '../util'
 
 export default {
@@ -47,5 +48,18 @@ export default {
     state.invitations.push(invitation.id)
     state.lastInvited = invitation.id
     state.users.new = initialUser('new')
+  },
+  addInvitationHash(state, { hash, user }) {
+    Vue.set(state.invitationHashes, hash, user)
+    Vue.set(state.users, user.inviter.id, user.inviter)
+  },
+  acceptInvitation(state, hash) {
+    const user = state.invitationHashes[hash]
+    state.friends.push(user.inviter.id)
+    Vue.set(state.users, user.inviter.id, user.inviter)
+    delete user.inviter
+    delete user.inviterId
+    delete user.id
+    Vue.set(state.users, state.me, { ...state.users[state.me], ...user })
   },
 }

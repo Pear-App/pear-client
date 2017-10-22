@@ -32,7 +32,7 @@
     <q-side-link item v-for="person in invitations" :key="person.id" :to="`/user/${person.id}`">
       <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
       <q-item-main>
-        {{ person.nickname }}
+        {{ person.nickname }} ({{ person.status }})
       </q-item-main>
     </q-side-link>
     <q-item key="logout" @click="$store.dispatch('logout')">

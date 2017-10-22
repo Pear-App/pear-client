@@ -1,7 +1,9 @@
 <template>
   <div class="layout-padding">
-    <div class="row justify-center">
-      You're invited
+    <div v-if="inviter != null" class="row justify-center">
+      {{ inviter.facebookName }} has set up a profile for you!
+      <q-btn big color="primary" @click="accept">Accept</q-btn>
+      <q-btn big flat color="primary" @click="reject">Reject</q-btn>
     </div>
   </div>
 </template>
@@ -15,15 +17,31 @@ export default {
     QBtn,
   },
 
-  props: ['id'],
+  props: ['hash'],
+
+  computed: {
+    inviter() {
+      if (this.$store.state.invitationHashes[this.hash] == null) return
+      return this.$store.state.invitationHashes[this.hash].inviter
+    },
+  },
 
   mounted() {
-    this.$store.dispatch('fetchInvitation', this.id)
+    this.$store.dispatch('fetchInvitation', this.hash)
   },
 
   watch: {
-    id(id) {
-      this.$store.dispatch('fetchInvitation', id)
+    hash(hash) {
+      this.$store.dispatch('fetchInvitation', hash)
+    },
+  },
+
+  methods: {
+    accept() {
+      this.$store.dispatch('acceptInvitation', this.hash)
+    },
+    reject() {
+      this.$store.dispatch('rejectInvitation', this.hash)
     },
   },
 }

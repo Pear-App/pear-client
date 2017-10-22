@@ -7,7 +7,7 @@
       </q-toolbar-title>
     </q-toolbar>
 
-    <q-carousel arrows dots @slide="slide">
+    <q-carousel arrows dots>
       <div slot="slide" class="slide">
         <div class="tutorial bg-secondary">
           <p class="title">For Matchmakers,</p>
@@ -46,13 +46,7 @@ import { mapState } from 'vuex'
 import { QLayout, QToolbar, QToolbarTitle, QBtn, QCarousel } from 'quasar'
 
 export default {
-  components: {
-    QLayout,
-    QToolbar,
-    QToolbarTitle,
-    QBtn,
-    QCarousel,
-  },
+  components: { QLayout, QToolbar, QToolbarTitle, QBtn, QCarousel },
 
   data() {
     return {

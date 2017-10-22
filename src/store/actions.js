@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode'
 
+import router from '../router'
 import { get, post } from '../util'
 
 export default {
@@ -18,6 +19,8 @@ export default {
   },
 
   logout({ commit }) {
+    /* global FB */
+    FB.logout()
     commit('notLoggedIn')
   },
 
@@ -66,7 +69,7 @@ export default {
     const me = data.id
     delete data.friend
     delete data.single
-    // delete data.invitation
+    delete data.inviter
     data.isMe = true
     users[me] = data
 
@@ -85,21 +88,24 @@ export default {
 
   // Invitations
   async addInvitation({ state, commit }) {
-    commit('addInvitation', await post('/invitation', state.users.new))
+    const data = await post('/invitation', state.users.new)
+    commit('addInvitation', data)
+    router.push(`/user/${data.id}`)
   },
 
-  async fetchInvitation({ state, commit }, id) {
-    commit('setUser', await get(`/invitation/${id}`))
-  },
-
-  async fetchMyInvitation({ state, commit }, id) {
-    const data = await get(`/invitation/${id}`)
-    commit('initialise', {
-      users: { [id]: data, [data.inviter.id]: data.inviter },
-      me: id,
-      friends: [data.inviter.id],
-      singles: [],
-      invitations: [],
+  async fetchInvitation({ state, commit }, hash) {
+    commit('addInvitationHash', {
+      hash,
+      user: await get(`/invitation/${hash}`),
     })
+  },
+
+  async acceptInvitation({ commit }, hash) {
+    await post(`/invitation/${hash}/accept`)
+    commit('acceptInvitation', hash)
+  },
+
+  async deleteInvitation({ commit }, hash) {
+    await post(`/invitation/${hash}/accept`)
   },
 }

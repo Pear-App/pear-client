@@ -21,4 +21,7 @@ export default {
 
   // List of pending/rejected invitations
   invitations: [],
+
+  // Map of hash -> User for invitations
+  invitationHashes: {},
 }

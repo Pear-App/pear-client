@@ -1,14 +1,16 @@
 <template>
   <div class="layout-padding login">
-    <div v-if="isInvited">
+    <div v-if="isInvited && inviter != null">
       <img class="intro" src="~assets/intro.png" width="347" height="237">
       <p class="tagline">
-        {{ inviter.facebookName }} set you up!
+        <strong>{{ inviter.facebookName }}</strong><br>
+        set you up!
       </p>
       <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="login">
         Login with Facebook
       </q-btn>
     </div>
+
     <div v-else class="centered">
       <img class="intro" src="~assets/intro.png" width="347" height="237">
       <p class="tagline">
@@ -33,21 +35,21 @@ export default {
 
   computed: {
     isInvited() {
-      console.log(this.$route.path)
       return this.$route.path.slice(0, 5) === '/join'
     },
-    me() {
-      return this.$store.state.users[this.$store.state.me]
+    hash() {
+      return this.$route.path.slice(6)
     },
     inviter() {
-      return this.$store.state.users[this.me.inviter.id]
+      if (this.$store.state.invitationHashes[this.hash] == null) return null
+      return this.$store.state.invitationHashes[this.hash].inviter
     },
   },
 
   watch: {
     isInvited(isInvited) {
       if (this.isInvited) {
-        this.$store.dispatch('fetchMyInvitation', this.$route.params.id)
+        this.$store.dispatch('fetchInvitation', this.hash)
       }
     },
   },

@@ -4,7 +4,7 @@
 
     <q-toolbar slot="header" class="text-black bg-white">
       <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
-        <img class="user-photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
+        <img v-if="me != null" class="user-photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
       </q-btn>
 
       <q-toolbar-title>
