@@ -1,60 +1,68 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
+  <div class="layout-padding" color="secondary">
 
-    <q-field label="Your friend is a">
+    <p class="caption">My friend's name is:</p>
+    <q-field :error="nicknameHasError" :count="50">
+      <q-input v-model="nickname" />
+    </q-field>
+
+    <p class="caption">I refer to them by:</p>
+    <q-field>
       <q-btn
-        class="men full-width" big color="cyan" icon="fa-mars"
+        class="men full-width" big color="primary"
         :class="{ 'is-active': sex === 'M' }"
         :flat="sex !== 'M'"
         @click="sex = 'M'"
       >
-        Male
+        He
       </q-btn>
-      <q-btn class="women full-width" big color="pink" icon="fa-venus"
+      <q-btn class="women full-width" big color="primary"
         :class="{ 'is-active': sex === 'F' }"
         :flat="sex !== 'F'"
         @click="sex = 'F'"
       >
-        Female
+        She
       </q-btn>
       <q-btn
-        class="both full-width" big color="yellow-8" icon="fa-genderless"
+        class="both full-width" big color="primary"
         :class="{ 'is-active': sex === 'B' }"
         :flat="sex !== 'B'"
         @click="sex = 'B'"
       >
-        Others
+        Depends
       </q-btn>
     </q-field>
 
-    <q-field label="Looking for">
-      <q-btn class="women full-width" big color="pink" icon="fa-venus"
+    <p class="caption">{{ pronoun }} interested in:</p>
+    <q-field>
+      <q-btn class="women full-width" big color="primary"
         :class="{ 'is-active': sexualOrientation === 'F' }"
         :flat="sexualOrientation !== 'F'"
         @click="sexualOrientation = 'F'"
       >
-        Women
+        Men
       </q-btn>
       <q-btn
-        class="men full-width" big color="cyan" icon="fa-mars"
+        class="men full-width" big color="primary"
         :class="{ 'is-active': sexualOrientation === 'M' }"
         :flat="sexualOrientation !== 'M'"
         @click="sexualOrientation = 'M'"
       >
-        Men
+        Women
       </q-btn>
       <q-btn
-        class="both full-width" big color="yellow-8" icon="fa-genderless"
+        class="both full-width" big color="primary"
         :class="{ 'is-active': sexualOrientation === 'B' }"
         :flat="sexualOrientation !== 'B'"
         @click="sexualOrientation = 'B'"
       >
-        Either
+        Both
       </q-btn>
     </q-field>
 
-    <q-field label="Age Range" >
+    <p class="caption">Age range:</p>
+    <q-field>
       <q-range v-model="ageRange" :min="18" :max="80" label-always />
     </q-field>
 
@@ -74,6 +82,19 @@ export default {
   data: () => ({ id: 'new' }),
 
   computed: {
+    pronoun() {
+      return this.sex === 'M'
+        ? 'He is'
+        : this.sex === 'F' ? 'She is' : 'They are'
+    },
+    nickname: {
+      get() {
+        return this.$store.state.users[this.id].nickname
+      },
+      set(nickname) {
+        this.$store.dispatch('setUser', { id: this.id, nickname })
+      },
+    },
     sex: {
       get() {
         return this.$store.state.users[this.id].sex
@@ -104,6 +125,9 @@ export default {
           maxAge: ageRange.max,
         })
       },
+    },
+    nicknameHasError() {
+      return this.nickname.length > 50
     },
   },
 }

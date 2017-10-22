@@ -9,7 +9,7 @@
 
     <q-carousel arrows dots @slide="slide">
       <div slot="slide" class="slide">
-        <div class="tutorial bg-primary">
+        <div class="tutorial bg-secondary">
           <p class="title">For Matchmakers,</p>
           <img class="image" src="~assets/tutorial-1.png" width="154" height="204">
           <p class="subtitle">Curate potential dates for your BFFs/Bros</p>
@@ -18,7 +18,7 @@
       </div>
 
       <div slot="slide" class="slide">
-        <div class="tutorial bg-primary">
+        <div class="tutorial bg-secondary">
           <p class="title">For Dates,</p>
           <img class="image" src="~assets/tutorial-2.png" width="154" height="204">
           <p class="subtitle">Find partners recommended by your best friends</p>
@@ -27,11 +27,11 @@
       </div>
 
       <div slot="slide" class="slide">
-        <div class="tutorial bg-primary">
+        <div class="tutorial bg-secondary">
           <img class="image" src="~assets/tutorial-3.png" width="154" height="204">
           <p class="subtitle">Have singles that should not be single?</p>
           <p class="content">Swipe left to pear them up now!</p>
-          <q-btn color="secondary" @click="finish">Let's go!</q-btn>
+          <q-btn color="tertiary" @click="finish">Let's go!</q-btn>
         </div>
       </div>
 
@@ -71,6 +71,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import '../themes/app.variables'
+
 .slide
   padding 20px
 
@@ -78,7 +80,7 @@ export default {
     padding 1.5em 1.5em
     border-radius 20px
     text-align center
-    color #443123
+    color $tertiary
 
     .title
       font-weight bold
