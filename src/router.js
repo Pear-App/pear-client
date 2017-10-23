@@ -28,9 +28,16 @@ const router = new VueRouter({
     { path: '/login', component: load('Login') },
 
     // Users
-    { path: '/user/:id', props: true, component: load('user/Profile') },
-    { path: '/user/:id/swipe', props: true, component: load('user/Swipe') },
-    { path: '/user/:id/sort', props: true, component: load('user/Sort') },
+    {
+      path: '/user/:id',
+      props: true,
+      component: load('user/Index'),
+      children: [
+        { path: 'profile', component: load('user/Profile') },
+        { path: 'swipe', component: load('user/Swipe') },
+        { path: 'sort', component: load('user/Sort') },
+      ],
+    },
 
     // Invite friends
     { path: '/invite/1', component: load('invite/1') },

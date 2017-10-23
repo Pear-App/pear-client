@@ -2,14 +2,14 @@
   <loader v-if="me == null || singles == null || friends == null"/>
   <q-list v-else no-border link inset-delimiter>
     <q-list-header>Profile</q-list-header>
-    <q-side-link item :key="me.id" :to="`/user/${me.id}`">
+    <q-side-link item :key="me.id" :to="`/user/${me.id}/profile`">
       <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
       <q-item-main>
         {{ me.facebookName }}
       </q-item-main>
     </q-side-link>
     <q-list-header>Singles</q-list-header>
-    <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}`">
+    <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/profile`">
       <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
       <q-item-main>
         {{ person.facebookName }}
@@ -22,14 +22,14 @@
       </q-item-main>
     </q-side-link>
     <q-list-header>Friends</q-list-header>
-    <q-side-link item v-for="person in friends" :key="person.id" :to="`/user/${person.id}`">
+    <q-side-link item v-for="person in friends" :key="person.id" :to="`/user/${person.id}/profile`">
       <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
       <q-item-main>
         {{ person.facebookName }}
       </q-item-main>
     </q-side-link>
     <q-list-header>Invitations</q-list-header>
-    <q-side-link item v-for="person in invitations" :key="person.id" :to="`/user/${person.id}`">
+    <q-side-link item v-for="person in invitations" :key="person.id" :to="`/user/${person.id}/profile`">
       <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
       <q-item-main>
         {{ person.nickname }} ({{ person.status }})

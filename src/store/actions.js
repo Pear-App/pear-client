@@ -25,18 +25,31 @@ export default {
   },
 
   // Swipe
-  async fetchMatches({ commit }, id) {
-    const matches = await get(`/match/friend/${id}`)
+  async fetchMatches({ state, commit }, id) {
+    const user = state.users[id]
+    const matches = user.isMe
+      ? await get('/match/single')
+      : await get(`/match/friend/${id}`)
     commit('setUser', { id, matches })
   },
 
-  async acceptMatch({ commit }, { id, candidateId }) {
-    await post(`/match/friend/${id}`, { candidateId, friendChoice: true })
+  async acceptMatch({ state, commit }, { id, candidateId }) {
+    const user = state.users[id]
+    if (user.isMe) {
+      await post('/match/single', { candidateId, singleChoice: true })
+    } else {
+      await post(`/match/friend/${id}`, { candidateId, friendChoice: true })
+    }
     commit('removeMatch', { id, candidateId })
   },
 
-  async rejectMatch({ commit }, { id, candidateId }) {
-    await post(`/match/friend/${id}`, { candidateId, friendChoice: false })
+  async rejectMatch({ state, commit }, { id, candidateId }) {
+    const user = state.users[id]
+    if (user.isMe) {
+      await post('/match/single', { candidateId, singleChoice: false })
+    } else {
+      await post(`/match/friend/${id}`, { candidateId, friendChoice: false })
+    }
     commit('removeMatch', { id, candidateId })
   },
 
@@ -73,6 +86,7 @@ export default {
     data.isMe = true
     users[me] = data
 
+    console.log(data.rooms)
     commit('initialise', { users, me, friends, singles, invitations })
   },
 

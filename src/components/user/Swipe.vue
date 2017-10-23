@@ -4,7 +4,7 @@
   <div v-else-if="matches.length === 0">
     There's nothing here...
   </div>
-  <vue-swing v-else @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe row justify-center">
+  <vue-swing v-else @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
     <div class="person" v-for="person in matches" :data-id="person.id" :key="person.id">
       <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${person.facebookId}/picture?type=large)` }"></div>
       <div class="profile">
@@ -91,20 +91,17 @@ export default {
 @import '../../themes/app.variables'
 
 .swipe
-  position relative
   overflow hidden
-  width 100vw
-  height calc(100vh - 53px)
 
 .person
   padding 10px
   width 100%
   position absolute
-  top 10px
+  top 60px
   left 10px
   background white
-  width calc(100vw - 20px)
-  height calc(100vh - 20px - 53px)
+  width calc(100% - 20px)
+  height calc(100% - 20px - 50px)
   border-radius 10px
   box-shadow 0 5px 8px rgba(0, 0, 0, 0.1)
   overflow hidden

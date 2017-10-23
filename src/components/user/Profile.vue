@@ -1,12 +1,21 @@
 <template>
   <loader v-if="user == null"/>
   <div v-else class="layout-padding">
-    <img :src="`https://graph.facebook.com/${user.facebookId}/picture?type=large`" />
-    {{ user.isInvitation ? user.nickname : user.facebookName }}, {{ user.age }}
-    {{ user.desc }}
-    <div v-if="user.isSingle">
-      <router-link :to="`/user/${user.id}/swipe`">Swipe</router-link>
-      <router-link :to="`/user/${user.id}/matches`">Matches</router-link>
+    <div v-if="user.isInvitation" class="person">
+      <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${user.facebookId}/picture?type=large)` }"></div>
+      <div class="profile">
+        <span class="title">{{ user.facebookName }}, {{ user.age }}</span>
+        <span class="subtitle">blahblah {{ user.desc }}</span>
+      </div>
+    </div>
+    <div v-else class="person">
+      <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${user.facebookId}/picture?type=large)` }"></div>
+      <div class="profile">
+        <span class="title">{{ user.nickname }}, {{ user.age }}</span>
+        <span class="subtitle">blahblah {{ user.desc }}</span>
+      </div>
+    </div>
+    <div v-if="user.isSingle || user.isMe">
     </div>
     <div v-if="user.isInvitation">
       <q-btn color="primary" @click="shareInvitationLink">Share</q-btn>
@@ -60,5 +69,48 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+@import '../../themes/app.variables'
+
+.person
+  padding 10px
+  width 100%
+  position absolute
+  top 60px
+  left 10px
+  background white
+  width calc(100% - 20px)
+  height calc(100% - 20px - 50px)
+  border-radius 10px
+  box-shadow 0 5px 8px rgba(0, 0, 0, 0.1)
+  overflow hidden
+
+  .picture
+    position absolute
+    top 0
+    left 0
+    bottom 0
+    right 0
+    background-size cover
+    background-position 50% 50%
+
+  .profile
+    background-color white
+    border-radius 10px
+    bottom 10px
+    box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+    color $tertiary
+    padding 10px
+    position absolute
+    width calc(100% - 20px)
+
+    .title
+      display block
+      font-weight 500
+      font-size 1.3em
+      margin-bottom 0.1em
+
+    .subtitle
+      display block
+      font-size 1em
 </style>
