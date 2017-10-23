@@ -30,7 +30,13 @@ export default {
 
 @font-face {
   font-family: Montserrat;
-  font-weight: bold;
+  font-weight: 500;
+  src: url(~assets/font/Montserrat-Medium.ttf);
+}
+
+@font-face {
+  font-family: Montserrat;
+  font-weight: 700;
   src: url(~assets/font/Montserrat-Bold.ttf);
 }
 </style>

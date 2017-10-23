@@ -1,5 +1,5 @@
 <template>
-  <q-layout ref="layout" view="lHr LpR lfr"> 
+  <q-layout ref="layout" view="lHr LpR lfr">
 
     <q-toolbar slot="header" class="text-black bg-white">
       <q-toolbar-title>
@@ -19,7 +19,7 @@
 
       <div slot="slide" class="slide">
         <div class="tutorial bg-secondary">
-          <p class="title">For Dates,</p>
+          <p class="title">For Daters,</p>
           <img class="image" src="~assets/tutorial-2.png" width="154" height="204">
           <p class="subtitle">Find partners recommended by your best friends</p>
           <p class="content">Sometimes, the best matches come from people who know you best.</p>
@@ -30,7 +30,7 @@
         <div class="tutorial bg-secondary">
           <img class="image" src="~assets/tutorial-3.png" width="154" height="204">
           <p class="subtitle">Have singles that should not be single?</p>
-          <p class="content">Swipe left to pear them up now!</p>
+          <p class="content">Swipe right to pear them up now!</p>
           <q-btn color="tertiary" @click="finish">Let's go!</q-btn>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default {
     color $tertiary
 
     .title
-      font-weight bold
+      font-weight 700
 
     .image
       display block
@@ -86,6 +86,6 @@ export default {
       height auto
 
     .subtitle
-      font-weight bold
+      font-weight 700
       font-size 1.2em
 </style>
