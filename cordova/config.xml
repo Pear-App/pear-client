@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="me.goweiwen.pear" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="me.goweiwen.pear" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Pear</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -36,5 +36,12 @@
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
         <variable name="APP_ID" value="2012482058985830" />
         <variable name="APP_NAME" value="Pear" />
+    </plugin>
+    <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
+    <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
+        <variable name="URL_SCHEME" value="pear" />
+        <variable name="ANDROID_SCHEME" value=" " />
+        <variable name="ANDROID_HOST" value=" " />
+        <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
 </widget>
