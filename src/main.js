@@ -12,6 +12,7 @@ require(`./themes/app.${__THEME}.styl`)
 
 import './util/polyfill'
 import './util/facebookSdk'
+import './util/cordova'
 
 import Vue from 'vue'
 import Quasar from 'quasar'

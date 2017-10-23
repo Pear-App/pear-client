@@ -13,10 +13,10 @@
     "cordova-android": "^6.3.0",
     "cordova-ios": "^4.5.2",
     "cordova-plugin-crosswalk-webview": "^2.3.0",
-    "cordova-plugin-customurlscheme": "^4.3.0",
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-whitelist": "^1.3.2",
     "cordova-plugin-x-socialsharing": "^5.2.1",
+    "cordova-universal-links-plugin": "^1.2.1",
     "es6-promise-plugin": "^4.1.0"
   },
   "cordova": {
@@ -34,12 +34,7 @@
         "APP_NAME": "Pear"
       },
       "cordova-plugin-x-socialsharing": {},
-      "cordova-plugin-customurlscheme": {
-        "URL_SCHEME": "pear",
-        "ANDROID_SCHEME": " ",
-        "ANDROID_HOST": " ",
-        "ANDROID_PATHPREFIX": "/"
-      }
+      "cordova-universal-links-plugin": {}
     },
     "platforms": [
       "android",

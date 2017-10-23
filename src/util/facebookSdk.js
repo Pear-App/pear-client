@@ -1,12 +1,3 @@
-// Cordova
-document.addEventListener('deviceready', () => {
-  if (typeof facebookConnectPlugin !== 'undefined') {
-    global.FB = window.facebookConnectPlugin
-    global.FB.login = global.FB.login.papp(['public_profile'])
-  }
-})
-
-// Browser
 window.fbAsyncInit = function() {
   /* global FB */
   FB.init({
