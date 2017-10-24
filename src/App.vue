@@ -47,4 +47,7 @@ body
 
 .layout-header
   border none
+
+.layout-footer
+  border none
 </style>

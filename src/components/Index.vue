@@ -2,7 +2,7 @@
   <!-- Configure "view" prop for QLayout -->
   <q-layout ref="layout" view="lHr LpR lfr">
 
-    <q-toolbar slot="header" class="text-black bg-white">
+    <q-toolbar slot="header" class="text-tertiary bg-white">
       <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
         <img v-if="me != null" class="user-photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
       </q-btn>
@@ -11,7 +11,7 @@
         <img class="banner" src="~assets/banner.png" width="86" height="40">
       </q-toolbar-title>
 
-      <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
+      <q-btn flat @click="$refs.layout.toggleRight()">
         <img src="~assets/overflow.png" width="24" height="24">
       </q-btn>
     </q-toolbar>
@@ -20,19 +20,16 @@
       <sidebar slot="left" @close="$refs.layout.hideLeft()" />
     </div>
 
-    <!-- Right Side Panel
     <div slot="right">
-      ...
     </div>
-    -->
 
     <router-view />
 
-    <!-- Footer
-    <q-toolbar slot="footer">
-      ...
+    <q-toolbar slot="footer" class="text-tertiary bg-white">
+      <q-toolbar-title>
+        <router-view name="footer" />
+      </q-toolbar-title>
     </q-toolbar>
-    -->
 
   </q-layout>
 </template>

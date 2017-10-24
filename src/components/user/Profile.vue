@@ -75,11 +75,11 @@ export default {
   padding 10px
   width 100%
   position absolute
-  top 60px
+  top 10px
   left 10px
   background white
   width calc(100% - 20px)
-  height calc(100% - 20px - 50px)
+  height calc(100% - 20px)
   border-radius 10px
   box-shadow 0 5px 8px rgba(0, 0, 0, 0.1)
   overflow hidden
