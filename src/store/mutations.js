@@ -19,9 +19,10 @@ export default {
 
   // Swiping
   removeMatch(state, { id, candidateId }) {
-    state.users[id].matches = state.users[id].matches.filter(
-      _ => _.id !== candidateId
+    const index = state.users[id].matches.findIndex(
+      _ => toString(_.id) === toString(candidateId)
     )
+    state.users[id].matches.splice(index, 1)
   },
 
   // Profile

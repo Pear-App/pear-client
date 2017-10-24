@@ -6,13 +6,15 @@
   </div>
   <div v-else>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
-      <div class="person" v-for="person in matches" :data-id="person.id" :key="person.id">
-        <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${person.facebookId}/picture?type=large)` }"></div>
-        <div class="profile">
-          <span class="title">{{ person.facebookName }}, {{ person.age }}</span>
-          <span class="subtitle">blahblah {{ person.desc }}</span>
+      <transition name="scale">
+        <div v-if="matches.length !== 0" class="person" :data-id="matches[0].id" :key="matches[0].id">
+          <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${matches[0].facebookId}/picture?type=large)` }"></div>
+          <div class="profile">
+            <span class="title">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
+            <span class="subtitle">blahblah {{ matches[0].desc }}</span>
+          </div>
         </div>
-      </div>
+      </transition>
     </vue-swing>
     <div class="like" :style="{ opacity: offset > 0 ? offset / 2 : 0 }"></div>
     <div class="unlike" :style="{ opacity: offset < 0 ? -offset / 2 : 0 }"></div>
@@ -33,7 +35,6 @@ import {
 import VueSwing from 'vue-swing'
 
 import Loader from '../Loader'
-import { normalise } from '../../util'
 
 export default {
   components: {
@@ -101,24 +102,23 @@ export default {
   },
 
   methods: {
-    dragmove({ offset, throwDirection }) {
-      if (
-        throwDirection !== VueSwing.Direction.LEFT &&
-        throwDirection !== VueSwing.Direction.RIGHT
-      )
-        return
-      this.offset = normalise(offset, -100, 100)
+    dragmove({ throwDirection, throwOutConfidence }) {
+      if (throwDirection === VueSwing.Direction.LEFT) {
+        this.offset = -throwOutConfidence
+      } else if (throwDirection === VueSwing.Direction.RIGHT) {
+        this.offset = throwOutConfidence
+      }
     },
     dragend() {
       this.offset = 0
     },
     reject(e) {
       const candidateId = e.target.dataset.id
-      // this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
+      this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
     accept(e) {
       const candidateId = e.target.dataset.id
-      // this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
+      this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     },
   },
 }
@@ -185,4 +185,14 @@ export default {
     .subtitle
       display block
       font-size 1em
+
+.scale-enter-active
+  transition all .3s ease
+
+.scale-leave-active
+  transition all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+
+.scale-enter, .scale-leave-to
+  transform scale(0.8)
+  opacity 0
 </style>
