@@ -1,6 +1,5 @@
 <template>
-  <div>
-    Loading
+  <div class="loader">
   </div>
 </template>
 
@@ -11,4 +10,8 @@ export default {
 </script>
 
 <style lang="stylus">
+.loading
+  position absolute
+  width 100%
+  height 100%
 </style>
