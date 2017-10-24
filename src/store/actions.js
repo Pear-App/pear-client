@@ -1,15 +1,18 @@
 import jwtDecode from 'jwt-decode'
 
 import router from '../router'
-import { get, post } from '../util'
+import { get, post, log } from '../util'
 
 export default {
   // Auth
   async facebookLogin({ commit, dispatch }, { status, authResponse }) {
     if (status === 'connected') {
-      const { jwt } = await post('/authenticate', {
+      const [data, err] = await post('/authenticate', {
         fbToken: authResponse.accessToken,
       })
+      // TODO: catch error
+      if (err != null) log(err)
+      const { jwt } = data
       const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
       commit('loggedIn', { facebookId: authResponse.userID, me: userId, jwt })
     }
@@ -27,36 +30,40 @@ export default {
   // Swipe
   async fetchMatches({ state, commit }, id) {
     const user = state.users[id]
-    const matches = user.isMe
+    const [matches, err] = user.isMe
       ? await get('/match/single')
       : await get(`/match/friend/${id}`)
+    // TODO: catch error
+    if (err != null) log(err)
     commit('setUser', { id, matches })
   },
 
   async acceptMatch({ state, commit }, { id, candidateId }) {
     const user = state.users[id]
     if (user.isMe) {
-      await post('/match/single', { candidateId, singleChoice: true })
+      post('/match/single', { candidateId, singleChoice: true })
     } else {
-      await post(`/match/friend/${id}`, { candidateId, friendChoice: true })
+      post(`/match/friend/${id}`, { candidateId, friendChoice: true })
     }
+    // TODO: catch error
     commit('removeMatch', { id, candidateId })
   },
 
   async rejectMatch({ state, commit }, { id, candidateId }) {
     const user = state.users[id]
     if (user.isMe) {
-      await post('/match/single', { candidateId, singleChoice: false })
+      post('/match/single', { candidateId, singleChoice: false })
     } else {
-      await post(`/match/friend/${id}`, { candidateId, friendChoice: false })
+      post(`/match/friend/${id}`, { candidateId, friendChoice: false })
     }
+    // TODO: catch error
     commit('removeMatch', { id, candidateId })
   },
 
   // Profile
   async fetchMe({ state, commit }) {
-    const data = await get('/user/me')
-
+    const [data, err] = await get('/user/me')
+    if (err != null) return log(err)
     const users = {}
 
     data.friend.map(_ => {
@@ -86,40 +93,48 @@ export default {
     data.isMe = true
     users[me] = data
 
-    console.log(data.rooms)
     commit('initialise', { users, me, friends, singles, invitations })
   },
 
   async fetchUser({ commit }, id) {
-    commit('setUser', await get(`/user/${id}`))
+    const [user, err] = await get(`/user/${id}`)
+    if (err != null) return log(err)
+    commit('setUser', user)
   },
 
   async setUser({ commit }, user) {
-    if (user.id != null && user.id !== 'new')
-      await post(`/user/${user.id}/edit`, user)
+    if (user.id != null && user.id !== 'new') {
+      const [, err] = post(`/user/${user.id}/edit`, user)
+      if (err != null) return log(err)
+    }
     commit('setUser', user)
   },
 
   // Invitations
   async addInvitation({ state, commit }) {
-    const data = await post('/invitation', state.users.new)
-    commit('addInvitation', data)
-    router.push(`/user/${data.id}`)
+    const [invitation, err] = await post('/invitation', state.users.new)
+    if (err != null) return log(err)
+    commit('addInvitation', invitation)
+    router.push(`/user/${invitation.id}`)
   },
 
   async fetchInvitation({ state, commit }, hash) {
+    const [user, err] = await get(`/invitation/${hash}`)
+    if (err != null) return log(err)
     commit('addInvitationHash', {
       hash,
-      user: await get(`/invitation/${hash}`),
+      user,
     })
   },
 
   async acceptInvitation({ commit }, hash) {
-    await post(`/invitation/${hash}/accept`)
+    const [, err] = post(`/invitation/${hash}/accept`)
+    if (err != null) return log(err)
     commit('acceptInvitation', hash)
   },
 
   async deleteInvitation({ commit }, hash) {
-    await post(`/invitation/${hash}/accept`)
+    const [, err] = post(`/invitation/${hash}/accept`)
+    if (err != null) return log(err)
   },
 }

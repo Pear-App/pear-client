@@ -1,3 +1,5 @@
+import { Toast } from 'quasar'
+
 import { API_URL } from '../constants'
 import store from '../store'
 
@@ -16,22 +18,32 @@ async function api(method, path, body) {
     options.body = JSON.stringify(body)
   }
 
-  const res = await fetch(`${API_URL}${path}`, options)
+  let res
+  try {
+    res = await fetch(`${API_URL}${path}`, options)
+  } catch (e) {
+    return [null, e]
+  }
 
   if (!res.ok) {
     switch (res.status) {
       case 401:
         store.commit('logout')
         break
+      case 404:
       case 500:
-        console.log(res)
-        break
+        const data = await res.json()
+        const err = data.message || 'Unable to connect'
+        Toast.create.negative({
+          html: err,
+        })
+        return [null, err]
       default:
         throw new Error(res.statusText)
     }
   }
 
-  return res.json()
+  return [await res.json(), null]
 }
 
 if (process.env.NODE_ENV !== 'production') {
@@ -44,6 +56,7 @@ export const patch = api.papp('PATCH')
 export const del = api.papp('DELETE')
 
 export function log(...args) {
+  if (process.env.NODE_ENV === 'production') return
   console.log('LOG: ', ...args)
 }
 

@@ -41,29 +41,28 @@ export default {
   },
 
   methods: {
-    shareInvitationLink() {
+    async shareInvitationLink() {
       const url = `${window.location.host}/#/join/${this.user.id}`
       if (navigator.share) {
-        navigator
-          .share({
+        try {
+          navigator.share({
             title: 'Find your perfect Pear!',
             text: '',
             url,
           })
-          .then(() => console.log('Successful share'))
-          .catch(error => console.log('Error sharing', error))
-      } else {
-        const dummy = document.createElement('input')
-        document.body.appendChild(dummy)
-        dummy.setAttribute('value', url)
-        dummy.select()
-        document.execCommand('copy')
-        document.body.removeChild(dummy)
-        Toast.create.positive({
-          html: 'Copied link!',
-          icon: 'clipboard',
-        })
+          return
+        } catch (e) {}
       }
+      const dummy = document.createElement('input')
+      document.body.appendChild(dummy)
+      dummy.setAttribute('value', url)
+      dummy.select()
+      document.execCommand('copy')
+      document.body.removeChild(dummy)
+      Toast.create.positive({
+        html: 'Copied link!',
+        icon: 'clipboard',
+      })
     },
   },
 }
