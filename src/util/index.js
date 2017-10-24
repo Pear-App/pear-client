@@ -85,3 +85,11 @@ export function initialUser(id) {
     updatedAt: '',
   }
 }
+
+export function clamp(x, min, max) {
+  return Math.max(Math.min(x, max), min)
+}
+
+export function normalise(x, min, max) {
+  return clamp(x, min, max) / (max - min)
+}

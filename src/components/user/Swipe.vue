@@ -4,15 +4,19 @@
   <div v-else-if="matches.length === 0">
     There's nothing here...
   </div>
-  <vue-swing v-else @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
-    <div class="person" v-for="person in matches" :data-id="person.id" :key="person.id">
-      <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${person.facebookId}/picture?type=large)` }"></div>
-      <div class="profile">
-        <span class="title">{{ person.facebookName }}, {{ person.age }}</span>
-        <span class="subtitle">blahblah {{ person.desc }}</span>
+  <div v-else>
+    <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
+      <div class="person" v-for="person in matches" :data-id="person.id" :key="person.id">
+        <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${person.facebookId}/picture?type=large)` }"></div>
+        <div class="profile">
+          <span class="title">{{ person.facebookName }}, {{ person.age }}</span>
+          <span class="subtitle">blahblah {{ person.desc }}</span>
+        </div>
       </div>
-    </div>
-  </vue-swing>
+    </vue-swing>
+    <div class="like" :style="{ opacity: offset > 0 ? offset / 2 : 0 }"></div>
+    <div class="unlike" :style="{ opacity: offset < 0 ? -offset / 2 : 0 }"></div>
+  </div>
 </template>
 
 <script>
@@ -27,7 +31,9 @@ import {
   QIcon,
 } from 'quasar'
 import VueSwing from 'vue-swing'
+
 import Loader from '../Loader'
+import { normalise } from '../../util'
 
 export default {
   components: {
@@ -47,12 +53,32 @@ export default {
 
   data() {
     return {
+      offset: 0,
       counter: 0,
       swingConfig: {
-        isThrowOut: (x, y, el, confidence) => confidence > 0.3,
+        isThrowOut: (x, y, el, confidence) => confidence > 0.4,
         minThrowOutDistance: document.body.clientWidth + 400,
         maxThrowOutDistance: document.body.clientWidth + 500,
         allowedDirections: [VueSwing.Direction.LEFT, VueSwing.Direction.RIGHT],
+        transform: (element, coordinateX, coordinateY, rotation) => {
+          element.style['transform'] =
+            'translate3d(0, 0, 0) translate(' +
+            coordinateX +
+            'px, ' +
+            coordinateX / 100 +
+            'px) rotate(' +
+            rotation +
+            'deg)'
+        },
+        rotation: (coordinateX, coordinateY, element, maxRotation) => {
+          const horizontalOffset = Math.min(
+            Math.max(coordinateX / element.offsetWidth, -1),
+            1
+          )
+          const rotation = horizontalOffset * maxRotation
+
+          return rotation
+        },
       },
     }
   },
@@ -75,13 +101,24 @@ export default {
   },
 
   methods: {
+    dragmove({ offset, throwDirection }) {
+      if (
+        throwDirection !== VueSwing.Direction.LEFT &&
+        throwDirection !== VueSwing.Direction.RIGHT
+      )
+        return
+      this.offset = normalise(offset, -100, 100)
+    },
+    dragend() {
+      this.offset = 0
+    },
     reject(e) {
       const candidateId = e.target.dataset.id
-      this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
+      // this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
     accept(e) {
       const candidateId = e.target.dataset.id
-      this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
+      // this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     },
   },
 }
@@ -89,6 +126,20 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../../themes/app.variables'
+
+.like,
+.unlike
+  position fixed
+  width 100vw
+  height 100vh
+  user-select none
+  pointer-events none
+
+.like
+  background-color green
+
+.unlike
+  background-color red
 
 .swipe
   overflow hidden
