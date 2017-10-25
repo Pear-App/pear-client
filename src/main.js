@@ -10,6 +10,8 @@ require(`./themes/app.${__THEME}.styl`)
 // require(`quasar/dist/quasar.ie`)
 // require(`quasar/dist/quasar.ie.${__THEME}.css`)
 
+import 'whatwg-fetch'
+
 import './util/polyfill'
 import './util/facebookSdk'
 import './util/cordova'
