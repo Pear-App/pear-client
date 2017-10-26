@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-light">
     <router-link to="/" class="fixed-bottom-right" style="margin-bottom:16px; margin-right:16px">
-        <q-btn icon="arrow back" round big v-ripple color="primary">
+        <q-btn icon="arrow back" round big color="primary">
         </q-btn>
     </router-link>
     <div class="layout-padding">
@@ -92,16 +92,6 @@
     </div>
 	</div>
 </template>
-
-<script>
-import { Ripple } from 'quasar-framework'
-
-export default {
-  directives: {
-    Ripple,
-  },
-}
-</script>
 
 <style scoped lang="stylus">
 .subtitle
