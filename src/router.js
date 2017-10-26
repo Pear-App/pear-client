@@ -40,6 +40,7 @@ const router = new VueRouter({
       },
       children: [
         { path: 'profile', component: load('user/Profile') },
+        { path: 'profile/edit', component: load('user/EditProfile') },
         { path: 'swipe', component: load('user/Swipe') },
         { path: 'sort', component: load('user/Sort') },
       ],

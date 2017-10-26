@@ -8,6 +8,11 @@
         {{ me.facebookName }}
       </q-item-main>
     </q-side-link>
+    <q-side-link item key="editProfile" :to="`/user/${me.id}/profile/edit`">
+      <q-item-main>
+        Edit Profile
+      </q-item-main>
+    </q-side-link>
     <q-list-header>Singles</q-list-header>
     <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/profile`">
       <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
