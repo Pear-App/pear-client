@@ -53,6 +53,12 @@ const router = new VueRouter({
     // Invited by friends
     { path: '/join/:hash', props: true, component: load('Join') },
 
+    // Privacy Policy
+    { path: '/privacy', component: load('Privacy') },
+
+    // Terms of Service
+    { path: '/terms', component: load('Terms') },
+
     // Always leave this last one
     { path: '*', component: load('Error404') }, // Not found
   ],
