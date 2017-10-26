@@ -11,23 +11,20 @@
         <img class="banner" src="~assets/banner.png" width="86" height="40">
       </q-toolbar-title>
 
-      <q-btn flat @click="$refs.layout.toggleRight()">
-        <img src="~assets/overflow.png" width="24" height="24">
-      </q-btn>
+      <div style="width:38px;margin-right:0.2rem"></div>
     </q-toolbar>
 
     <div slot="left">
       <sidebar slot="left" @close="$refs.layout.hideLeft()" />
     </div>
 
-    <div slot="right">
-    </div>
-
     <router-view />
 
     <q-toolbar slot="footer" class="text-tertiary bg-white">
       <q-toolbar-title>
-        <router-view name="footer" />
+        <keep-alive>
+          <router-view name="footer" />
+        </keep-alive>
       </q-toolbar-title>
     </q-toolbar>
 
