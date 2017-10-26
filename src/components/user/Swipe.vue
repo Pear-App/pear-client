@@ -22,30 +22,12 @@
 </template>
 
 <script>
-import {
-  QBtn,
-  QCard,
-  QCardActions,
-  QCardMedia,
-  QCardTitle,
-  QCardSeparator,
-  QCardMain,
-  QIcon,
-} from 'quasar'
 import VueSwing from 'vue-swing'
 
 import Loader from '../Loader'
 
 export default {
   components: {
-    QBtn,
-    QCard,
-    QCardActions,
-    QCardMedia,
-    QCardTitle,
-    QCardSeparator,
-    QCardMain,
-    QIcon,
     VueSwing,
     Loader,
   },

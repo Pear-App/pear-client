@@ -25,12 +25,12 @@
 
 <script>
 import Loader from '../Loader'
-import { QBtn, Toast } from 'quasar'
+import { Toast } from 'quasar'
 
 export default {
   name: 'profile',
 
-  components: { Loader, QBtn },
+  components: { Loader },
 
   props: ['id'],
 
@@ -42,10 +42,9 @@ export default {
 
   methods: {
     async shareInvitationLink() {
-      const url =
-        window.cordova == null
-          ? `${window.location.host}/#/join/${this.user.id}`
-          : `https://pear.netlify.com/invite/${this.user.id}`
+      const url = window.cordova == null
+        ? `${window.location.host}/#/join/${this.user.id}`
+        : `https://pear.netlify.com/invite/${this.user.id}`
       if (navigator.share) {
         try {
           navigator.share({

@@ -9,14 +9,9 @@
 </template>
 
 <script>
-import { QBtn } from 'quasar'
 import { promisify } from '../util'
 
 export default {
-  components: {
-    QBtn,
-  },
-
   props: ['hash'],
 
   computed: {

@@ -36,13 +36,13 @@
 
 <script>
 import { mapState } from 'vuex'
-import { QBtn, QIcon, QLayout, QToolbar, QToolbarTitle } from 'quasar'
+
 import Sidebar from './Sidebar'
 
 export default {
   name: 'index',
 
-  components: { QBtn, QIcon, QLayout, QToolbar, QToolbarTitle, Sidebar },
+  components: { Sidebar },
 
   data() {
     return {}
