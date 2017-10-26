@@ -11,7 +11,7 @@
           <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${matches[0].facebookId}/picture?type=large)` }"></div>
           <div class="profile">
             <span class="title">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
-            <span class="subtitle">blahblah {{ matches[0].desc }}</span>
+            <span class="subtitle">{{ matches[0].desc }}</span>
           </div>
         </div>
       </transition>
@@ -74,12 +74,16 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('fetchMatches', this.id)
+    if (this.matches == null || this.matches.length === 0) {
+      this.$store.dispatch('fetchMatches', this.id)
+    }
   },
 
   watch: {
     id(id) {
-      this.$store.dispatch('fetchMatches', id)
+      if (this.matches == null || this.matches.length === 0) {
+        this.$store.dispatch('fetchMatches', id)
+      }
     },
   },
 
