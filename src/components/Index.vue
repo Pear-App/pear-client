@@ -1,8 +1,10 @@
 <template>
   <!-- Configure "view" prop for QLayout -->
   <q-layout ref="layout" view="lHr LpR lfr">
+    <div class="header-bg"></div>
 
-    <q-toolbar slot="header" class="text-tertiary bg-white">
+
+    <q-toolbar slot="header" class="text-tertiary bg-secondary">
       <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
         <img v-if="me != null" class="user-photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
       </q-btn>
@@ -56,6 +58,17 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import '../themes/app.variables'
+
 .user-photo
   border-radius 100%
+
+.header-bg
+  position fixed
+  z-index -100
+  top 0
+  left 0
+  width 100%
+  height 106px
+  background-color $secondary
 </style>
