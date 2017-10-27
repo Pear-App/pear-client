@@ -42,9 +42,10 @@ export default {
 
   methods: {
     async shareInvitationLink() {
-      const url = window.cordova == null
-        ? `${window.location.host}/#/join/${this.user.id}`
-        : `https://pear.netlify.com/invite/${this.user.id}`
+      const url =
+        window.cordova == null
+          ? `${window.location.host}/#/join/${this.user.id}`
+          : `https://pear.netlify.com/invite/${this.user.id}`
       if (navigator.share) {
         try {
           navigator.share({
@@ -83,7 +84,7 @@ export default {
   width calc(100% - 20px)
   height calc(100% - 20px)
   border-radius 10px
-  box-shadow 0 5px 8px rgba(0, 0, 0, 0.1)
+  box-shadow 0 2px 8px rgba(0, 0, 0, 0.5)
   overflow hidden
 
   .picture

@@ -3,7 +3,6 @@
   <q-layout ref="layout" view="lHr LpR lfr">
     <div class="header-bg"></div>
 
-
     <q-toolbar slot="header" class="text-tertiary bg-secondary">
       <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
         <img v-if="me != null" class="user-photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
@@ -61,14 +60,16 @@ export default {
 @import '../themes/app.variables'
 
 .user-photo
+  margin-left -2px
   border-radius 100%
 
 .header-bg
   position fixed
   z-index -100
   top 0
-  left 0
-  width 100%
-  height 106px
+  left -2%
+  width 104%
+  height 159px
+  border-radius 53px
   background-color $secondary
 </style>

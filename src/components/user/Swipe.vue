@@ -19,8 +19,10 @@
               <div v-show="isProfileExpanded" class="expanded-profile">
                 <hr>
                 <div class="expanded-profile-content">
-                  <p>Hello</p>
-                  <p>World</p>
+                  <p class="caption">About</p>
+                  <p>Hello world</p>
+                  <p class="caption">What my friends say about me</p>
+                  <p>Hello world</p>
                 </div>
               </div>
             </transition>
@@ -35,6 +37,7 @@
 
 <script>
 import VueSwing from 'vue-swing'
+import { TouchSwipe } from 'quasar'
 
 import Loader from '../Loader'
 
@@ -43,6 +46,8 @@ export default {
     VueSwing,
     Loader,
   },
+
+  directives: { TouchSwipe },
 
   props: ['id'],
 
@@ -162,7 +167,7 @@ $padding = 16px
   width calc(100% - 20px)
   height calc(100% - 20px)
   border-radius 10px
-  box-shadow 0 5px 8px rgba(0, 0, 0, 0.1)
+  box-shadow 0 2px 8px rgba(0, 0, 0, 0.3)
   overflow hidden
 
   .picture
@@ -173,7 +178,7 @@ $padding = 16px
     right 0
     background-size cover
     background-position 50% 50%
-    transition all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+    transition all .3s ease-out
 
   .picture.expanded
     opacity 0.5
@@ -191,14 +196,22 @@ $padding = 16px
     .title
       padding 0 $padding
       display block
-      font-weight 500
       font-size 1.3em
+      margin-left -1px
       margin-bottom 0.2em
 
     .subtitle
       padding 0 $padding
       display block
       font-size 1em
+
+    .caption
+      color darken($primary, 10%)
+      margin-top 0
+      margin-bottom 0.1em
+
+    .content
+      margin-bottom 1.5em
 
 .scale-enter-active
   transition all .3s ease
@@ -212,16 +225,16 @@ $padding = 16px
 
 .expanded-profile
   overflow hidden
-  height calc(80vh - 53px - 53px)
-  max-height calc(80vh - 53px - 53px)
+  height calc(80vh \- 200px)
+  max-height calc(80vh \- 200px)
 
   hr
     margin $padding 0
     border none
-    border-top 1px solid alpha($tertiary, 0.2)
+    border-top 1px solid alpha($tertiary, 0.1)
 
   .expanded-profile-content
-    padding $padding
+    padding 0 $padding $padding $padding
 
 .expand-y-enter-active
   transition all .3s ease-out
