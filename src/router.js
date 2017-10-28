@@ -48,7 +48,7 @@ const router = new VueRouter({
 
     // Invite friends
     { path: '/invite/1', component: load('invite/1') },
-    { path: '/invite/2', component: load('nvite/2') },
+    { path: '/invite/2', component: load('invite/2') },
 
     // Invited by friends
     { path: '/join/:hash', props: true, component: load('Join') },

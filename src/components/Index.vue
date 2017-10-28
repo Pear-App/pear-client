@@ -17,7 +17,7 @@
             <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: true }), $refs.popover.close()">
               Matchmaker
             </q-item>
-            <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: fals }), $refs.popover.close()">
+            <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: false }), $refs.popover.close()">
               Dater
             </q-item>
           </q-list>
