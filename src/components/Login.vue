@@ -58,7 +58,9 @@ export default {
     async login() {
       /* global FB */
       this.$store.dispatch('facebookLogin', {
-        ...(await promisify(FB.login)),
+        ...(await promisify(FB.login, {
+          scope: ['public_profile', 'user_photos'],
+        })),
       })
     },
   },

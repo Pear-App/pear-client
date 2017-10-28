@@ -60,9 +60,9 @@ export function log(...args) {
   console.log('LOG: ', ...args)
 }
 
-export function promisify(fn) {
+export function promisify(fn, ...fnArgs) {
   return new Promise((resolve, reject) => {
-    fn(resolve, (...args) => reject(new Error(...args)))
+    fn(resolve, ...fnArgs, (...args) => reject(new Error(...args)))
   })
 }
 

@@ -4,7 +4,7 @@ document.addEventListener('deviceready', () => {
   // Facebook
   if (typeof facebookConnectPlugin !== 'undefined') {
     global.FB = window.facebookConnectPlugin
-    global.FB.login = global.FB.login.papp(['public_profile'])
+    global.FB.login = global.FB.login.papp(['public_profile', 'user_photos'])
   }
 
   // Universal Links
