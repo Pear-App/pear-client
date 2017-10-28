@@ -30,7 +30,8 @@
     "vue-swing": "github:goweiwen/vue-swing",
     "vuedraggable": "^2.14.1",
     "vuex": "^3.0.0",
-    "vuex-persistedstate": "^2.0.0"
+    "vuex-persistedstate": "^2.0.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

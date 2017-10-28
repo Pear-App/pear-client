@@ -7,12 +7,8 @@
 </template>
 
 <script>
-import { QTabs, QRouteTab } from 'quasar'
-
 export default {
   name: 'user-tabs',
-
-  components: { QTabs, QRouteTab },
 
   props: ['id'],
 

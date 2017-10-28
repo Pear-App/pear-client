@@ -22,16 +22,10 @@
 </template>
 
 <script>
-import { QBtn, QList, QItem, QItemSide, QItemMain } from 'quasar'
 import Draggable from 'vuedraggable'
 
 export default {
   components: {
-    QBtn,
-    QList,
-    QItem,
-    QItemSide,
-    QItemMain,
     Draggable,
   },
 

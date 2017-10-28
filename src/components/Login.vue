@@ -25,14 +25,9 @@
 </template>
 
 <script>
-import { QBtn } from 'quasar'
 import { promisify } from '../util'
 
 export default {
-  components: {
-    QBtn,
-  },
-
   computed: {
     isInvited() {
       return this.$route.path.slice(0, 5) === '/join'

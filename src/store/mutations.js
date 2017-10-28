@@ -17,6 +17,10 @@ export default {
     state.hasSeenTutorial = true
   },
 
+  setMatchmakerMode(state, { isMatchmakerMode }) {
+    state.isMatchmakerMode = isMatchmakerMode
+  },
+
   // Swiping
   removeMatch(state, { id, candidateId }) {
     const index = state.users[id].matches.findIndex(

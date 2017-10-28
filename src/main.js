@@ -10,16 +10,65 @@ require(`./themes/app.${__THEME}.styl`)
 // require(`quasar/dist/quasar.ie`)
 // require(`quasar/dist/quasar.ie.${__THEME}.css`)
 
+import 'whatwg-fetch'
+
 import './util/polyfill'
 import './util/facebookSdk'
 import './util/cordova'
 
 import Vue from 'vue'
-import Quasar from 'quasar'
+import Quasar, {
+  QBtn,
+  QCard,
+  QCardActions,
+  QCardMain,
+  QCardMedia,
+  QCardSeparator,
+  QCardTitle,
+  QCarousel,
+  QField,
+  QIcon,
+  QItem,
+  QItemMain,
+  QItemSide,
+  QLayout,
+  QList,
+  QPopover,
+  QRange,
+  QRouteTab,
+  QTabs,
+  QToolbar,
+  QToolbarTitle,
+} from 'quasar'
 import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+Vue.use(Quasar, {
+  components: {
+    QBtn,
+    QCard,
+    QCardActions,
+    QCardMain,
+    QCardMedia,
+    QCardSeparator,
+    QCardTitle,
+    QCarousel,
+    QField,
+    QIcon,
+    QItem,
+    QItemMain,
+    QItemSide,
+    QLayout,
+    QList,
+    QPopover,
+    QRange,
+    QRouteTab,
+    QTabs,
+    QToolbar,
+    QToolbarTitle,
+  },
+})
 Vue.use(Quasar) // Install Quasar Framework
 
 if (__THEME === 'mat') {

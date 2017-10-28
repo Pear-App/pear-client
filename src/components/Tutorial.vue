@@ -43,11 +43,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { QLayout, QToolbar, QToolbarTitle, QBtn, QCarousel } from 'quasar'
 
 export default {
-  components: { QLayout, QToolbar, QToolbarTitle, QBtn, QCarousel },
-
   data() {
     return {
       index: 0,

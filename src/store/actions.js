@@ -27,6 +27,10 @@ export default {
     commit('notLoggedIn')
   },
 
+  setMatchmakerMode({ commit }, { isMatchmakerMode }) {
+    commit('setMatchmakerMode', { isMatchmakerMode })
+  },
+
   // Swipe
   async fetchMatches({ state, commit }, id) {
     const user = state.users[id]

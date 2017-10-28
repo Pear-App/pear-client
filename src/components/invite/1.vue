@@ -72,12 +72,8 @@
 </template>
 
 <script>
-import { QBtn, QField, QInput, QLayout, QRange } from 'quasar'
-
 export default {
   name: 'user-setup-1',
-
-  components: { QBtn, QField, QInput, QLayout, QRange },
 
   data: () => ({ id: 'new' }),
 

@@ -84,7 +84,7 @@ export default {
   width calc(100% - 20px)
   height calc(100% - 20px)
   border-radius 10px
-  box-shadow 0 2px 8px rgba(0, 0, 0, 0.5)
+  box-shadow 0 5px 8px rgba(0, 0, 0, 0.1)
   overflow hidden
 
   .picture
