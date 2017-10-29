@@ -26,10 +26,10 @@ export default {
     },
     desc: {
       get() {
-        return this.$store.state.users[this.id].desc
+        return this.$store.state.users[this.id].review
       },
-      set(desc) {
-        this.$store.dispatch('setUser', { id: this.id, desc })
+      set(review) {
+        this.$store.dispatch('setUser', { id: this.id, review })
       },
     },
     descHasError() {
