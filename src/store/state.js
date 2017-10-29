@@ -25,4 +25,7 @@ export default {
 
   // Map of hash -> User for invitations
   invitationHashes: {},
+
+  // List of rooms you are in
+  rooms: [],
 }

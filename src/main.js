@@ -26,6 +26,7 @@ import Quasar, {
   QCardSeparator,
   QCardTitle,
   QCarousel,
+  QChatMessage,
   QField,
   QIcon,
   QInput,
@@ -37,10 +38,12 @@ import Quasar, {
   QPopover,
   QRange,
   QRouteTab,
+  QScrollArea,
   QTabs,
   QToolbar,
   QToolbarTitle,
 } from 'quasar'
+import VueChatScroll from 'vue-chat-scroll'
 import router from './router'
 import store from './store'
 
@@ -55,6 +58,7 @@ Vue.use(Quasar, {
     QCardSeparator,
     QCardTitle,
     QCarousel,
+    QChatMessage,
     QField,
     QIcon,
     QInput,
@@ -66,12 +70,14 @@ Vue.use(Quasar, {
     QPopover,
     QRange,
     QRouteTab,
+    QScrollArea,
     QTabs,
     QToolbar,
     QToolbarTitle,
   },
 })
 Vue.use(Quasar) // Install Quasar Framework
+Vue.use(VueChatScroll)
 
 if (__THEME === 'mat') {
   require('quasar-extras/roboto-font')
