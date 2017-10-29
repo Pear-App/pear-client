@@ -91,13 +91,15 @@ export default {
     const invitations = data.inviter.map(_ => _.id)
 
     const me = data.id
+    const rooms = data.rooms
     delete data.friend
     delete data.single
     delete data.inviter
+    delete data.rooms
     data.isMe = true
     users[me] = data
 
-    commit('initialise', { users, me, friends, singles, invitations })
+    commit('initialise', { users, me, friends, singles, invitations, rooms })
   },
 
   async fetchUser({ commit }, id) {

@@ -30,13 +30,14 @@ export default {
   },
 
   // Profile
-  initialise(state, { users, me, friends, singles, invitations }) {
+  initialise(state, { users, me, friends, singles, invitations, rooms }) {
     users.new = state.users.new
     state.users = users
     state.me = me
     state.friends = friends
     state.singles = singles
     state.invitations = invitations
+    state.rooms = rooms
   },
   setUser(state, user) {
     if (state.users[user.id] == null)

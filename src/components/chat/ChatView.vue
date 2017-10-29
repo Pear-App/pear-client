@@ -1,7 +1,7 @@
 <template>
   <div class="chat-bg">
     <div class="row justify-center chat-header">
-      Person Name {{roomId}}
+      {{ currentRoom.otherPerson.facebookName }}
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
         <q-chat-message
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -95,12 +97,10 @@ export default {
   },
 
   computed: {
-    roomId() {
-      const user = this.$store.state.users[this.id]
-      if (!user) {
-        return ''
-      }
-      return user.rooms[0].id
+    currentRoom: function() {
+      return this.$store.state.rooms.find(
+        room => room.otherPerson.id == this.id
+      )
     },
   },
 
