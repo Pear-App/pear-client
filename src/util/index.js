@@ -76,7 +76,7 @@ export function initialUser(id) {
     age: 18,
     minAge: 18,
     maxAge: 80,
-    desc: '',
+    review: '',
     interests: '',
     facebookName: '',
     facebookId: '',
