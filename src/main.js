@@ -15,9 +15,11 @@ import 'whatwg-fetch'
 import './util/polyfill'
 import './util/facebookSdk'
 import './util/cordova'
+import { SOCKET_URL } from './constants'
 
 import Vue from 'vue'
 import Quasar, {
+  Toast,
   QBtn,
   QCard,
   QCardActions,
@@ -33,6 +35,7 @@ import Quasar, {
   QItem,
   QItemMain,
   QItemSide,
+  QItemTile,
   QLayout,
   QList,
   QPopover,
@@ -44,12 +47,16 @@ import Quasar, {
   QToolbarTitle,
 } from 'quasar'
 import VueChatScroll from 'vue-chat-scroll'
+import VueSocketio from 'vue-socket.io'
+import escapeHtml from 'escape-html'
 import router from './router'
 import store from './store'
 
+Vue.prototype.$escapeHtml = escapeHtml
 Vue.config.productionTip = false
 Vue.use(Quasar, {
   components: {
+    Toast,
     QBtn,
     QCard,
     QCardActions,
@@ -65,6 +72,7 @@ Vue.use(Quasar, {
     QItem,
     QItemMain,
     QItemSide,
+    QItemTile,
     QLayout,
     QList,
     QPopover,
@@ -78,6 +86,7 @@ Vue.use(Quasar, {
 })
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueChatScroll)
+Vue.use(VueSocketio, SOCKET_URL)
 
 if (__THEME === 'mat') {
   require('quasar-extras/roboto-font')

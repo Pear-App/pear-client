@@ -1,6 +1,7 @@
-<template>
+<template v-if="currentRoom != null">
   <div class="chat-bg">
     <div class="row justify-center chat-header">
+      <!-- <q-btn class="col-2" icon="arrow back"/> -->
       {{ currentRoom.otherPerson.facebookName }}
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
@@ -8,11 +9,11 @@
           v-for="msg in messages"
           :key="msg"
           :label="msg.label"
-          :sent="true"
+          :sent="msg.ownerId === me.id"
           text-color="grey-8"
           bg-color="brown-1"
-          :avatar="msg.avatar"
-          :text="msg.text"
+          :avatar="avatarUrl(msg.ownerId)"
+          :text="[$escapeHtml(msg.text)]"
           class="chat-message-bg"
         />
     </q-scroll-area>
@@ -39,72 +40,91 @@
 
 <script>
 import { mapState } from 'vuex'
+import { get, post, log } from '../../util'
 
 export default {
   data() {
     return {
       message: '',
-      messages: [
-        {
-          label: 'Sunday, 19th',
-        },
-        {
-          name: 'Vladimir',
-          text: ['How are you?'],
-          avatar: 'statics/quasar-logo.png',
-          stamp: 'Yesterday 13:34',
-        },
-        {
-          name: 'Jane',
-          text: ["I'm good, thank you!", 'And you?'],
-          sent: true,
-          avatar: 'statics/quasar-logo.png',
-          stamp: 'Yesterday at 13:50',
-        },
-        {
-          name: 'Jane',
-          text: ['And you?'],
-          sent: true,
-          avatar: 'statics/quasar-logo.png',
-          stamp: 'Yesterday at 13:51',
-        },
-        {
-          label: 'Sunday, 19th',
-        },
-        {
-          name: 'Vladimir',
-          text: ['Fine. Nice weather today, right?', 'Hmm...'],
-          avatar: 'statics/quasar-logo.png',
-          stamp: '13:55',
-        },
-      ],
+      messages: [],
+      // Example for adding labels in the future
+      // messages: [
+      //   {
+      //     label: 'Sunday, 19th',
+      //   },
+      //   {
+      //     name: 'Vladimir',
+      //     text: ['How are you?'],
+      //     avatar: 'statics/quasar-logo.png',
+      //     stamp: 'Yesterday 13:34',
+      //   },
+      // ],
     }
   },
 
+  async created() {
+    console.log(this.currentRoom)
+    if (!this.currentRoom) {
+      return
+    }
+    this.$socket.emit('subscribe', [this.currentRoom.id])
+    const [messages, err] = await get(`/room/${this.currentRoom.id}/messages`)
+    if (err != null) {
+      log(err)
+    } else {
+      this.messages = messages
+    }
+  },
+
+  sockets: {
+    message: function(message) {
+      this.messages.push({
+        text: message.text,
+        avatar: 'statics/quasar-logo.png',
+        ownerId: message.ownerId,
+      })
+    },
+  },
+
   methods: {
-    sendMessage() {
-      if (this.message == '') {
+    async sendMessage() {
+      if (this.message === '') {
         return
       }
-      this.messages.push({
-        name: 'Si Kai',
-        text: [this.message],
-        avatar: 'statics/quasar-logo.png',
-        stamp: 'Today now',
+      const [_, err] = await post(`/room/${this.currentRoom.id}/messages`, {
+        message: this.message,
       })
-      this.message = ''
+      if (err != null) {
+        log(err)
+        Toast.create.negative({
+          html:
+            'Sorry, something went wrong with sending out your message. Try entering the chat again.',
+        })
+      } else {
+        this.message = ''
+      }
+    },
+    avatarUrl(userId) {
+      const facebookId =
+        userId === this.me.id
+          ? this.me.facebookId
+          : this.currentRoom.otherPerson.facebookId
+      return `https://graph.facebook.com/${facebookId}/picture?type=large`
     },
   },
 
   computed: {
     currentRoom: function() {
       return this.$store.state.rooms.find(
-        room => room.otherPerson.id == this.id
+        room => room.otherPerson.id === parseInt(this.otherPersonId, 10)
       )
     },
+    ...mapState({
+      me: ({ users, me }) => users[me],
+    }),
   },
 
-  props: ['id'],
+  props: ['otherPersonId'],
 }
 </script>
 

@@ -100,6 +100,7 @@ export default {
     users[me] = data
 
     commit('initialise', { users, me, friends, singles, invitations, rooms })
+    return Promise.resolve()
   },
 
   async fetchUser({ commit }, id) {
