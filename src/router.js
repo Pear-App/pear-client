@@ -42,7 +42,12 @@ const router = new VueRouter({
         { path: 'profile', component: load('user/Profile') },
         { path: 'profile/edit', component: load('user/EditProfile') },
         { path: 'swipe', component: load('user/Swipe') },
-        { path: 'chat', component: load('chat/ChatView') },
+        { path: 'chat', component: load('chat/ChatRoomList') },
+        {
+          path: 'chat/:otherPersonId',
+          component: load('chat/ChatView'),
+          props: true,
+        },
       ],
     },
 

@@ -31,7 +31,7 @@
       <sidebar slot="left" @close="$refs.layout.hideLeft()" />
     </div>
 
-    <router-view />
+    <router-view v-if="doneInitialFetch" />
 
     <q-toolbar slot="footer" class="text-tertiary bg-white">
       <q-toolbar-title>
@@ -55,7 +55,9 @@ export default {
   components: { Sidebar },
 
   data() {
-    return {}
+    return {
+      doneInitialFetch: false,
+    }
   },
 
   computed: mapState({
@@ -72,7 +74,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('fetchMe')
+    this.$store.dispatch('fetchMe').then(() => (this.doneInitialFetch = true))
   },
 }
 </script>
