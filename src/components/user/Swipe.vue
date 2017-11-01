@@ -2,9 +2,13 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <loader v-if="matches == null"/>
   <div v-else-if="matches.length === 0">
+    <div class="header-bg bg-secondary"></div>
+
     There's nothing here...
   </div>
   <div v-else>
+    <div class="header-bg bg-secondary"></div>
+
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
       <transition name="scale">
         <div v-if="matches.length !== 0" class="person" :data-id="matches[0].id" :key="matches[0].id">
@@ -244,4 +248,15 @@ $padding = 16px
 
 .expand-y-enter, .expand-y-leave-to
   max-height 0
+
+.header-bg
+  position fixed
+  z-index -100
+  top 0
+  left -2%
+  width 104%
+  height 200px
+  border-radius 53px
+  transition-delay 0.25s
+
 </style>

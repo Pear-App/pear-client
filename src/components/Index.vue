@@ -1,8 +1,6 @@
 <template>
   <!-- Configure "view" prop for QLayout -->
   <q-layout ref="layout" view="lHr LpR lfr" class="layout" :class="{ matchmaker: isMatchmakerMode, dater: !isMatchmakerMode }">
-    <div class="header-bg bg-secondary"></div>
-
     <div slot="header">
       <q-toolbar slot="header" class="text-tertiary bg-secondary">
         <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
@@ -29,11 +27,11 @@
       </q-toolbar>
 
       <q-toolbar slot="header" class="text-tertiary bg-secondary">
-        <q-toolbar-title v-if="isMatchmakerMode && user != null" class="user">
+        <q-toolbar-title v-if="isMatchmakerMode && user != null && user.facebookId != null" class="user">
           <img class="photo" :src="`https://graph.facebook.com/${user.facebookId}/picture?type=large`" width="32" height="32">
           <span class="name">{{ user.facebookName }}</span>
         </q-toolbar-title>
-        <q-toolbar-title v-else class="user">
+        <q-toolbar-title v-else-if="me != null && me.facebookId != null" class="user">
           <img class="photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
           <span class="name">{{ me.facebookName }}</span>
         </q-toolbar-title>
@@ -113,16 +111,6 @@ export default {
     vertical-align middle
     margin-right 2px
     border-radius 100%
-
-.header-bg
-  position fixed
-  z-index -100
-  top 0
-  left -2%
-  width 104%
-  height 200px
-  border-radius 53px
-  transition-delay 0.25s
 
 .q-toolbar
   transition-delay 0.25s
