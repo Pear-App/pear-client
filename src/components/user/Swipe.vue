@@ -4,11 +4,11 @@
   <div v-else-if="matches.length === 0">
     <div class="header-bg bg-secondary"></div>
 
-    There's nothing here...
   </div>
   <div v-else>
     <div class="header-bg bg-secondary"></div>
 
+    <div class="person placeholder"></div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
       <transition name="scale">
         <div v-if="matches.length !== 0" class="person" :data-id="matches[0].id" :key="matches[0].id">
@@ -170,9 +170,16 @@ $padding = 16px
   background-color black
   width calc(100% - 20px)
   height calc(100% - 20px)
-  border-radius 10px
+  border-radius 25px
   box-shadow 0 2px 8px rgba(0, 0, 0, 0.3)
   overflow hidden
+
+  &.placeholder
+    top 40px
+    left 40px
+    background-color white
+    width calc(100% - 80px)
+    height calc(100% - 80px)
 
   .picture
     position absolute
@@ -189,7 +196,7 @@ $padding = 16px
 
   .profile
     background-color white
-    border-radius 10px
+    border-radius 25px
     padding $padding 0
     bottom 10px
     box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
