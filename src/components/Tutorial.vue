@@ -7,7 +7,7 @@
       </q-toolbar-title>
     </q-toolbar>
 
-    <q-carousel arrows dots>
+    <q-carousel dots>
       <div slot="slide" class="slide">
         <div class="tutorial bg-secondary">
           <p class="title">For Matchmakers,</p>
