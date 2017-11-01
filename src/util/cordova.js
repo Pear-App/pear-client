@@ -7,6 +7,12 @@ document.addEventListener('deviceready', () => {
     global.FB.login = global.FB.login.papp(['public_profile', 'user_photos'])
   }
 
+  if (typeof FCMPlugin !== 'undefined') {
+    window.FCMPlugin.getToken(function(token) {
+      global.fcmToken = token
+    })
+  }
+
   // Universal Links
   /* global universalLinks */
   universalLinks.subscribe('launchFromLink', data =>

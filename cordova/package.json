@@ -16,7 +16,8 @@
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-whitelist": "^1.3.2",
     "cordova-plugin-x-socialsharing": "^5.2.1",
-    "es6-promise-plugin": "^4.1.1"
+    "es6-promise-plugin": "^4.1.1",
+    "cordova-plugin-fcm": "~2.1.2"
   },
   "cordova": {
     "plugins": {
@@ -32,7 +33,8 @@
         "APP_ID": "2012482058985830",
         "APP_NAME": "Pear"
       },
-      "cordova-plugin-x-socialsharing": {}
+      "cordova-plugin-x-socialsharing": {},
+      "cordova-plugin-fcm": {}
     },
     "platforms": [
       "android",

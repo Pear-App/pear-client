@@ -9,6 +9,7 @@ export default {
     if (status === 'connected') {
       const [data, err] = await post('/authenticate', {
         fbToken: authResponse.accessToken,
+        fcmToken: global.fcmToken,
       })
       // TODO: catch error
       if (err != null) log(err)
