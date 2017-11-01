@@ -21,16 +21,16 @@ export default {
 
   computed: {
     user() {
-      console.log(this.id)
       return this.$store.state.users[this.id]
     },
   },
 
   methods: {
     async shareInvitationLink() {
-      const url = window.cordova == null
-        ? `${window.location.host}/#/join/${this.user.id}`
-        : `https://pear.netlify.com/invite/${this.user.id}`
+      const url =
+        window.cordova == null
+          ? `${window.location.host}/#/join/${this.user.id}`
+          : `https://pear.netlify.com/invite/${this.user.id}`
       if (navigator.share) {
         try {
           navigator.share({

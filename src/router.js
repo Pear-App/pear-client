@@ -28,12 +28,9 @@ const router = new VueRouter({
     {
       path: '/',
       redirect: to => {
-        const isMatchmaker = store.state.isMatchmakerMode
-        if (!isMatchmaker) {
+        if (store.state.friends.length > 0) {
           return `user/${store.state.me}/swipe`
-        }
-        const hasSingles = store.state.singles.length > 0
-        if (hasSingles) {
+        } else if (store.state.singles.length > 0) {
           return `user/${store.state.singles[0]}/swipe`
         } else {
           return `invite/1`

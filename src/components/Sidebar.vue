@@ -1,11 +1,13 @@
 <template>
   <loader v-if="me == null || singles == null || friends == null"/>
   <div v-else>
-    <div class="media" :style="{ 'background-image': `url(https://graph.facebook.com/${me.facebookId}/picture?type=large)` }">
-      <big class="name text-light">{{ me.facebookName }}</big>
-    </div>
-    <q-list v-if="isMatchmakerMode" no-border link inset-delimiter>
-      <q-list-header>Friends you Matchmake</q-list-header>
+    <q-list no-border link inset-delimiter>
+      <q-side-link item :key="me.id" :to="`/user/${me.id}/profile`">
+        <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
+        <q-item-main>
+          {{ me.facebookName }}
+        </q-item-main>
+      </q-side-link>
       <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/profile`">
         <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
         <q-item-main>
@@ -15,7 +17,7 @@
       <q-side-link item v-for="person in invitations" :key="person.id" :to="`/user/${person.id}/profile`">
         <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
         <q-item-main>
-          {{ person.nickname }} ({{ person.status }})
+          {{ person.nickname }} ({{ person.status ==='P' ? 'Pending' : 'Declined' }})
         </q-item-main>
       </q-side-link>
       <q-side-link item key="addInvitation" :to="'/invite/1'">
@@ -24,20 +26,14 @@
           Recommend for a friend!
         </q-item-main>
       </q-side-link>
-      <q-item key="logout" @click="$store.dispatch('logout')">
-        <q-item-main>
-          Log out
-        </q-item-main>
-      </q-item>
-    </q-list>
-    <q-list v-else no-border link inset-delimter>
       <q-item item key="shareLink" to="" @click="shareLink">
-        <q-item-side icon="add" />
+        <q-item-side icon="share" />
         <q-item-main>
           Get Friends to Matchmake You!
         </q-item-main>
       </q-item>
       <q-item key="logout" @click="$store.dispatch('logout')">
+        <q-item-side icon="exit_to_app" />
         <q-item-main>
           Log out
         </q-item-main>
@@ -77,7 +73,6 @@ export default {
     singles: ({ users, singles }) => singles.map(_ => users[_]),
     friends: ({ users, friends }) => friends.map(_ => users[_]),
     invitations: ({ users, invitations }) => invitations.map(_ => users[_]),
-    isMatchmakerMode: ({ isMatchmakerMode }) => isMatchmakerMode,
   }),
 
   methods: {
