@@ -66,11 +66,11 @@ export default {
     if (err != null) return log(err)
     const users = {}
 
-    data.friend.map(_ => {
+    data.friend.forEach(_ => {
       _.isFriend = true
       users[_.id] = _
     })
-    data.single.map(_ => {
+    data.single.forEach(_ => {
       _.isSingle = true
       if (users[_.id] != null) {
         users[_.id] = { ...users[_.id], ..._ }
@@ -78,7 +78,7 @@ export default {
         users[_.id] = _
       }
     })
-    data.inviter.map(_ => {
+    data.inviter.forEach(_ => {
       _.isInvitation = true
       users[_.id] = _
     })

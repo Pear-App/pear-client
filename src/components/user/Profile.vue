@@ -17,6 +17,12 @@
 
       <p>
         <small class="caption text-primary">What my friends say about me</small><br>
+        <q-list no-border sparse>
+          <q-item v-for="friend in user.friend" class="no-padding">
+            <q-item-side :avatar="`https://graph.facebook.com/${friend.facebookId}/picture?type=large`" />
+            <q-item-main>{{ friend.Friendships.review }}</q-item-main>
+          </q-item>
+        </q-list>
       </p>
     </q-card-main>
   </q-card>

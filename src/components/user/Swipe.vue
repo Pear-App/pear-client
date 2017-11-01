@@ -1,10 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <loader v-if="matches == null"/>
-  <div v-else-if="matches.length === 0">
-    <div class="header-bg bg-secondary"></div>
-
-  </div>
   <div v-else>
     <div class="header-bg bg-secondary"></div>
 
@@ -23,10 +19,15 @@
               <div v-show="isProfileExpanded" class="expanded-profile">
                 <hr>
                 <div class="expanded-profile-content">
-                  <p class="caption">About</p>
-                  <p>Hello world</p>
-                  <p class="caption">What my friends say about me</p>
-                  <p>Hello world</p>
+                  <small class="caption text-primary">What my friends say about me</small><br>
+                  <p>{{ matches[0].desc }}</p>
+                  <small class="caption text-primary">What my friends say about me</small><br>
+                  <q-list no-border sparse>
+                    <q-item v-for="friend in matches[0].friend" class="no-padding">
+                      <q-item-side :avatar="`https://graph.facebook.com/${friend.facebookId}/picture?type=large`" />
+                      <q-item-main>{{ friend.Friendships.review }}</q-item-main>
+                    </q-item>
+                  </q-list>
                 </div>
               </div>
             </transition>
@@ -215,11 +216,6 @@ $padding = 16px
       padding 0 $padding
       display block
       font-size 1em
-
-    .caption
-      color darken($primary, 10%)
-      margin-top 0
-      margin-bottom 0.1em
 
     .content
       margin-bottom 1.5em
