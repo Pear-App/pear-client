@@ -1,9 +1,13 @@
 <template>
-  <div class="chat-bg">
+  <div>
+    <div class="header-padding"></div>
     <q-scroll-area class="chat-list-size">
-      <router-link v-for="room in rooms" :key="room.id" :to="`/user/${me.id}/chat/${room.otherPerson.id}`">
-        <chat-room :otherPerson="room.otherPerson"/>
-      </router-link>
+      <q-list class="chat-list-bg" no-border highlight inset-separator>
+        <q-list-header>Matchmaker Squad</q-list-header>
+        <chat-room v-for="room in matchmakerRooms" :key="room.id" :id="id" :otherPerson="room.otherPerson"/>
+        <q-list-header>Daters</q-list-header>
+        <chat-room v-for="room in daterRooms" :key="room.id" :id="id" :otherPerson="room.otherPerson"/>
+      </q-list>
     </q-scroll-area>
   </div>
 </template>
@@ -23,13 +27,14 @@ export default {
 
   methods: {},
 
-  computed: {
-    ...mapState({
-      me: ({ users, me }) => users[me],
-      isMatchmakerMode: ({ isMatchmakerMode }) => isMatchmakerMode,
-      rooms: ({ rooms }) => rooms,
-    }),
-  },
+  computed: mapState({
+    rooms: ({ rooms }) => rooms,
+    daterRooms: ({ rooms }) => rooms.filter(room => room.isMatch),
+    matchmakerRooms: ({ rooms, friends }) =>
+      rooms.filter(
+        room => !room.isMatch && friends.includes(room.otherPerson.id)
+      ),
+  }),
 
   props: ['id'],
 }
@@ -38,9 +43,13 @@ export default {
 <style lang="stylus" scoped>
 @import '~src/themes/app.variables'
 
-.chat-bg
-  background-color: $chatBg
 .chat-list-size
   height: calc(97vh - 110px)
-  padding:1.5vw 1.5vw
+  padding: 1.5vw 0vw
+  background-color: $chatBg
+.chat-list-bg
+  padding: 0px
+// .header-padding
+//   height: 6vh
+//   background-color: $primary
 </style>

@@ -63,7 +63,6 @@ export default {
   },
 
   async created() {
-    console.log(this.currentRoom)
     if (!this.currentRoom) {
       return
     }
