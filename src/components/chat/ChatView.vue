@@ -9,7 +9,7 @@
           v-for="msg in messages"
           :key="msg"
           :label="msg.label"
-          :sent="msg.ownerId === me.id"
+          :sent="msg.ownerId === parseInt(me.id, 10)"
           text-color="grey-8"
           bg-color="brown-1"
           :avatar="avatarUrl(msg.ownerId)"
@@ -105,7 +105,7 @@ export default {
     },
     avatarUrl(userId) {
       const facebookId =
-        userId === this.me.id
+        userId === parseInt(this.me.id, 10)
           ? this.me.facebookId
           : this.currentRoom.otherPerson.facebookId
       return `https://graph.facebook.com/${facebookId}/picture?type=large`
