@@ -15,10 +15,10 @@
 
           <q-popover ref="popover" anchor="bottom middle" self="top middle">
             <q-list item-separator link>
-              <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: true }), $refs.popover.close()">
+              <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: true }), $router.push('/'),  $refs.popover.close()">
                 Matchmaker
               </q-item>
-              <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: false }), $refs.popover.close()">
+              <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: false }), $router.push('/'),  $refs.popover.close()">
                 Dater
               </q-item>
             </q-list>

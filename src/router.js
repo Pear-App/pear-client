@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { log } from './util'
+import store from './store'
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,21 @@ const router = new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Loader') },
+    {
+      path: '/',
+      redirect: to => {
+        const isMatchmaker = store.state.isMatchmakerMode
+        if (!isMatchmaker) {
+          return `user/${store.state.me}/swipe`
+        }
+        const hasSingles = store.state.singles.length > 0
+        if (hasSingles) {
+          return `user/${store.state.singles[0]}/swipe`
+        } else {
+          return `invite/1`
+        }
+      },
+    },
     { path: '/login', component: load('Login') },
 
     // Users
