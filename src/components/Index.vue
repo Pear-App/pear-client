@@ -4,7 +4,7 @@
     <div slot="header">
       <q-toolbar slot="header" class="text-tertiary bg-secondary">
         <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
-          <img src="~assets/overflow.png" width="32" height="32">
+          <img src="~assets/overflow.png" width="24" height="24">
         </q-btn>
 
         <q-toolbar-title>
