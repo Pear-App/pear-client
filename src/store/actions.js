@@ -122,7 +122,7 @@ export default {
     const [invitation, err] = await post('/invitation', state.users.new)
     if (err != null) return log(err)
     commit('addInvitation', invitation)
-    router.push(`/user/${invitation.id}`)
+    router.push(`/user/${invitation.id}/profile`)
   },
 
   async fetchInvitation({ state, commit }, hash) {
