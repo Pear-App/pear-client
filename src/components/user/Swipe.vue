@@ -1,7 +1,7 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <loader v-if="matches == null"/>
-  <div v-else>
+  <div class="wrapper" v-else>
     <div class="header-bg bg-secondary"></div>
 
     <div class="person placeholder"></div>
@@ -168,7 +168,7 @@ $padding = 16px
   position absolute
   top 10px
   left 10px
-  background-color black
+  background-color #bbbbbb
   width calc(100% - 20px)
   height calc(100% - 20px)
   border-radius 25px
@@ -252,14 +252,27 @@ $padding = 16px
 .expand-y-enter, .expand-y-leave-to
   max-height 0
 
-.header-bg
-  position fixed
-  z-index -100
-  top 0
-  left -2%
-  width 104%
-  height 200px
-  border-radius 53px
-  transition-delay 0.25s
+.wrapper
+  overflow-x hidden
+
+  .header-bg
+    position absolute
+    z-index -100
+    top -10vw
+    left -20vw
+    width 140vw
+    height 60vw
+    border-radius 0 0 50vw 50vw
+    transition-delay 0.25s
+    animation slide 0.5s
+
+@keyframes slide
+  0%
+    transform translateY(-100%)
+    border-radius 0
+
+  100%
+    transform translateY(0)
+    border-radius 0 0 50vw 50vw
 
 </style>
