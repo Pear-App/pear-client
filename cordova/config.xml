@@ -43,4 +43,6 @@
         <variable name="APP_NAME" value="Pear" />
     </plugin>
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
+    <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
+    <plugin name="cordova-universal-links-plugin" spec="git+https://github.com/martindrapeau/cordova-universal-links-plugin.git#22225179a5debfcff801e306eb1bf5477200aeda" />
 </widget>
