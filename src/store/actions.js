@@ -105,19 +105,26 @@ export default {
     commit('setUser', user)
   },
 
-  async setUser({ commit }, user) {
+  async setUser({ state, commit }, user) {
+    commit('setUser', user)
     if (user.id != null && user.id !== 'new') {
-      const [, err] = await post(`/user/${user.id}/edit`, user)
+      const [, err] = await post(`/user/${user.id}/edit`, {
+        ...state.users[user.id],
+        ...user,
+      })
       if (err != null) return log(err)
     }
-    commit('setUser', user)
   },
 
   // Invitations
   async addInvitation({ state, commit }) {
     const [invitation, err] = await post('/invitation', state.users.new)
     if (err != null) return log(err)
-    commit('addInvitation', invitation)
+    commit('addInvitation', {
+      ...state.users.new,
+      ...invitation,
+      isInvitation: true,
+    })
     router.push(`/user/${invitation.id}/profile`)
   },
 
@@ -134,6 +141,7 @@ export default {
     const [, err] = await post(`/invitation/${hash}/accept`)
     if (err != null) return log(err)
     commit('acceptInvitation', hash)
+    router.push('/settings')
   },
 
   async deleteInvitation({ commit }, hash) {

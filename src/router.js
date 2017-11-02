@@ -68,7 +68,10 @@ const router = new VueRouter({
     { path: '/invite/2', component: load('invite/2') },
 
     // Invited by friends
-    { path: '/join/:hash', props: true, component: load('Join') },
+    { path: '/join/:hash', props: true, component: load('join/Index') },
+
+    // Settings
+    { path: '/settings', component: load('Settings') },
 
     // Privacy Policy
     { path: '/privacy', component: load('Privacy') },

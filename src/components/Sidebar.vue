@@ -32,6 +32,12 @@
           Get Friends to Matchmake You!
         </q-item-main>
       </q-item>
+      <q-side-link item key="settings" to="" to="/settings">
+        <q-item-side icon="settings" />
+        <q-item-main>
+          Settings
+        </q-item-main>
+      </q-side-link>
       <q-item key="logout" @click="$store.dispatch('logout')">
         <q-item-side icon="exit_to_app" />
         <q-item-main>

@@ -58,7 +58,7 @@ export default {
 
   watch: {
     $route({ params }) {
-      if (this.id !== params.id) {
+      if (this.id !== params.id && params.id != null) {
         this.animating = true
         this.id = params.id
         setTimeout(() => {
