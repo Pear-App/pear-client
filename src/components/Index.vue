@@ -19,7 +19,7 @@
 
     <router-view v-if="doneInitialFetch" />
 
-    <q-toolbar slot="footer" class="text-tertiary bg-white">
+    <q-toolbar v-if="id != null" slot="footer" class="text-tertiary bg-white">
       <q-toolbar-title>
         <keep-alive>
           <router-view name="footer" />
@@ -71,25 +71,33 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../themes/app.variables'
+@import '../themes/app.variables';
 
-.user-photo
-  margin-left -2px
-  border-radius 100%
+.user-photo {
+  margin-left: -2px;
+  border-radius: 100%;
+  transition-delay: 0.25s;
+}
 
-  transition-delay 0.25s
+.layout {
+  perspective: 800px;
+}
 
-.layout
-  perspective 800px
+.animating {
+  animation: flip 0.5s;
+}
 
-.animating
-  animation flip 0.5s
+@keyframes flip {
+  50% {
+    transform: perspective(600px) rotateY(90deg);
+  }
 
-@keyframes flip
-  50%
-    transform perspective(600px) rotateY(90deg)
-  50.01%
-    transform perspective(600px) rotateY(-90deg)
-  100%
-    transform perspective(600px) rotateY(0deg)
+  50.01% {
+    transform: perspective(600px) rotateY(-90deg);
+  }
+
+  100% {
+    transform: perspective(600px) rotateY(0deg);
+  }
+}
 </style>
