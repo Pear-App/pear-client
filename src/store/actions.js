@@ -107,7 +107,7 @@ export default {
 
   async setUser({ commit }, user) {
     if (user.id != null && user.id !== 'new') {
-      const [, err] = post(`/user/${user.id}/edit`, user)
+      const [, err] = await post(`/user/${user.id}/edit`, user)
       if (err != null) return log(err)
     }
     commit('setUser', user)
@@ -131,13 +131,26 @@ export default {
   },
 
   async acceptInvitation({ commit }, hash) {
-    const [, err] = post(`/invitation/${hash}/accept`)
+    const [, err] = await post(`/invitation/${hash}/accept`)
     if (err != null) return log(err)
     commit('acceptInvitation', hash)
   },
 
   async deleteInvitation({ commit }, hash) {
-    const [, err] = post(`/invitation/${hash}/accept`)
+    const [, err] = await post(`/invitation/${hash}/accept`)
     if (err != null) return log(err)
+  },
+
+  // Photos
+  async getProfilePictures({ commit }) {
+    const [photos, err] = await get('/photo')
+    if (err != null) return log(err)
+    commit('setPhotos', photos)
+  },
+
+  async choosePhotos({ state, commit }, photos) {
+    const [, err] = await post('/photo', { photoIds: photos })
+    if (err != null) return log(err)
+    commit('setUser', { ...state.users[state.me], photos })
   },
 }

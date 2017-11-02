@@ -23,7 +23,7 @@
                   <p>{{ matches[0].desc }}</p>
                   <small class="caption text-primary">What my friends say about me</small><br>
                   <q-list no-border sparse>
-                    <q-item v-for="friend in matches[0].friend" class="no-padding">
+                    <q-item v-for="friend in matches[0].friend" :key="friend.id" class="no-padding">
                       <q-item-side :avatar="`https://graph.facebook.com/${friend.facebookId}/picture?type=large`" />
                       <q-item-main>{{ friend.Friendships.review }}</q-item-main>
                     </q-item>

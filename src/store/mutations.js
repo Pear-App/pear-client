@@ -64,4 +64,9 @@ export default {
     delete user.id
     Vue.set(state.users, state.me, { ...state.users[state.me], ...user })
   },
+
+  // Photos
+  setPhotos(state, photos) {
+    state.photos = photos
+  },
 }

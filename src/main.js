@@ -20,6 +20,7 @@ import { SOCKET_URL } from './constants'
 import Vue from 'vue'
 import Quasar, {
   Toast,
+  ActionSheet,
   QBtn,
   QCard,
   QCardActions,
@@ -58,6 +59,7 @@ Vue.config.productionTip = false
 Vue.use(Quasar, {
   components: {
     Toast,
+    ActionSheet,
     QBtn,
     QCard,
     QCardActions,

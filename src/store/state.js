@@ -12,6 +12,7 @@ export default {
 
   // My profile
   me: null,
+  photos: [],
 
   // IDs of people trying to match you up
   friends: [],
