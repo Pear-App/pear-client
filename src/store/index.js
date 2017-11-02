@@ -8,9 +8,7 @@ import actions from './actions'
 
 Vue.use(Vuex)
 
-const persist = createPersistedState({
-  paths: ['isLoggedIn', 'hasSeenTutorial', 'jwt', 'me'],
-})
+const persist = createPersistedState()
 
 export default new Vuex.Store({
   state,
