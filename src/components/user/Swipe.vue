@@ -1,8 +1,10 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <loader v-if="matches == null"/>
-  <div class="wrapper" v-else>
-    <div class="header-bg bg-secondary"></div>
+  <div v-else>
+    <div class="wrapper">
+      <div class="header-bg bg-secondary"></div>
+    </div>
 
     <div class="person placeholder"></div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
@@ -253,15 +255,18 @@ $padding = 16px
   max-height 0
 
 .wrapper
+  position absolute
+  top -10vw
+  width 100vw
+  height 50vw
   overflow-x hidden
 
   .header-bg
-    position absolute
+    display inline-block
     z-index -100
-    top -10vw
-    left -20vw
+    margin-left -20vw
     width 140vw
-    height 60vw
+    height 50vw
     border-radius 0 0 50vw 50vw
     transition-delay 0.25s
     animation slide 0.5s
