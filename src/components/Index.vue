@@ -1,6 +1,6 @@
 <template>
   <!-- Configure "view" prop for QLayout -->
-  <q-layout ref="layout" view="lHr LpR lfr" class="layout" :class="{ animating }">
+  <q-layout ref="layout" view="lHr LpR lFr" class="layout" :class="{ animating }">
     <q-toolbar slot="header" class="text-tertiary bg-secondary">
       <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()" style="padding:8px;margin-left:-6px">
         <img src="~assets/overflow.png" width="24" height="24">
@@ -62,11 +62,11 @@ export default {
     $route({ params }) {
       if (this.id !== params.id && params.id != null) {
         this.animating = true
-        this.id = params.id
         setTimeout(() => {
           this.animating = false
         }, 500)
       }
+      this.id = params.id
     },
   },
 }

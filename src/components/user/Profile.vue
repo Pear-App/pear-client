@@ -2,13 +2,20 @@
   <loader v-if="user == null" />
   <invitation :id="id" v-else-if="user.isInvitation" />
   <q-card v-else class="person no-margin">
-    <q-card-media>
+    <q-card-media v-if="user.isMe">
       <div v-if="user.photos != null" class="row photos">
         <div v-for="(photo, i) in user.photos" :key="photo" class="col-4">
           <img class="photo" :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`" @click="choosePhotos(i)">
         </div>
         <div v-if="user.photos.length < 6" class="col-4" @click="choosePhotos(user.photos.length)">
           <img class="photo" src="~assets/add-photo.png">
+        </div>
+      </div>
+    </q-card-media>
+    <q-card-media v-else>
+      <div v-if="user.photos != null" class="row photos">
+        <div v-for="(photo, i) in user.photos" :key="photo" class="col-4">
+          <img class="photo" :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`">
         </div>
       </div>
     </q-card-media>

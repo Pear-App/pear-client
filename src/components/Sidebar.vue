@@ -1,6 +1,6 @@
 <template>
   <loader v-if="me == null || singles == null || friends == null"/>
-  <div v-else>
+  <q-scroll-area v-else>
     <q-list no-border link inset-delimiter>
       <q-side-link item :key="me.id" :to="`/user/${me.id}/profile`">
         <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
@@ -45,7 +45,7 @@
         </q-item-main>
       </q-item>
     </q-list>
-  </div>
+  </q-scroll-area>
 </template>
 
 <script>
