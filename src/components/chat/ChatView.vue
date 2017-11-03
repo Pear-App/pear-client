@@ -5,17 +5,23 @@
       {{ currentRoom.otherPerson.facebookName }}
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
-        <q-chat-message
-          v-for="msg in messages"
-          :key="msg"
-          :label="msg.label"
-          :sent="msg.ownerId === parseInt(me.id, 10)"
-          text-color="grey-8"
-          bg-color="brown-1"
-          :avatar="avatarUrl(msg.ownerId)"
-          :text="[$escapeHtml(msg.text)]"
-          class="chat-message-bg"
-        />
+       <template v-for="(msg, index) in messages">
+         <q-chat-message
+           v-if ="msg.isEvent"
+           :key="index"
+           :label="$escapeHtml(msg.text)"
+           class="chat-event-bg text-grey-9"
+         />
+         <q-chat-message
+           v-if ="!msg.isEvent"
+           :key="index"
+           :sent="msg.ownerId === parseInt(me.id, 10)"
+           text-color="grey-8"
+           bg-color="brown-1"
+           :avatar="avatarUrl(msg.ownerId)"
+           :text="[$escapeHtml(msg.text)]"
+         />
+       </template>
     </q-scroll-area>
     <q-input class="message-input"
       v-model.trim="message"
@@ -141,4 +147,10 @@ export default {
 .chat-size
   height: calc(97vh - 200px)
   padding:1.5vw 3vw
+.chat-event-bg
+  background-color: $primary
+  border-radius: 20px
+  font-weight: 500
+  width: 90%
+  margin-left: 5%
 </style>
