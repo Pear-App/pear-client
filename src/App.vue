@@ -46,8 +46,7 @@ body
   font-family Montserrat, sans-serif
 
 .layout-header
-  border none
-
 .layout-footer
   border none
+  box-shadow none
 </style>

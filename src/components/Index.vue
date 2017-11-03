@@ -98,6 +98,9 @@ export default {
 <style lang="stylus" scoped>
 @import '../themes/app.variables'
 
+.q-toolbar
+  text-align center
+
 .user-photo
   margin-left -2px
   border-radius 100%
