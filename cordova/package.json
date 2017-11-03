@@ -14,7 +14,7 @@
     "cordova-ios": "git+https://github.com/apache/cordova-ios.git",
     "cordova-plugin-crosswalk-webview": "^2.3.0",
     "cordova-plugin-facebook4": "^1.9.1",
-    "cordova-plugin-splashscreen": "^4.0.3",
+    "cordova-plugin-statusbar": "git+https://github.com/apache/cordova-plugin-statusbar.git",
     "cordova-plugin-whitelist": "^1.3.2",
     "cordova-plugin-x-socialsharing": "^5.2.1",
     "cordova-universal-links-plugin": "git+https://github.com/martindrapeau/cordova-universal-links-plugin.git#22225179a5debfcff801e306eb1bf5477200aeda",
@@ -35,8 +35,8 @@
         "APP_NAME": "Pear"
       },
       "cordova-plugin-x-socialsharing": {},
-      "cordova-plugin-splashscreen": {},
-      "cordova-universal-links-plugin": {}
+      "cordova-universal-links-plugin": {},
+      "cordova-plugin-statusbar": {}
     },
     "platforms": [
       "android",

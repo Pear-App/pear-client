@@ -12,4 +12,12 @@ document.addEventListener('deviceready', () => {
   universalLinks.subscribe('launchFromLink', data =>
     console.log('Did launch application from the link: ' + data.url)
   )
+
+  // Statusbar Color
+  /* global StatusBar */
+  if (cordova.platformId === 'android') {
+    StatusBar.backgroundColorByHexString('#e4ce82')
+  } else {
+    StatusBar.backgroundColorByHexString('#fee591')
+  }
 })
