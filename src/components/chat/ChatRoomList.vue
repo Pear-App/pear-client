@@ -44,12 +44,9 @@ export default {
 @import '~src/themes/app.variables'
 
 .chat-list-size
-  height: calc(97vh - 160px)
+  height: calc(97vh - 140px)
   padding: 1.5vw 0vw
   background-color: $chatBg
 .chat-list-bg
   padding: 0px
-// .header-padding
-//   height: 6vh
-//   background-color: $primary
 </style>

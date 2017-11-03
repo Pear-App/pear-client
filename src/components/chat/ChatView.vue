@@ -139,6 +139,6 @@ export default {
   padding-bottom:1.5vh
   background-color: rgb(250,235,187)
 .chat-size
-  height: calc(97vh - 220px)
+  height: calc(97vh - 200px)
   padding:1.5vw 3vw
 </style>

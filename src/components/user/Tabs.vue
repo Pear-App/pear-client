@@ -21,7 +21,7 @@
         c19.161-19.161,50.341-19.159,69.508,0C242.726,115.975,242.848,145.731,224.239,166.417z"/>
       </svg>
     </q-route-tab>
-    <q-route-tab v-if="!user.isInvitation" :to="user.isSingle ? `/user/${id}/chat/${id}` : `/user/${id}/chat`" exact slot="title">
+    <q-route-tab v-if="!user.isInvitation" :to="meId === parseInt(id, 10) ? `/user/${id}/chat` : `/user/${id}/chat/${id}` " exact slot="title">
       <svg width="32px" height="32px" viewBox="0 0 60 60">
         <path d="M30,1.5c-16.542,0-30,12.112-30,27c0,5.204,1.646,10.245,4.768,14.604c-0.591,6.537-2.175,11.39-4.475,13.689
         c-0.304,0.304-0.38,0.769-0.188,1.153C0.275,58.289,0.625,58.5,1,58.5c0.046,0,0.092-0.003,0.139-0.01
@@ -42,6 +42,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.users[this.id]
+    },
+    meId() {
+      return this.$store.state.me
     },
   },
 }
