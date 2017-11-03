@@ -8,8 +8,8 @@
 
     <div class="person placeholder"></div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
-      <transition name="scale">
-        <div v-if="matches.length !== 0" class="person" :data-id="matches[0].id" :key="matches[0].id">
+      <transition v-if="matches.length !== 0" name="scale">
+        <div class="person" :data-id="matches[0].id" :key="matches[0].id">
           <div class="picture" :class="{ expanded: isProfileExpanded }"
                @click="isProfileExpanded = false"
                :style="{ 'background-image': `url(https://graph.facebook.com/${matches[0].facebookId}/picture?type=large)` }">
@@ -174,6 +174,7 @@ $padding = 16px
   width calc(100% - 20px)
   height calc(100% - 20px)
   border-radius 25px
+  z-index 1
   box-shadow 0 2px 8px rgba(0, 0, 0, 0.3)
   overflow hidden
 
