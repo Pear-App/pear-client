@@ -88,9 +88,11 @@ export default {
 
 @keyframes flip
   50%
+    opacity 0
     transform perspective(600px) rotateY(90deg)
 
   50.01%
+    opacity 0
     transform perspective(600px) rotateY(-90deg)
 
   100%
