@@ -17,7 +17,7 @@
       <sidebar slot="left" @close="$refs.layout.hideLeft()" />
     </div>
 
-    <transition name="slide-fade" mode="out-in">
+    <transition name="fade" mode="out-in">
       <keep-alive>
         <router-view v-if="doneInitialFetch" />
       </keep-alive>
@@ -72,20 +72,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../themes/app.variables'
-
-.user-photo
-  margin-left -2px
-  border-radius 100%
-  transition-delay 0.25s
-
-.layout
-  perspective 800px
-
-.animating
-  animation flip 0.5s
-
+<style lang="stylus">
 @keyframes flip
   50%
     opacity 0
@@ -98,12 +85,27 @@ export default {
   100%
     transform perspective(600px) rotateY(0deg)
 
-.slide-fade-enter-active 
+.fade-enter-active 
   transition all .3s ease
 
-.slide-fade-leave-active
+.fade-leave-active
   transition all .3s ease
 
-.slide-fade-enter, .slide-fade-leave-to
+.fade-enter, .fade-leave-to
   opacity 0
+</style>
+
+<style lang="stylus" scoped>
+@import '../themes/app.variables'
+
+.user-photo
+  margin-left -2px
+  border-radius 100%
+  transition-delay 0.25s
+
+.layout
+  perspective 800px
+
+.animating
+  animation flip 0.5s 
 </style>

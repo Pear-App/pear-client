@@ -1,5 +1,9 @@
 <template>
-  <router-view :id="id" />
+  <transition name="fade" mode="out-in">
+    <keep-alive>
+      <router-view :id="id" />
+    </keep-alive>
+  </transition>
 </template>
 
 <script>
