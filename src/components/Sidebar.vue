@@ -2,37 +2,37 @@
   <loader v-if="me == null || singles == null || friends == null"/>
   <q-scroll-area v-else>
     <q-list no-border link inset-delimiter>
-      <q-side-link item :key="me.id" :to="`/user/${me.id}/swipe`">
+      <q-side-link item :key="me.id" replace :to="`/user/${me.id}/swipe`">
         <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
         <q-item-main>
           {{ me.facebookName }}
         </q-item-main>
       </q-side-link>
-      <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/swipe`">
+      <q-side-link item v-for="person in singles" :key="person.id" replace :to="`/user/${person.id}/swipe`">
         <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
         <q-item-main>
           {{ person.facebookName }}
         </q-item-main>
       </q-side-link>
-      <q-side-link item v-for="person in invitations" :key="person.id" :to="`/user/${person.id}/profile`">
+      <q-side-link item v-for="person in invitations" :key="person.id" replace :to="`/user/${person.id}/profile`">
         <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
         <q-item-main>
           {{ person.nickname }} ({{ person.status ==='P' ? 'Pending' : 'Declined' }})
         </q-item-main>
       </q-side-link>
-      <q-side-link item key="addInvitation" :to="'/invite/1'">
+      <q-side-link item key="addInvitation" replace :to="'/invite/1'">
         <q-item-side icon="add" />
         <q-item-main>
           Recommend for a friend!
         </q-item-main>
       </q-side-link>
-      <q-item item key="shareLink" to="" @click="shareLink">
+      <q-item item key="shareLink" @click="shareLink">
         <q-item-side icon="share" />
         <q-item-main>
           Get Friends to Matchmake You!
         </q-item-main>
       </q-item>
-      <q-side-link item key="settings" to="" to="/settings">
+      <q-side-link item key="settings" to="/settings">
         <q-item-side icon="settings" />
         <q-item-main>
           Settings

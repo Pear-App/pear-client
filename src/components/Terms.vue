@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-light">
-    <router-link to="/" class="fixed-bottom-right" style="margin-bottom:16px; margin-right:16px">
+    <router-link replace to="/" class="fixed-bottom-right" style="margin-bottom:16px; margin-right:16px">
         <q-btn icon="arrow back" round big color="primary">
         </q-btn>
     </router-link>
