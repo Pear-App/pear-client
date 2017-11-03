@@ -2,13 +2,13 @@
   <loader v-if="me == null || singles == null || friends == null"/>
   <q-scroll-area v-else>
     <q-list no-border link inset-delimiter>
-      <q-side-link item :key="me.id" :to="`/user/${me.id}/profile`">
+      <q-side-link item :key="me.id" :to="`/user/${me.id}/swipe`">
         <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
         <q-item-main>
           {{ me.facebookName }}
         </q-item-main>
       </q-side-link>
-      <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/profile`">
+      <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/swipe`">
         <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
         <q-item-main>
           {{ person.facebookName }}
