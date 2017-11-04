@@ -17,10 +17,6 @@ export default {
     state.hasSeenTutorial = true
   },
 
-  setMatchmakerMode(state, { isMatchmakerMode }) {
-    state.isMatchmakerMode = isMatchmakerMode
-  },
-
   // Swiping
   removeMatch(state, { id, candidateId }) {
     const index = state.users[id].matches.findIndex(
@@ -67,5 +63,10 @@ export default {
     delete user.inviterId
     delete user.id
     Vue.set(state.users, state.me, { ...state.users[state.me], ...user })
+  },
+
+  // Photos
+  setPhotos(state, photos) {
+    state.photos = photos
   },
 }

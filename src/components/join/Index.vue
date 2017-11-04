@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import { promisify } from '../util'
-
 export default {
   props: ['hash'],
 

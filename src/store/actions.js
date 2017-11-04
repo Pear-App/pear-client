@@ -28,10 +28,6 @@ export default {
     commit('notLoggedIn')
   },
 
-  setMatchmakerMode({ commit }, { isMatchmakerMode }) {
-    commit('setMatchmakerMode', { isMatchmakerMode })
-  },
-
   // Swipe
   async fetchMatches({ state, commit }, id) {
     const user = state.users[id]
@@ -71,11 +67,11 @@ export default {
     if (err != null) return log(err)
     const users = {}
 
-    data.friend.map(_ => {
+    data.friend.forEach(_ => {
       _.isFriend = true
       users[_.id] = _
     })
-    data.single.map(_ => {
+    data.single.forEach(_ => {
       _.isSingle = true
       if (users[_.id] != null) {
         users[_.id] = { ...users[_.id], ..._ }
@@ -83,7 +79,7 @@ export default {
         users[_.id] = _
       }
     })
-    data.inviter.map(_ => {
+    data.inviter.forEach(_ => {
       _.isInvitation = true
       users[_.id] = _
     })
@@ -110,20 +106,27 @@ export default {
     commit('setUser', user)
   },
 
-  async setUser({ commit }, user) {
+  async setUser({ state, commit }, user) {
+    commit('setUser', user)
     if (user.id != null && user.id !== 'new') {
-      const [, err] = post(`/user/${user.id}/edit`, user)
+      const [, err] = await post(`/user/${user.id}/edit`, {
+        ...state.users[user.id],
+        ...user,
+      })
       if (err != null) return log(err)
     }
-    commit('setUser', user)
   },
 
   // Invitations
   async addInvitation({ state, commit }) {
     const [invitation, err] = await post('/invitation', state.users.new)
     if (err != null) return log(err)
-    commit('addInvitation', invitation)
-    router.push(`/user/${invitation.id}`)
+    commit('addInvitation', {
+      ...state.users.new,
+      ...invitation,
+      isInvitation: true,
+    })
+    router.push(`/user/${invitation.id}/profile`)
   },
 
   async fetchInvitation({ state, commit }, hash) {
@@ -136,13 +139,27 @@ export default {
   },
 
   async acceptInvitation({ commit }, hash) {
-    const [, err] = post(`/invitation/${hash}/accept`)
+    const [, err] = await post(`/invitation/${hash}/accept`)
     if (err != null) return log(err)
     commit('acceptInvitation', hash)
+    router.push('/settings')
   },
 
   async deleteInvitation({ commit }, hash) {
-    const [, err] = post(`/invitation/${hash}/accept`)
+    const [, err] = await post(`/invitation/${hash}/accept`)
     if (err != null) return log(err)
+  },
+
+  // Photos
+  async getProfilePictures({ commit }) {
+    const [photos, err] = await get('/photo')
+    if (err != null) return log(err)
+    commit('setPhotos', photos)
+  },
+
+  async choosePhotos({ state, commit }, photos) {
+    const [, err] = await post('/photo', { photoIds: photos })
+    if (err != null) return log(err)
+    commit('setUser', { ...state.users[state.me], photos })
   },
 }

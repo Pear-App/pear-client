@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { log } from './util'
+import store from './store'
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,18 @@ const router = new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Loader') },
+    {
+      path: '/',
+      redirect: to => {
+        if (store.state.friends.length > 0) {
+          return `user/${store.state.me}/swipe`
+        } else if (store.state.singles.length > 0) {
+          return `user/${store.state.singles[0]}/swipe`
+        } else {
+          return `invite/1`
+        }
+      },
+    },
     { path: '/login', component: load('Login') },
 
     // Users
@@ -56,7 +68,10 @@ const router = new VueRouter({
     { path: '/invite/2', component: load('invite/2') },
 
     // Invited by friends
-    { path: '/join/:hash', props: true, component: load('Join') },
+    { path: '/join/:hash', props: true, component: load('join/Index') },
+
+    // Settings
+    { path: '/settings', component: load('Settings') },
 
     // Privacy Policy
     { path: '/privacy', component: load('Privacy') },

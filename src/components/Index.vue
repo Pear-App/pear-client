@@ -1,43 +1,31 @@
 <template>
   <!-- Configure "view" prop for QLayout -->
-  <q-layout ref="layout" view="lHr LpR lfr" class="layout" :class="{ matchmaker: isMatchmakerMode, dater: !isMatchmakerMode }">
-    <div class="header-bg" :class="{ 'bg-secondary': isMatchmakerMode, 'bg-primary': !isMatchmakerMode }"></div>
-
-    <q-toolbar slot="header" class="text-tertiary" :class="{ 'bg-secondary': isMatchmakerMode, 'bg-primary': !isMatchmakerMode }">
-      <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
-        <img v-if="me != null" class="user-photo" :src="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" width="32" height="32">
+  <q-layout ref="layout" view="lHr LpR lFr" class="layout" :class="{ animating }">
+    <q-toolbar slot="header" class="text-tertiary bg-secondary">
+      <q-btn flat class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()" style="padding:8px;margin-left:-6px">
+        <img src="~assets/overflow.png" width="24" height="24">
       </q-btn>
 
       <q-toolbar-title>
         <img class="banner" src="~assets/banner.png" width="86" height="40">
-        <img src="~assets/arrow-down.png" width="12" height="12" style="margin:12px 4px">
-
-        <q-popover ref="popover" anchor="bottom middle" self="top middle">
-          <q-list item-separator link>
-            <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: true }), $refs.popover.close()">
-              Matchmaker
-            </q-item>
-            <q-item @click="$store.dispatch('setMatchmakerMode', { isMatchmakerMode: false }), $refs.popover.close()">
-              Dater
-            </q-item>
-          </q-list>
-        </q-popover>
       </q-toolbar-title>
 
-      <div style="width:38px;margin-right:0.2rem"></div>
+      <div style="width:26px;margin-right:0.2rem"></div>
     </q-toolbar>
 
     <div slot="left">
       <sidebar slot="left" @close="$refs.layout.hideLeft()" />
     </div>
 
-    <router-view v-if="doneInitialFetch" />
+    <transition name="fade" mode="out-in">
+      <keep-alive>
+        <router-view v-if="doneInitialFetch" />
+      </keep-alive>
+    </transition>
 
-    <q-toolbar slot="footer" class="text-tertiary bg-white">
+    <q-toolbar v-if="id != null" slot="footer" class="text-tertiary bg-white">
       <q-toolbar-title>
-        <keep-alive>
-          <router-view name="footer" />
-        </keep-alive>
+        <router-view name="footer" />
       </q-toolbar-title>
     </q-toolbar>
 
@@ -56,69 +44,71 @@ export default {
 
   data() {
     return {
+      id: null,
+      animating: false,
       doneInitialFetch: false,
     }
   },
 
   computed: mapState({
     me: ({ users, me }) => users[me],
-    isMatchmakerMode: ({ isMatchmakerMode }) => isMatchmakerMode,
   }),
-
-  methods: {
-    toggleMatchmakerMode() {
-      this.$store.dispatch('setMatchmakerMode', {
-        isMatchmakerMode: !this.isMatchmakerMode,
-      })
-    },
-  },
 
   mounted() {
     this.$store.dispatch('fetchMe').then(() => (this.doneInitialFetch = true))
   },
+
+  watch: {
+    $route({ params }) {
+      if (this.id !== params.id && params.id != null) {
+        this.animating = true
+        setTimeout(() => {
+          this.animating = false
+        }, 500)
+      }
+      this.id = params.id
+    },
+  },
 }
 </script>
+
+<style lang="stylus">
+@keyframes flip
+  50%
+    opacity 0
+    transform perspective(600px) rotateY(90deg)
+
+  50.01%
+    opacity 0
+    transform perspective(600px) rotateY(-90deg)
+
+  100%
+    transform perspective(600px) rotateY(0deg)
+
+.fade-enter-active 
+  transition all .3s ease
+
+.fade-leave-active
+  transition all .3s ease
+
+.fade-enter, .fade-leave-to
+  opacity 0
+</style>
 
 <style lang="stylus" scoped>
 @import '../themes/app.variables'
 
+.q-toolbar
+  text-align center
+
 .user-photo
   margin-left -2px
   border-radius 100%
-
-.header-bg
-  position fixed
-  z-index -100
-  top 0
-  left -2%
-  width 104%
-  height 159px
-  border-radius 53px
-  transition-delay 0.25s
-
-.q-toolbar
   transition-delay 0.25s
 
 .layout
   perspective 800px
 
-.dater
-  animation dater 0.5s
-.matchmaker
-  animation matchmaker 0.5s
-
-@keyframes dater
-  50%
-    transform perspective(600px) rotateY(90deg)
-  50.01%
-    transform perspective(600px) rotateY(-90deg)
-  100%
-    transform perspective(600px) rotateY(0deg)
-@keyframes matchmaker
-  50%
-    transform perspective(600px) rotateY(90deg)
-  50.01%
-    transform perspective(600px) rotateY(-90deg)
-  100%
-    transform perspective(600px) rotateY(0deg)
+.animating
+  animation flip 0.5s 
 </style>

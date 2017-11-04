@@ -71,6 +71,8 @@ export function initialUser(id) {
     id,
     isSingle: true,
     nickname: '',
+    school: '',
+    major: '',
     sex: 'M',
     sexualOrientation: 'F',
     age: 18,

@@ -1,28 +1,27 @@
 <template>
-  <q-card>
-    <q-card-main>
-      <q-item multiline>
-        <q-item-side>
-          <q-item-tile avatar>
-            <img :src="`https://graph.facebook.com/${otherPerson.facebookId}/picture?type=large`" />
-          </q-item-tile>
-        </q-item-side>
-        <q-item-main
-         :label="otherPerson.facebookName"
-         label-lines="1"
-        />
-        <q-item-side right stamp="" />
-      </q-item>
-    </q-card-main>
-  </q-card>
+  <q-item :to="`/user/${id}/chat/${otherPerson.id}`" link>
+    <q-item-side class="resize-avatar" :avatar="`https://graph.facebook.com/${otherPerson.facebookId}/picture?type=large`">
+    </q-item-side>
+    <q-item-main style="margin-left:15px">
+      <q-item-tile style="font-size:4vw">
+        {{otherPerson.facebookName}}
+      </q-item-tile>
+    </q-item-main>
+    <q-item-side right>
+      <q-item-tile icon="chat_bubble" color="grey" />
+    </q-item-side>
+  </q-item>
 </template>
 
 <script>
 export default {
-  props: ['otherPerson'],
+  props: ['id', 'otherPerson'],
   computed: {},
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
+.resize-avatar img
+  height: 50px
+  width: 50px
 </style>

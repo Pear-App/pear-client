@@ -1,51 +1,51 @@
 <template>
   <loader v-if="me == null || singles == null || friends == null"/>
-  <q-list v-else no-border link inset-delimiter>
-    <q-list-header>Profile</q-list-header>
-    <q-side-link item :key="me.id" :to="`/user/${me.id}/profile`">
-      <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
-      <q-item-main>
-        {{ me.facebookName }}
-      </q-item-main>
-    </q-side-link>
-    <q-side-link item key="editProfile" :to="`/user/${me.id}/profile/edit`">
-      <q-item-main>
-        Edit Profile
-      </q-item-main>
-    </q-side-link>
-    <q-list-header>Singles</q-list-header>
-    <q-side-link item v-for="person in singles" :key="person.id" :to="`/user/${person.id}/profile`">
-      <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
-      <q-item-main>
-        {{ person.facebookName }}
-      </q-item-main>
-    </q-side-link>
-    <q-side-link item key="addInvitation" :to="'/invite/1'">
-      <q-item-side icon="add" />
-      <q-item-main>
-        Recommend for a friend!
-      </q-item-main>
-    </q-side-link>
-    <q-list-header>Friends</q-list-header>
-    <q-side-link item v-for="person in friends" :key="person.id" :to="`/user/${person.id}/profile`">
-      <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
-      <q-item-main>
-        {{ person.facebookName }}
-      </q-item-main>
-    </q-side-link>
-    <q-list-header>Invitations</q-list-header>
-    <q-side-link item v-for="person in invitations" :key="person.id" :to="`/user/${person.id}/profile`">
-      <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
-      <q-item-main>
-        {{ person.nickname }} ({{ person.status }})
-      </q-item-main>
-    </q-side-link>
-    <q-item key="logout" @click="$store.dispatch('logout')">
-      <q-item-main>
-        Log out
-      </q-item-main>
-    </q-item>
-  </q-list>
+  <q-scroll-area v-else>
+    <q-list no-border link inset-delimiter>
+      <q-side-link item :key="me.id" replace :to="`/user/${me.id}/swipe`">
+        <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
+        <q-item-main>
+          {{ me.facebookName }}
+        </q-item-main>
+      </q-side-link>
+      <q-side-link item v-for="person in singles" :key="person.id" replace :to="`/user/${person.id}/swipe`">
+        <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
+        <q-item-main>
+          {{ person.facebookName }}
+        </q-item-main>
+      </q-side-link>
+      <q-side-link item v-for="person in invitations" :key="person.id" replace :to="`/user/${person.id}/profile`">
+        <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
+        <q-item-main>
+          {{ person.nickname }} ({{ person.status ==='P' ? 'Pending' : 'Declined' }})
+        </q-item-main>
+      </q-side-link>
+      <q-side-link item key="addInvitation" replace :to="'/invite/1'">
+        <q-item-side icon="add" />
+        <q-item-main>
+          Recommend for a friend!
+        </q-item-main>
+      </q-side-link>
+      <q-item item key="shareLink" @click="shareLink">
+        <q-item-side icon="share" />
+        <q-item-main>
+          Get Friends to Matchmake You!
+        </q-item-main>
+      </q-item>
+      <q-side-link item key="settings" to="/settings">
+        <q-item-side icon="settings" />
+        <q-item-main>
+          Settings
+        </q-item-main>
+      </q-side-link>
+      <q-item key="logout" @click="$store.dispatch('logout')">
+        <q-item-side icon="exit_to_app" />
+        <q-item-main>
+          Log out
+        </q-item-main>
+      </q-item>
+    </q-list>
+  </q-scroll-area>
 </template>
 
 <script>
@@ -57,6 +57,7 @@ import {
   QItemSide,
   QItemMain,
   QSideLink,
+  Toast,
 } from 'quasar'
 import Loader from './Loader'
 
@@ -85,9 +86,54 @@ export default {
       $router.push(`/user/${id}`)
       this.$emit('close')
     },
+    shareLink() {
+      const url = 'https://pear.netlify.com/'
+      if (navigator.share) {
+        try {
+          navigator.share({
+            title: 'Find your perfect Pear!',
+            text: '',
+            url,
+          })
+          return
+        } catch (e) {}
+      }
+      const dummy = document.createElement('input')
+      document.body.appendChild(dummy)
+      dummy.setAttribute('value', url)
+      dummy.select()
+      document.execCommand('copy')
+      document.body.removeChild(dummy)
+      Toast.create.positive({
+        html: 'Copied link!',
+        icon: 'clipboard',
+      })
+      this.$emit('close')
+    },
   },
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+.media
+  position relative
+  width 100%
+  height 200px
+  background-position 50% 50%
+  background-size cover
+
+  &:before
+    content: ''
+  	position absolute
+  	top 0
+  	right 0
+  	bottom 0
+  	left 0
+  	background-image linear-gradient(to bottom right,#002f4b,#dc4225)
+  	opacity .6
+
+  .name
+    position absolute
+    bottom 0
+    padding 0.3em
 </style>

@@ -1,13 +1,15 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <loader v-if="matches == null"/>
-  <div v-else-if="matches.length === 0">
-    There's nothing here...
-  </div>
   <div v-else>
+    <div class="wrapper">
+      <div class="header-bg bg-secondary"></div>
+    </div>
+
+    <div class="person placeholder"></div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
-      <transition name="scale">
-        <div v-if="matches.length !== 0" class="person" :data-id="matches[0].id" :key="matches[0].id">
+      <transition v-if="matches.length !== 0" name="scale">
+        <div class="person" :data-id="matches[0].id" :key="matches[0].id">
           <div class="picture" :class="{ expanded: isProfileExpanded }"
                @click="isProfileExpanded = false"
                :style="{ 'background-image': `url(https://graph.facebook.com/${matches[0].facebookId}/picture?type=large)` }">
@@ -19,10 +21,15 @@
               <div v-show="isProfileExpanded" class="expanded-profile">
                 <hr>
                 <div class="expanded-profile-content">
-                  <p class="caption">About</p>
-                  <p>Hello world</p>
-                  <p class="caption">What my friends say about me</p>
-                  <p>Hello world</p>
+                  <small class="caption text-primary">What my friends say about me</small><br>
+                  <p>{{ matches[0].desc }}</p>
+                  <small class="caption text-primary">What my friends say about me</small><br>
+                  <q-list no-border sparse>
+                    <q-item v-for="friend in matches[0].friend" :key="friend.id" class="no-padding">
+                      <q-item-side :avatar="`https://graph.facebook.com/${friend.facebookId}/picture?type=large`" />
+                      <q-item-main>{{ friend.Friendships.review }}</q-item-main>
+                    </q-item>
+                  </q-list>
                 </div>
               </div>
             </transition>
@@ -163,12 +170,20 @@ $padding = 16px
   position absolute
   top 10px
   left 10px
-  background-color black
+  background-color #bbbbbb
   width calc(100% - 20px)
   height calc(100% - 20px)
-  border-radius 10px
+  border-radius 25px
+  z-index 1
   box-shadow 0 2px 8px rgba(0, 0, 0, 0.3)
   overflow hidden
+
+  &.placeholder
+    top 40px
+    left 40px
+    background-color white
+    width calc(100% - 80px)
+    height calc(100% - 80px)
 
   .picture
     position absolute
@@ -185,7 +200,7 @@ $padding = 16px
 
   .profile
     background-color white
-    border-radius 10px
+    border-radius 25px
     padding $padding 0
     bottom 10px
     box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
@@ -204,11 +219,6 @@ $padding = 16px
       padding 0 $padding
       display block
       font-size 1em
-
-    .caption
-      color darken($primary, 10%)
-      margin-top 0
-      margin-bottom 0.1em
 
     .content
       margin-bottom 1.5em
@@ -244,4 +254,31 @@ $padding = 16px
 
 .expand-y-enter, .expand-y-leave-to
   max-height 0
+
+.wrapper
+  position absolute
+  top -10vw
+  width 100vw
+  height 50vw
+  overflow-x hidden
+
+  .header-bg
+    display inline-block
+    z-index -100
+    margin-left -20vw
+    width 140vw
+    height 50vw
+    border-radius 0 0 50vw 50vw
+    transition-delay 0.25s
+    animation slide 0.5s
+
+@keyframes slide
+  0%
+    transform translateY(-100%)
+    border-radius 0
+
+  100%
+    transform translateY(0)
+    border-radius 0 0 50vw 50vw
+
 </style>

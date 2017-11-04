@@ -31,7 +31,7 @@
           <img class="image" src="~assets/tutorial-3.png" width="154" height="204">
           <p class="subtitle">Have singles that should not be single?</p>
           <p class="content">Swipe right to pear them up now!</p>
-          <q-btn color="tertiary" @click="finish">Let's go!</q-btn>
+          <q-btn class="finish-tutorial" color="tertiary" @click="finish">Let's go!</q-btn>
         </div>
       </div>
 
@@ -61,17 +61,23 @@ export default {
 }
 </script>
 
+<style lang="stylus">
+.q-carousel-right-button i
+.q-carousel-left-button i
+  background transparent
+</style>
+
 <style lang="stylus" scoped>
 @import '../themes/app.variables'
 
 .slide
-  padding 20px
 
   .tutorial
     padding 1.5em 1.5em
     border-radius 20px
     text-align center
     color $tertiary
+    height 100%
 
     .title
       font-weight 700
@@ -85,4 +91,8 @@ export default {
     .subtitle
       font-weight 700
       font-size 1.2em
+    
+    .finish-tutorial
+      font-size 1.5em
+      padding 0.5em 1em
 </style>

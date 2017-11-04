@@ -1,72 +1,47 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding" color="secondary">
+  <div class="layout-padding text-center" color="secondary">
 
-    <p class="caption">My friend's name is:</p>
-    <q-field :error="nicknameHasError" :count="50">
-      <q-input v-model="nickname" />
-    </q-field>
+    <div class="fields">
+      <big class="title">Tell me more about your friend!</big>
 
-    <p class="caption">I refer to them by:</p>
-    <q-field>
-      <q-btn
-        class="men full-width" big color="primary"
-        :class="{ 'is-active': sex === 'M' }"
-        :flat="sex !== 'M'"
-        @click="sex = 'M'"
-      >
-        He
-      </q-btn>
-      <q-btn class="women full-width" big color="primary"
-        :class="{ 'is-active': sex === 'F' }"
-        :flat="sex !== 'F'"
-        @click="sex = 'F'"
-      >
-        She
-      </q-btn>
-      <q-btn
-        class="both full-width" big color="primary"
-        :class="{ 'is-active': sex === 'B' }"
-        :flat="sex !== 'B'"
-        @click="sex = 'B'"
-      >
-        Depends
-      </q-btn>
-    </q-field>
+      <p class="caption">My friend's name is</p>
+      <q-field :error="nicknameHasError" :count="50">
+        <q-input v-model="nickname" />
+      </q-field>
 
-    <p class="caption">{{ pronoun }} interested in:</p>
-    <q-field>
-      <q-btn class="women full-width" big color="primary"
-        :class="{ 'is-active': sexualOrientation === 'F' }"
-        :flat="sexualOrientation !== 'F'"
-        @click="sexualOrientation = 'F'"
-      >
-        Men
-      </q-btn>
-      <q-btn
-        class="men full-width" big color="primary"
-        :class="{ 'is-active': sexualOrientation === 'M' }"
-        :flat="sexualOrientation !== 'M'"
-        @click="sexualOrientation = 'M'"
-      >
-        Women
-      </q-btn>
-      <q-btn
-        class="both full-width" big color="primary"
-        :class="{ 'is-active': sexualOrientation === 'B' }"
-        :flat="sexualOrientation !== 'B'"
-        @click="sexualOrientation = 'B'"
-      >
-        Both
-      </q-btn>
-    </q-field>
+      <p class="caption">I refer to them by</p>
+      <q-field>
+        <q-btn
+          class="men" big color="primary"
+          :class="{ 'is-active': sex === 'M' }"
+          :flat="sex !== 'M'"
+          @click="sex = 'M'"
+        >
+          Him
+        </q-btn>
+        <q-btn class="women" big color="primary"
+          :class="{ 'is-active': sex === 'F' }"
+          :flat="sex !== 'F'"
+          @click="sex = 'F'"
+        >
+          Her
+        </q-btn>
+        <q-btn
+          class="both" big color="primary"
+          :class="{ 'is-active': sex === 'B' }"
+          :flat="sex !== 'B'"
+          @click="sex = 'B'"
+        >
+          Depends
+        </q-btn>
+      </q-field>
 
-    <p class="caption">Age range:</p>
-    <q-field>
-      <q-range v-model="ageRange" :min="18" :max="80" label-always />
-    </q-field>
+      <p class="caption">{{ pronoun }}</p>
+      <q-input suffix="years old" :error="ageHasError" type="number" v-model="age" :min="18" :max="80" label-always />
 
-    <q-btn class="pull-right" color="primary" big @click="$router.push('/invite/2')">Next</q-btn>
+      <q-btn class="pull-right" color="primary" big @click="$router.push('/invite/2')">Next</q-btn>
+    </div>
 
   </div>
 </template>
@@ -99,31 +74,19 @@ export default {
         this.$store.dispatch('setUser', { id: this.id, sex })
       },
     },
-    sexualOrientation: {
+    age: {
       get() {
-        return this.$store.state.users[this.id].sexualOrientation
+        return this.$store.state.users[this.id].age
       },
-      set(sexualOrientation) {
-        this.$store.dispatch('setUser', { id: this.id, sexualOrientation })
-      },
-    },
-    ageRange: {
-      get() {
-        return {
-          min: this.$store.state.users[this.id].minAge,
-          max: this.$store.state.users[this.id].maxAge,
-        }
-      },
-      set(ageRange) {
-        this.$store.dispatch('setUser', {
-          id: this.id,
-          minAge: ageRange.min,
-          maxAge: ageRange.max,
-        })
+      set(age) {
+        this.$store.dispatch('setUser', { id: this.id, age })
       },
     },
     nicknameHasError() {
       return this.nickname.length > 50
+    },
+    ageHasError() {
+      return this.age < 18 || this.age > 80
     },
   },
 }
@@ -133,4 +96,11 @@ export default {
 .q-btn
   margin 5px
   border-radius 4px
+
+.title
+  display block
+  margin-bottom 1.5em
+
+.fields
+  padding 0 30px
 </style>

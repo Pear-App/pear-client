@@ -1,71 +1,93 @@
 <template>
-  <loader v-if="user == null"/>
-  <div v-else class="layout-padding">
-    <div v-if="user.isInvitation" class="person">
-      <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${user.facebookId}/picture?type=large)` }"></div>
-      <div class="profile">
-        <span class="title">{{ user.facebookName }}, {{ user.age }}</span>
-        <span class="subtitle">blahblah {{ user.desc }}</span>
+  <loader v-if="user == null" />
+  <invitation :id="id" v-else-if="user.isInvitation" />
+  <q-card v-else class="person no-margin">
+    <q-card-media v-if="user.isMe">
+      <div v-if="user.photos != null" class="row photos">
+        <div v-for="(photo, i) in user.photos" :key="photo" class="col-4">
+          <img class="photo" :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`" @click="choosePhotos(i)">
+        </div>
+        <div v-if="user.photos.length < 6" class="col-4" @click="choosePhotos(user.photos.length)">
+          <img class="photo" src="~assets/add-photo.png">
+        </div>
       </div>
-    </div>
-    <div v-else class="person">
-      <div class="picture" :style="{ 'background-image': `url(https://graph.facebook.com/${user.facebookId}/picture?type=large)` }"></div>
-      <div class="profile">
-        <span class="title">{{ user.nickname }}, {{ user.age }}</span>
-        <span class="subtitle">blahblah {{ user.desc }}</span>
+    </q-card-media>
+    <q-card-media v-else>
+      <div v-if="user.photos != null" class="row photos">
+        <div v-for="(photo, i) in user.photos" :key="photo" class="col-4">
+          <img class="photo" :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`">
+        </div>
       </div>
-    </div>
-    <div v-if="user.isSingle || user.isMe">
-    </div>
-    <div v-if="user.isInvitation">
-      <q-btn color="primary" @click="shareInvitationLink">Share</q-btn>
-    </div>
-  </div>
+    </q-card-media>
+    <q-card-title>{{ user.facebookName }}, {{ user.age }}</q-card-title>
+    <q-card-main>
+      <span class="school">{{ user.school }}</span>
+      <span class="major">{{ user.major }}</span>
+
+      <p>
+        <small class="caption text-primary">About</small><br>
+        <span class="major">{{ user.desc }}</span>
+      </p>
+
+      <p>
+        <small class="caption text-primary">What my friends say about me</small><br>
+        <q-list no-border sparse>
+          <q-item v-for="friend in user.friend" :key="friend.id" class="no-padding">
+            <q-item-side :avatar="`https://graph.facebook.com/${friend.facebookId}/picture?type=large`" />
+            <q-item-main>{{ friend.Friendships.review }}</q-item-main>
+          </q-item>
+        </q-list>
+      </p>
+    </q-card-main>
+  </q-card>
 </template>
 
 <script>
 import Loader from '../Loader'
-import { Toast } from 'quasar'
+import Invitation from './Invitation'
+import { Toast, ActionSheet } from 'quasar'
+import { mapState } from 'vuex'
 
 export default {
   name: 'profile',
 
-  components: { Loader },
+  components: { Invitation },
 
   props: ['id'],
 
   computed: {
-    user() {
-      return this.$store.state.users[this.id]
-    },
+    ...mapState({
+      user({ users }) {
+        return users[this.id]
+      },
+      photos: ({ photos }) => photos,
+    }),
   },
 
   methods: {
-    async shareInvitationLink() {
-      const url =
-        window.cordova == null
-          ? `${window.location.host}/#/join/${this.user.id}`
-          : `https://pear.netlify.com/invite/${this.user.id}`
-      if (navigator.share) {
-        try {
-          navigator.share({
-            title: 'Find your perfect Pear!',
-            text: '',
-            url,
-          })
-          return
-        } catch (e) {}
-      }
-      const dummy = document.createElement('input')
-      document.body.appendChild(dummy)
-      dummy.setAttribute('value', url)
-      dummy.select()
-      document.execCommand('copy')
-      document.body.removeChild(dummy)
-      Toast.create.positive({
-        html: 'Copied link!',
-        icon: 'clipboard',
+    choosePhotos(i) {
+      ActionSheet.create({
+        title: 'Pick a Photo',
+        // specify ONLY IF you want gallery mode:
+        gallery: true,
+        actions: this.photos.map(photo => ({
+          avatar: `https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`,
+          handler: () => {
+            const photos = [...this.user.photos]
+            photos[i] = photo
+            this.$store.dispatch('choosePhotos', photos)
+          },
+        })),
+        dismiss: { label: 'Cancel' },
       })
+    },
+  },
+
+  watch: {
+    id(id) {
+      if (parseInt(id) === this.$store.state.me) {
+        this.$store.dispatch('getProfilePictures')
+      }
     },
   },
 }
@@ -74,45 +96,10 @@ export default {
 <style lang="stylus" scoped>
 @import '../../themes/app.variables'
 
-.person
+.photos 
   padding 10px
-  width 100%
-  position absolute
-  top 10px
-  left 10px
-  background white
-  width calc(100% - 20px)
-  height calc(100% - 20px)
-  border-radius 10px
-  box-shadow 0 2px 8px rgba(0, 0, 0, 0.5)
-  overflow hidden
-
-  .picture
-    position absolute
-    top 0
-    left 0
-    bottom 0
-    right 0
-    background-size cover
-    background-position 50% 50%
-
-  .profile
-    background-color white
-    border-radius 10px
-    bottom 10px
-    box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
-    color $tertiary
-    padding 10px
-    position absolute
-    width calc(100% - 20px)
-
-    .title
-      display block
-      font-weight 500
-      font-size 1.3em
-      margin-bottom 0.1em
-
-    .subtitle
-      display block
-      font-size 1em
+  .photo
+    padding 15px
+    border-radius 100%
+    width 100%
 </style>

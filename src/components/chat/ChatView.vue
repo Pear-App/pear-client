@@ -5,17 +5,23 @@
       {{ currentRoom.otherPerson.facebookName }}
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
-        <q-chat-message
-          v-for="msg in messages"
-          :key="msg"
-          :label="msg.label"
-          :sent="msg.ownerId === me.id"
-          text-color="grey-8"
-          bg-color="brown-1"
-          :avatar="avatarUrl(msg.ownerId)"
-          :text="[$escapeHtml(msg.text)]"
-          class="chat-message-bg"
-        />
+       <template v-for="(msg, index) in messages">
+         <q-chat-message
+           v-if ="msg.isEvent"
+           :key="index"
+           :label="$escapeHtml(msg.text)"
+           class="chat-event-bg text-grey-9"
+         />
+         <q-chat-message
+           v-if ="!msg.isEvent"
+           :key="index"
+           :sent="msg.ownerId === parseInt(me.id, 10)"
+           text-color="grey-8"
+           bg-color="brown-1"
+           :avatar="avatarUrl(msg.ownerId)"
+           :text="[$escapeHtml(msg.text)]"
+         />
+       </template>
     </q-scroll-area>
     <q-input class="message-input"
       v-model.trim="message"
@@ -63,7 +69,6 @@ export default {
   },
 
   async created() {
-    console.log(this.currentRoom)
     if (!this.currentRoom) {
       return
     }
@@ -106,7 +111,7 @@ export default {
     },
     avatarUrl(userId) {
       const facebookId =
-        userId === this.me.id
+        userId === parseInt(this.me.id, 10)
           ? this.me.facebookId
           : this.currentRoom.otherPerson.facebookId
       return `https://graph.facebook.com/${facebookId}/picture?type=large`
@@ -140,6 +145,12 @@ export default {
   padding-bottom:1.5vh
   background-color: rgb(250,235,187)
 .chat-size
-  height: calc(97vh - 170px)
+  height: calc(97vh - 200px)
   padding:1.5vw 3vw
+.chat-event-bg
+  background-color: $primary
+  border-radius: 20px
+  font-weight: 500
+  width: 90%
+  margin-left: 5%
 </style>
