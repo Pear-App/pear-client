@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 
 import router from '../router'
-import { get, post, log } from '../util'
+import { get, post, del, log } from '../util'
 
 export default {
   // Auth
@@ -88,14 +88,24 @@ export default {
 
     const me = data.id
     const rooms = data.rooms
+    const blockedIds = data.blockedIds
     delete data.friend
     delete data.single
     delete data.inviter
     delete data.rooms
+    delete data.blockedIds
     data.isMe = true
     users[me] = data
 
-    commit('initialise', { users, me, friends, singles, invitations, rooms })
+    commit('initialise', {
+      users,
+      me,
+      friends,
+      singles,
+      invitations,
+      rooms,
+      blockedIds,
+    })
     return Promise.resolve()
   },
 
@@ -169,6 +179,25 @@ export default {
       log(err)
     } else {
       commit('setRoomMessages', { roomId, messages })
+    }
+  },
+
+  // Blacklists
+  async unblockPerson({ commit }, otherPersonId) {
+    const [, err] = await del('/blacklist', { blockeeId: otherPersonId })
+    if (err != null) {
+      log(err)
+    } else {
+      commit('unblockPerson', otherPersonId)
+    }
+  },
+
+  async blockPerson({ commit }, otherPersonId) {
+    const [, err] = await post('/blacklist', { blockeeId: otherPersonId })
+    if (err != null) {
+      log(err)
+    } else {
+      commit('blockPerson', otherPersonId)
     }
   },
 }

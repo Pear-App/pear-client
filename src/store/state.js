@@ -31,4 +31,7 @@ export default {
 
   // Map of room -> List of messages in that room
   roomMessages: {},
+
+  // List of blocked user ids
+  blockedIds: [],
 }
