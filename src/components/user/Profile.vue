@@ -83,12 +83,10 @@ export default {
     },
   },
 
-  watch: {
-    id(id) {
-      if (parseInt(id) === this.$store.state.me) {
-        this.$store.dispatch('getProfilePictures')
-      }
-    },
+  mounted() {
+    if (this.user.isMe) {
+      this.$store.dispatch('getProfilePictures')
+    }
   },
 }
 </script>
