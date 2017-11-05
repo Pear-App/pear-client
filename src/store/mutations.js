@@ -3,11 +3,13 @@ import { initialUser } from '../util'
 
 export default {
   // Auth
-  loggedIn(state, { facebookId, me, jwt }) {
-    state.isLoggedIn = true
+  loggingIn(state, { facebookId, me, jwt }) {
     state.jwt = jwt
     state.me = me
     state.users[me] = { facebookId }
+  },
+  loggedIn(state) {
+    state.isLoggedIn = true
   },
   notLoggedIn(state) {
     state.isLoggedIn = false

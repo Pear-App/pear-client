@@ -14,7 +14,13 @@ export default {
       if (err != null) log(err)
       const { jwt } = data
       const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
-      commit('loggedIn', { facebookId: authResponse.userID, me: userId, jwt })
+      await commit('loggingIn', {
+        facebookId: authResponse.userID,
+        me: userId,
+        jwt,
+      })
+      await dispatch('fetchMe')
+      commit('loggedIn')
     }
     if (status === 'unknown') {
       commit('notLoggedIn')
@@ -97,7 +103,7 @@ export default {
     data.isMe = true
     users[me] = data
 
-    commit('initialise', {
+    await commit('initialise', {
       users,
       me,
       friends,
@@ -106,7 +112,6 @@ export default {
       rooms,
       blockedIds,
     })
-    return Promise.resolve()
   },
 
   async fetchUser({ commit }, id) {
