@@ -10,18 +10,35 @@
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
       <transition v-if="matches.length !== 0" name="scale">
         <div class="person" :data-id="matches[0].id" :key="matches[0].id">
-          <div class="picture" :class="{ expanded: isProfileExpanded }"
-               @click="isProfileExpanded = false"
-               :style="{ 'background-image': `url(https://graph.facebook.com/${matches[0].facebookId}/picture?type=large)` }">
+          <div v-if="matches[0].photos != null" class="photos"
+            @click="isProfileExpanded = false"
+            :class="{ expanded: isProfileExpanded }"
+            v-touch-swipe="swipeImage"
+          >
+            <div v-for="(photo, i) in matches[0].photos" :key="photo" class="photo"
+              :style="{
+                'background-image': `url(https://s3-ap-southeast-1.amazonaws.com/pear-server/normal${photo})`,
+                transform: `translateY(-${image * 100}%)`
+              }"
+            ></div>
           </div>
-          <div class="profile" v-touch-swipe="swipe" @click="isProfileExpanded = !isProfileExpanded">
+          <div class="pagination">
+            <div v-for="(photo, i) in matches[0].photos"
+              :class="{ active: !isProfileExpanded && image === i }" :key="photo"
+            ></div>
+            <div :class="{ active: isProfileExpanded }"></div>
+          </div>
+          <div class="profile" v-touch-swipe="swipeProfile" @click="isProfileExpanded = !isProfileExpanded">
             <span class="title">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
-            <span class="subtitle">{{ matches[0].desc }}</span>
+            <span class="subtitle">
+              <span class="school">{{ matches[0].school }}</span>
+              <span class="major">{{ matches[0].major }}</span>
+            </span>
             <transition name="expand-y">
               <div v-show="isProfileExpanded" class="expanded-profile">
                 <hr>
                 <div class="expanded-profile-content">
-                  <small class="caption text-primary">What my friends say about me</small><br>
+                  <small class="caption text-primary">About me</small><br>
                   <p>{{ matches[0].desc }}</p>
                   <small class="caption text-primary">What my friends say about me</small><br>
                   <q-list no-border sparse>
@@ -63,6 +80,7 @@ export default {
       isProfileExpanded: false,
       offset: 0,
       counter: 0,
+      image: 0,
       swingConfig: {
         isThrowOut: (x, y, el, confidence) => confidence > 0.4,
         minThrowOutDistance: document.body.clientWidth + 400,
@@ -99,16 +117,12 @@ export default {
   },
 
   mounted() {
-    if (this.matches == null || this.matches.length === 0) {
-      this.$store.dispatch('fetchMatches', this.id)
-    }
+    this.$store.dispatch('fetchMatches', this.id)
   },
 
   watch: {
     id(id) {
-      if (this.matches == null || this.matches.length === 0) {
-        this.$store.dispatch('fetchMatches', id)
-      }
+      this.$store.dispatch('fetchMatches', id)
     },
   },
 
@@ -131,7 +145,23 @@ export default {
       const candidateId = e.target.dataset.id
       this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     },
-    swipe({ direction }) {
+    swipeImage({ direction }) {
+      const max = this.matches[0].photos.length - 1
+      if (direction === 'up') {
+        if (this.image === max) {
+          this.isProfileExpanded = true
+        } else {
+          this.image++
+        }
+      } else if (direction === 'down') {
+        if (this.isProfileExpanded) {
+          this.isProfileExpanded = false
+        } else if (this.image > 0) {
+          this.image--
+        }
+      }
+    },
+    swipeProfile({ direction }) {
       if (direction === 'up') {
         this.isProfileExpanded = true
       } else if (direction === 'down') {
@@ -170,7 +200,7 @@ $padding = 16px
   position absolute
   top 10px
   left 10px
-  background-color #bbbbbb
+  background-color black
   width calc(100% - 20px)
   height calc(100% - 20px)
   border-radius 25px
@@ -185,18 +215,46 @@ $padding = 16px
     width calc(100% - 80px)
     height calc(100% - 80px)
 
-  .picture
+  .photos
     position absolute
     top 0
     left 0
     bottom 0
     right 0
-    background-size cover
-    background-position 50% 50%
     transition all .3s ease-out
 
-  .picture.expanded
-    opacity 0.5
+    .photo
+      width 100%
+      height 100%
+      background-size cover
+      background-position 50% 50%
+      transition all .3s ease-out
+
+    &.expanded
+      opacity 0.5
+    
+  .pagination
+    position absolute
+    top 30px
+    right 12px
+
+    div
+      width 8px
+      height 8px
+      margin-bottom 4px
+      margin-left 1px
+      background-color rgba(128, 128, 128, 0.5)
+      border-radius 100%
+      box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+
+    div.active
+      background-color white
+      width 10px
+      height 10px
+      margin-left 0
+
+    div:last-child
+      background-color $secondary
 
   .profile
     background-color white
