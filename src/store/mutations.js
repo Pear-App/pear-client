@@ -3,11 +3,13 @@ import { initialUser } from '../util'
 
 export default {
   // Auth
-  loggedIn(state, { facebookId, me, jwt }) {
-    state.isLoggedIn = true
+  loggingIn(state, { facebookId, me, jwt }) {
     state.jwt = jwt
     state.me = me
     state.users[me] = { facebookId }
+  },
+  loggedIn(state) {
+    state.isLoggedIn = true
   },
   notLoggedIn(state) {
     state.isLoggedIn = false
@@ -26,7 +28,10 @@ export default {
   },
 
   // Profile
-  initialise(state, { users, me, friends, singles, invitations, rooms }) {
+  initialise(
+    state,
+    { users, me, friends, singles, invitations, rooms, blockedIds }
+  ) {
     users.new = state.users.new
     state.users = users
     state.me = me
@@ -34,6 +39,7 @@ export default {
     state.singles = singles
     state.invitations = invitations
     state.rooms = rooms
+    state.blockedIds = blockedIds
   },
   setUser(state, user) {
     if (state.users[user.id] == null)
@@ -68,5 +74,23 @@ export default {
   // Photos
   setPhotos(state, photos) {
     state.photos = photos
+  },
+
+  // Messages
+  setRoomMessages(state, { roomId, messages }) {
+    state.roomMessages[roomId] = messages
+  },
+
+  patchRoomMessage(state, { roomId, message }) {
+    state.roomMessages[roomId].push(message)
+  },
+
+  // Blacklists
+  unblockPerson(state, otherPersonId) {
+    state.blockedIds = state.blockedIds.filter(id => id !== otherPersonId)
+  },
+
+  blockPerson(state, otherPersonId) {
+    state.blockedIds.push(otherPersonId)
   },
 }

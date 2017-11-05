@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 
 import router from '../router'
-import { get, post, log } from '../util'
+import { get, post, del, log } from '../util'
 
 export default {
   // Auth
@@ -15,7 +15,13 @@ export default {
       if (err != null) log(err)
       const { jwt } = data
       const { user: { userId } } = JSON.parse(jwtDecode(jwt).sub)
-      commit('loggedIn', { facebookId: authResponse.userID, me: userId, jwt })
+      await commit('loggingIn', {
+        facebookId: authResponse.userID,
+        me: userId,
+        jwt,
+      })
+      await dispatch('fetchMe')
+      commit('loggedIn')
     }
     if (status === 'unknown') {
       commit('notLoggedIn')
@@ -89,15 +95,24 @@ export default {
 
     const me = data.id
     const rooms = data.rooms
+    const blockedIds = data.blockedIds
     delete data.friend
     delete data.single
     delete data.inviter
     delete data.rooms
+    delete data.blockedIds
     data.isMe = true
     users[me] = data
 
-    commit('initialise', { users, me, friends, singles, invitations, rooms })
-    return Promise.resolve()
+    await commit('initialise', {
+      users,
+      me,
+      friends,
+      singles,
+      invitations,
+      rooms,
+      blockedIds,
+    })
   },
 
   async fetchUser({ commit }, id) {
@@ -161,5 +176,34 @@ export default {
     const [, err] = await post('/photo', { photoIds: photos })
     if (err != null) return log(err)
     commit('setUser', { ...state.users[state.me], photos })
+  },
+
+  // Messages
+  async getRoomMessages({ commit }, roomId) {
+    const [messages, err] = await get(`/room/${roomId}/messages`)
+    if (err != null) {
+      log(err)
+    } else {
+      commit('setRoomMessages', { roomId, messages })
+    }
+  },
+
+  // Blacklists
+  async unblockPerson({ commit }, otherPersonId) {
+    const [, err] = await del('/blacklist', { blockeeId: otherPersonId })
+    if (err != null) {
+      log(err)
+    } else {
+      commit('unblockPerson', otherPersonId)
+    }
+  },
+
+  async blockPerson({ commit }, otherPersonId) {
+    const [, err] = await post('/blacklist', { blockeeId: otherPersonId })
+    if (err != null) {
+      log(err)
+    } else {
+      commit('blockPerson', otherPersonId)
+    }
   },
 }

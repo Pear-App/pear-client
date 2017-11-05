@@ -1,11 +1,21 @@
 <template v-if="currentRoom != null">
   <div class="chat-bg">
-    <div class="row justify-center chat-header">
-      <!-- <q-btn class="col-2" icon="arrow back"/> -->
-      {{ currentRoom.otherPerson.facebookName }}
+    <div class="row chat-header">
+      <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2" icon="arrow back"/>
+      <q-btn v-else class="col-2" icon="blank"/>
+      <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
+      <q-btn class="col-2" icon="settings">
+        <q-popover ref="popover" self="top middle">
+          <q-list link>
+            <q-item @click="openBlockModal" style="min-width:120px">
+              Block User
+            </q-item>
+          </q-list>
+        </q-popover>
+      </q-btn>
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
-       <template v-for="(msg, index) in messages">
+       <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
          <q-chat-message
            v-if ="msg.isEvent"
            :key="index"
@@ -23,7 +33,8 @@
          />
        </template>
     </q-scroll-area>
-    <q-input class="message-input"
+    <q-btn v-if="isBlocked" color="primary" class="full-width unblock-button" @click="openUnblockModal">Unblock</q-btn>
+    <q-input v-else class="message-input"
       v-model.trim="message"
       type="textarea"
       placeholder="Enter your message"
@@ -45,6 +56,7 @@
 </template>
 
 <script>
+import { Dialog } from 'quasar'
 import { mapState } from 'vuex'
 import { get, post, log } from '../../util'
 
@@ -52,42 +64,20 @@ export default {
   data() {
     return {
       message: '',
-      messages: [],
-      // Example for adding labels in the future
-      // messages: [
-      //   {
-      //     label: 'Sunday, 19th',
-      //   },
-      //   {
-      //     name: 'Vladimir',
-      //     text: ['How are you?'],
-      //     avatar: 'statics/quasar-logo.png',
-      //     stamp: 'Yesterday 13:34',
-      //   },
-      // ],
     }
   },
 
-  async created() {
-    if (!this.currentRoom) {
+  created() {
+    if (!this.currentRoom || this.isBlocked) {
       return
     }
-    this.$socket.emit('subscribe', [this.currentRoom.id])
-    const [messages, err] = await get(`/room/${this.currentRoom.id}/messages`)
-    if (err != null) {
-      log(err)
-    } else {
-      this.messages = messages
-    }
+    this.enterRoom()
   },
 
   sockets: {
     message: function(message) {
-      this.messages.push({
-        text: message.text,
-        avatar: 'statics/quasar-logo.png',
-        ownerId: message.ownerId,
-      })
+      const roomId = this.currentRoom.id
+      this.$store.commit('patchRoomMessage', { roomId, message })
     },
   },
 
@@ -116,6 +106,47 @@ export default {
           : this.currentRoom.otherPerson.facebookId
       return `https://graph.facebook.com/${facebookId}/picture?type=large`
     },
+    openUnblockModal() {
+      Dialog.create({
+        title: 'Confirm',
+        message: `Unblock ${this.currentRoom.otherPerson.facebookName}?`,
+        buttons: [
+          'No',
+          {
+            label: 'Yes',
+            handler: () => {
+              this.$store
+                .dispatch('unblockPerson', parseInt(this.otherPersonId, 10))
+                .then(() => this.enterRoom())
+            },
+          },
+        ],
+      })
+    },
+    openBlockModal() {
+      Dialog.create({
+        title: 'Confirm',
+        message: `Block ${this.currentRoom.otherPerson.facebookName}?`,
+        buttons: [
+          'No',
+          {
+            label: 'Yes',
+            handler: () => {
+              this.$store
+                .dispatch('blockPerson', parseInt(this.otherPersonId, 10))
+                .then(() =>
+                  this.$socket.emit('unsubscribe', [this.currentRoom.id])
+                )
+            },
+          },
+        ],
+      })
+      this.$refs.popover.close()
+    },
+    enterRoom() {
+      this.$socket.emit('subscribe', [this.currentRoom.id])
+      this.$store.dispatch('getRoomMessages', this.currentRoom.id)
+    },
   },
 
   computed: {
@@ -127,9 +158,17 @@ export default {
     ...mapState({
       me: ({ users, me }) => users[me],
     }),
+    isBlocked: function() {
+      return this.$store.state.blockedIds.includes(
+        parseInt(this.otherPersonId, 10)
+      )
+    },
+    isDaterChat: function() {
+      return parseInt(this.id, 10) === this.$store.state.me
+    },
   },
 
-  props: ['otherPersonId'],
+  props: ['id', 'otherPersonId'],
 }
 </script>
 
@@ -145,7 +184,7 @@ export default {
   padding-bottom:1.5vh
   background-color: rgb(250,235,187)
 .chat-size
-  height: calc(97vh - 200px)
+  height: calc(97vh - 210px)
   padding:1.5vw 3vw
 .chat-event-bg
   background-color: $primary
@@ -153,4 +192,6 @@ export default {
   font-weight: 500
   width: 90%
   margin-left: 5%
+.unblock-button
+  height: 40px
 </style>

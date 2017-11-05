@@ -1,8 +1,8 @@
 <template>
-  <loader v-if="me == null || singles == null || friends == null"/>
+  <loader v-if="me == null"/>
   <q-scroll-area v-else>
     <q-list no-border link inset-delimiter>
-      <q-side-link item :key="me.id" replace :to="`/user/${me.id}/swipe`">
+      <q-side-link v-if="me.isSingle" item :key="me.id" replace :to="`/user/${me.id}/swipe`">
         <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
         <q-item-main>
           {{ me.facebookName }}

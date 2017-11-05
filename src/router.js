@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { log } from './util'
-import store from './store'
 
 Vue.use(VueRouter)
 
@@ -27,15 +26,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: to => {
-        if (store.state.friends.length > 0) {
-          return `user/${store.state.me}/swipe`
-        } else if (store.state.singles.length > 0) {
-          return `user/${store.state.singles[0]}/swipe`
-        } else {
-          return `invite/1`
-        }
-      },
+      component: load('Loader'),
     },
     { path: '/login', component: load('Login') },
 

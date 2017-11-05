@@ -19,7 +19,7 @@
 
     <transition name="fade" mode="out-in">
       <keep-alive>
-        <router-view v-if="doneInitialFetch" />
+        <router-view />
       </keep-alive>
     </transition>
 
@@ -46,7 +46,6 @@ export default {
     return {
       id: null,
       animating: false,
-      doneInitialFetch: false,
     }
   },
 
@@ -55,7 +54,13 @@ export default {
   }),
 
   mounted() {
-    this.$store.dispatch('fetchMe').then(() => (this.doneInitialFetch = true))
+    if (this.$store.state.friends.length > 0) {
+      this.$router.replace(`user/${this.$store.state.me}/swipe`)
+    } else if (this.$store.state.singles.length > 0) {
+      this.$router.replace(`user/${this.$store.state.singles[0]}/swipe`)
+    } else {
+      this.$router.replace(`invite/1`)
+    }
   },
 
   watch: {
