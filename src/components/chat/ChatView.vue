@@ -68,11 +68,10 @@ export default {
   },
 
   created() {
-    if (!this.currentRoom) {
+    if (!this.currentRoom || this.isBlocked) {
       return
     }
-    this.$socket.emit('subscribe', [this.currentRoom.id])
-    this.$store.dispatch('getRoomMessages', this.currentRoom.id)
+    this.enterRoom()
   },
 
   sockets: {
@@ -116,10 +115,9 @@ export default {
           {
             label: 'Yes',
             handler: () => {
-              this.$store.dispatch(
-                'unblockPerson',
-                parseInt(this.otherPersonId, 10)
-              )
+              this.$store
+                .dispatch('unblockPerson', parseInt(this.otherPersonId, 10))
+                .then(() => this.enterRoom())
             },
           },
         ],
@@ -134,15 +132,20 @@ export default {
           {
             label: 'Yes',
             handler: () => {
-              this.$store.dispatch(
-                'blockPerson',
-                parseInt(this.otherPersonId, 10)
-              )
+              this.$store
+                .dispatch('blockPerson', parseInt(this.otherPersonId, 10))
+                .then(() =>
+                  this.$socket.emit('unsubscribe', [this.currentRoom.id])
+                )
             },
           },
         ],
       })
       this.$refs.popover.close()
+    },
+    enterRoom() {
+      this.$socket.emit('subscribe', [this.currentRoom.id])
+      this.$store.dispatch('getRoomMessages', this.currentRoom.id)
     },
   },
 
