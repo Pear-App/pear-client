@@ -4,18 +4,18 @@
   <q-card v-else class="person no-margin">
     <q-card-media v-if="user.isMe">
       <div v-if="user.photos != null" class="row photos">
-        <div v-for="(photo, i) in user.photos" :key="photo" class="col-4">
-          <img class="photo" :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`" @click="choosePhotos(i)">
+        <div v-for="(photo, i) in user.photos" :key="photo" class="photo col-4">
+          <img :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`" @click="choosePhotos(i)">
         </div>
-        <div v-if="user.photos.length < 6" class="col-4" @click="choosePhotos(user.photos.length)">
-          <img class="photo" src="~assets/add-photo.png">
+        <div v-if="user.photos.length < 6" class="photo col-4" @click="choosePhotos(user.photos.length)">
+          <img src="~assets/add-photo.png">
         </div>
       </div>
     </q-card-media>
     <q-card-media v-else>
       <div v-if="user.photos != null" class="row photos">
-        <div v-for="(photo, i) in user.photos" :key="photo" class="col-4">
-          <img class="photo" :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`">
+        <div v-for="(photo, i) in user.photos" :key="photo" class="photo col-4">
+          <img :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`">
         </div>
       </div>
     </q-card-media>
@@ -24,12 +24,12 @@
       <span class="school">{{ user.school }}</span>
       <span class="major">{{ user.major }}</span>
 
-      <p>
+      <p v-if="user.desc != null && user.desc !== ''">
         <small class="caption text-primary">About</small><br>
         <span class="major">{{ user.desc }}</span>
       </p>
 
-      <p>
+      <p v-if="user.friend != null && user.friend.length !== 0">
         <small class="caption text-primary">What my friends say about me</small><br>
         <q-list no-border sparse>
           <q-item v-for="friend in user.friend" :key="friend.id" class="no-padding">
@@ -83,12 +83,10 @@ export default {
     },
   },
 
-  watch: {
-    id(id) {
-      if (parseInt(id) === this.$store.state.me) {
-        this.$store.dispatch('getProfilePictures')
-      }
-    },
+  mounted() {
+    if (this.user.isMe) {
+      this.$store.dispatch('getProfilePictures')
+    }
   },
 }
 </script>
@@ -99,7 +97,9 @@ export default {
 .photos 
   padding 10px
   .photo
-    padding 15px
-    border-radius 100%
-    width 100%
+    padding 10px
+    img
+      width 100%
+      border-radius 100%
+      box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
 </style>

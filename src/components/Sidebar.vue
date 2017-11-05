@@ -1,6 +1,6 @@
 <template>
   <loader v-if="me == null"/>
-  <q-scroll-area v-else>
+  <div v-else>
     <q-list no-border link inset-delimiter>
       <q-side-link v-if="me.isSingle" item :key="me.id" replace :to="`/user/${me.id}/swipe`">
         <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
@@ -45,7 +45,7 @@
         </q-item-main>
       </q-item>
     </q-list>
-  </q-scroll-area>
+  </div>
 </template>
 
 <script>
