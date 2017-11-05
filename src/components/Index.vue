@@ -54,12 +54,14 @@ export default {
   }),
 
   mounted() {
-    if (this.$store.state.friends.length > 0) {
-      this.$router.replace(`user/${this.$store.state.me}/swipe`)
-    } else if (this.$store.state.singles.length > 0) {
-      this.$router.replace(`user/${this.$store.state.singles[0]}/swipe`)
-    } else {
-      this.$router.replace(`invite/1`)
+    if (this.$route.path === '/' && this.$route.name != null) {
+      if (this.$store.state.friends.length > 0) {
+        this.$router.replace(`/user/${this.$store.state.me}/swipe`)
+      } else if (this.$store.state.singles.length > 0) {
+        this.$router.replace(`/user/${this.$store.state.singles[0]}/swipe`)
+      } else {
+        this.$router.replace(`/invite/1`)
+      }
     }
   },
 
