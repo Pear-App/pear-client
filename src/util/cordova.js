@@ -27,12 +27,14 @@ document.addEventListener('deviceready', () => {
         router.push(data.route)
       } else {
         // app on foreground, trigger local push notification
-        cordova.plugins.notification.local.schedule({
-          title: data.title,
-          text: data.text,
-          foreground: true,
-          data: { route: data.route },
-        })
+        if (cordova.platformId === 'android') {
+          cordova.plugins.notification.local.schedule({
+            title: data.title,
+            text: data.text,
+            foreground: true,
+            data: { route: data.route },
+          })
+        }
       }
     })
   }
