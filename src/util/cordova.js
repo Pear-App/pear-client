@@ -1,5 +1,15 @@
 import router from '../router'
 
+function getFcmToken() {
+  window.FCMPlugin.getToken(function(token) {
+    if (token === null) {
+      setTimeout(getFcmToken, 1000)
+    } else {
+      localStorage.setItem('fcmToken', token)
+    }
+  })
+}
+
 document.addEventListener('deviceready', () => {
   // Facebook
   if (typeof facebookConnectPlugin !== 'undefined') {
@@ -9,9 +19,7 @@ document.addEventListener('deviceready', () => {
 
   // Push Notifications
   if (typeof FCMPlugin !== 'undefined') {
-    window.FCMPlugin.getToken(function(token) {
-      global.fcmToken = token
-    })
+    setTimeout(getFcmToken, 1000)
 
     window.FCMPlugin.onNotification(function(data) {
       if (data.wasTapped) {
