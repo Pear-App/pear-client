@@ -175,7 +175,7 @@ $padding = 16px
   height calc(100% - 20px)
   border-radius 25px
   z-index 1
-  box-shadow 0 2px 8px rgba(0, 0, 0, 0.3)
+  box-shadow 0 2px 5px rgba(0, 0, 0, 0.2)
   overflow hidden
 
   &.placeholder

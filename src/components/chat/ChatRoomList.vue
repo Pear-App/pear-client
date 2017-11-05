@@ -3,9 +3,9 @@
     <div class="header-padding"></div>
     <q-scroll-area class="chat-list-size">
       <q-list class="chat-list-bg" no-border highlight inset-separator>
-        <q-list-header>Matchmaker Squad</q-list-header>
+        <q-list-header v-if="matchmakerRooms.length !== 0">Matchmaker Squad</q-list-header>
         <chat-room v-for="room in matchmakerRooms" :key="room.id" :id="id" :otherPerson="room.otherPerson"/>
-        <q-list-header>Daters</q-list-header>
+        <q-list-header v-if="daterRooms.length !== 0">Daters</q-list-header>
         <chat-room v-for="room in daterRooms" :key="room.id" :id="id" :otherPerson="room.otherPerson"/>
       </q-list>
     </q-scroll-area>
