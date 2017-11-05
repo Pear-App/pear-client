@@ -5,7 +5,7 @@
       {{ currentRoom.otherPerson.facebookName }}
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
-       <template v-for="(msg, index) in messages">
+       <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
          <q-chat-message
            v-if ="msg.isEvent"
            :key="index"
@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       message: '',
-      messages: [],
       // Example for adding labels in the future
       // messages: [
       //   {
@@ -68,26 +67,18 @@ export default {
     }
   },
 
-  async created() {
+  created() {
     if (!this.currentRoom) {
       return
     }
     this.$socket.emit('subscribe', [this.currentRoom.id])
-    const [messages, err] = await get(`/room/${this.currentRoom.id}/messages`)
-    if (err != null) {
-      log(err)
-    } else {
-      this.messages = messages
-    }
+    this.$store.dispatch('getRoomMessages', this.currentRoom.id)
   },
 
   sockets: {
     message: function(message) {
-      this.messages.push({
-        text: message.text,
-        avatar: 'statics/quasar-logo.png',
-        ownerId: message.ownerId,
-      })
+      const roomId = this.currentRoom.id
+      this.$store.commit('patchRoomMessage', { roomId, message })
     },
   },
 

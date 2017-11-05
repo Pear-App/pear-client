@@ -69,4 +69,13 @@ export default {
   setPhotos(state, photos) {
     state.photos = photos
   },
+
+  // Messages
+  setRoomMessages(state, { roomId, messages }) {
+    state.roomMessages[roomId] = messages
+  },
+
+  patchRoomMessage(state, { roomId, message }) {
+    state.roomMessages[roomId].push(message)
+  },
 }

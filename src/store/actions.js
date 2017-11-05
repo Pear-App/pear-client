@@ -161,4 +161,14 @@ export default {
     if (err != null) return log(err)
     commit('setUser', { ...state.users[state.me], photos })
   },
+
+  // Messages
+  async getRoomMessages({ commit }, roomId) {
+    const [messages, err] = await get(`/room/${roomId}/messages`)
+    if (err != null) {
+      log(err)
+    } else {
+      commit('setRoomMessages', { roomId, messages })
+    }
+  },
 }
