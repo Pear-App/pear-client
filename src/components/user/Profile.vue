@@ -9,7 +9,7 @@
           @click="choosePhotos(i)"
         ></div>
         <div v-if="user.photos.length < 6" class="photo" @click="choosePhotos(user.photos.length)">
-          <img src="~assets/add-photo.png">
+          <img class="photo" src="~assets/add-photo.png">
         </div>
       </div>
     </q-card-media>
@@ -109,7 +109,7 @@ export default {
 <style lang="stylus" scoped>
 @import '../../themes/app.variables'
 
-.photos 
+.photos
   padding 20px
   .photo
     margin 5px auto
@@ -123,7 +123,7 @@ export default {
 .name
   font-weight 500
   font-size 1.3em
-  
+
 .major
   color grey
 </style>
