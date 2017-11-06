@@ -6,18 +6,18 @@
     <div class="fields">
       <p class="caption">I am interested in:</p>
       <q-field>
-        <q-btn class="women" big color="primary"
-          :class="{ 'is-active': sexualOrientation === 'F' }"
-          :flat="sexualOrientation !== 'F'"
-          @click="sexualOrientation = 'F'"
-        >
-          Men
-        </q-btn>
         <q-btn
           class="men" big color="primary"
           :class="{ 'is-active': sexualOrientation === 'M' }"
           :flat="sexualOrientation !== 'M'"
           @click="sexualOrientation = 'M'"
+        >
+          Men
+        </q-btn>
+        <q-btn class="women" big color="primary"
+          :class="{ 'is-active': sexualOrientation === 'F' }"
+          :flat="sexualOrientation !== 'F'"
+          @click="sexualOrientation = 'F'"
         >
           Women
         </q-btn>
