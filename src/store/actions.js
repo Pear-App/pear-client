@@ -7,9 +7,10 @@ export default {
   // Auth
   async facebookLogin({ commit, dispatch }, { status, authResponse }) {
     if (status === 'connected') {
-      const [data, err] = await post('/authenticate', {
-        fbToken: authResponse.accessToken,
-      })
+      const fbToken = authResponse.accessToken
+      const fcmToken = localStorage.getItem('fcmToken')
+      const body = fcmToken !== 'null' ? { fbToken, fcmToken } : { fbToken }
+      const [data, err] = await post('/authenticate', body)
       // TODO: catch error
       if (err != null) log(err)
       const { jwt } = data

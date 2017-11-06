@@ -55,6 +55,8 @@
         <variable name="APP_NAME" value="Pear" />
     </plugin>
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
+    <plugin name="cordova-plugin-fcm" spec="~2.1.2" />
+    <plugin name="cordova-plugin-local-notifications" spec="git+https://github.com/katzer/cordova-plugin-local-notifications.git" />
     <plugin name="cordova-universal-links-plugin" spec="git+https://github.com/martindrapeau/cordova-universal-links-plugin.git#22225179a5debfcff801e306eb1bf5477200aeda" />
     <plugin name="cordova-plugin-statusbar" spec="git+https://github.com/apache/cordova-plugin-statusbar.git" />
 </widget>
