@@ -19,11 +19,15 @@
         </div>
       </div>
     </q-card-media>
-    <q-card-title>{{ user.facebookName }}, {{ user.age }}</q-card-title>
-    <q-card-main>
-      <span class="school">{{ user.school }}</span>
-      <span class="major">{{ user.major }}</span>
+    <q-card-title>
+      <p>
+        <span class="name">{{ user.facebookName }}, {{ user.age }}</span><br>
+        <span class="school">{{ user.school }}</span><br>
+        <span class="major">{{ user.major }}</span>
+      </p>
+    </q-card-title>
 
+    <q-card-main>
       <p v-if="user.desc != null && user.desc !== ''">
         <small class="caption text-primary">About</small><br>
         <span class="major">{{ user.desc }}</span>
@@ -66,18 +70,28 @@ export default {
 
   methods: {
     choosePhotos(i) {
-      ActionSheet.create({
-        title: 'Pick a Photo',
-        // specify ONLY IF you want gallery mode:
-        gallery: true,
-        actions: this.photos.map(photo => ({
-          avatar: `https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`,
+      const actions = this.photos.map(photo => ({
+        avatar: `https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`,
+        handler: () => {
+          const photos = [...this.user.photos]
+          photos[i] = photo
+          this.$store.dispatch('choosePhotos', photos)
+        },
+      }))
+      if (this.user.photos[i] != null) {
+        actions.push({
+          icon: 'delete',
           handler: () => {
             const photos = [...this.user.photos]
-            photos[i] = photo
+            photos.splice(i, 1)
             this.$store.dispatch('choosePhotos', photos)
           },
-        })),
+        })
+      }
+      ActionSheet.create({
+        title: 'Pick a Photo',
+        actions,
+        gallery: true,
         dismiss: { label: 'Cancel' },
       })
     },
@@ -102,4 +116,11 @@ export default {
       width 100%
       border-radius 100%
       box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+
+.name
+  font-weight 500
+  font-size 1.3em
+  
+.major
+  color grey
 </style>

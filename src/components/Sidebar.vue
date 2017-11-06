@@ -3,19 +3,19 @@
   <div v-else>
     <q-list no-border link inset-delimiter>
       <q-side-link v-if="me.isSingle" item :key="me.id" replace :to="`/user/${me.id}/swipe`">
-        <q-item-side :avatar="`https://graph.facebook.com/${me.facebookId}/picture?type=large`" />
+        <q-item-side :avatar="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${me.photos[0]}`" />
         <q-item-main>
           {{ me.facebookName }}
         </q-item-main>
       </q-side-link>
       <q-side-link item v-for="person in singles" :key="person.id" replace :to="`/user/${person.id}/swipe`">
-        <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
+        <q-item-side :avatar="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${person.photos[0]}`" />
         <q-item-main>
           {{ person.facebookName }}
         </q-item-main>
       </q-side-link>
       <q-side-link item v-for="person in invitations" :key="person.id" replace :to="`/user/${person.id}/profile`">
-        <q-item-side :avatar="`https://graph.facebook.com/${person.facebookId}/picture?type=large`" />
+        <q-item-side avatar="https://static.xx.fbcdn.net/rsrc.php/v3/yA/r/gPCjrIGykBe.gif" />
         <q-item-main>
           {{ person.nickname }} ({{ person.status ==='P' ? 'Pending' : 'Declined' }})
         </q-item-main>
