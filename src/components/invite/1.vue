@@ -27,14 +27,6 @@
         >
           Her
         </q-btn>
-        <q-btn
-          class="both" big color="primary"
-          :class="{ 'is-active': sex === 'B' }"
-          :flat="sex !== 'B'"
-          @click="sex = 'B'"
-        >
-          Depends
-        </q-btn>
       </q-field>
 
       <p class="caption">{{ pronoun }}</p>
@@ -54,9 +46,7 @@ export default {
 
   computed: {
     pronoun() {
-      return this.sex === 'M'
-        ? 'He is'
-        : this.sex === 'F' ? 'She is' : 'They are'
+      return this.sex === 'M' ? 'He is' : 'She is'
     },
     nickname: {
       get() {

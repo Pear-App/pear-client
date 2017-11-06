@@ -55,9 +55,7 @@ export default {
       return this.$store.state.me
     },
     pronoun() {
-      return this.sex === 'M'
-        ? 'He is'
-        : this.sex === 'F' ? 'She is' : 'They are'
+      return this.sex === 'M' ? 'He is' : 'She is'
     },
     sexualOrientation: {
       get() {
