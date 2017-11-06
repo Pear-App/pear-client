@@ -3,7 +3,7 @@
   <div class="layout-padding text-center" color="secondary">
 
     <div class="fields">
-      <big class="title">Tell me more about your friend!</big>
+      <big class="title">Tell us more about your friend!</big>
 
       <p class="caption">My friend's name is</p>
       <q-field :error="nicknameHasError" :count="50">
@@ -13,14 +13,14 @@
       <p class="caption">I refer to them by</p>
       <q-field>
         <q-btn
-          class="men" big color="primary"
+          class="men text-black" big color="primary"
           :class="{ 'is-active': sex === 'M' }"
           :flat="sex !== 'M'"
           @click="sex = 'M'"
         >
           Him
         </q-btn>
-        <q-btn class="women" big color="primary"
+        <q-btn class="women text-black" big color="primary"
           :class="{ 'is-active': sex === 'F' }"
           :flat="sex !== 'F'"
           @click="sex = 'F'"
@@ -30,9 +30,9 @@
       </q-field>
 
       <p class="caption">{{ pronoun }}</p>
-      <q-input suffix="years old" :error="ageHasError" type="number" v-model="age" :min="18" :max="80" label-always />
+      <q-input class="age" suffix="years old" :error="ageHasError" type="number" v-model="age" :min="18" :max="80" label-always />
 
-      <q-btn class="pull-right" color="primary" big @click="$router.push('/invite/2')">Next</q-btn>
+      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="$router.push('/invite/2')">Next</q-btn>
     </div>
 
   </div>
@@ -73,7 +73,7 @@ export default {
       },
     },
     nicknameHasError() {
-      return this.nickname.length > 50
+      return this.nickname.length === 0 || this.nickname.length > 50
     },
     ageHasError() {
       return this.age < 18 || this.age > 80
@@ -93,4 +93,9 @@ export default {
 
 .fields
   padding 0 30px
+
+.age
+  max-width 100px
+  margin-left auto
+  margin-right auto
 </style>

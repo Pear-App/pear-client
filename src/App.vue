@@ -52,4 +52,7 @@ body
 
 .q-item-avatar
   box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+
+.text-medium
+  font-weight 500 !important
 </style>

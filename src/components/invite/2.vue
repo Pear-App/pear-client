@@ -6,15 +6,12 @@
       <big class="title">Share something interesting about {{ pronoun }}!</big>
 
       <q-field :error="reviewHasError" :count="120">
-        <q-input type="textarea" :min-rows="10" v-model="review" :placeholder="`What makes ${pronoun} a good friend?
-
-A surprising fact about ${pronoun}?
-
-Your fondest memory of ${pronoun}?`"/>
+        <q-input type="textarea" :min-rows="10" v-model="review"
+          :placeholder="`What makes ${pronoun} a good friend?                              A surprising fact about ${pronoun}?                              Your fondest memory of ${pronoun}?`"/>
       </q-field>
 
-      <q-btn class="pull-left" color="primary" big @click="$router.push('/invite/1')">Back</q-btn>
-      <q-btn class="pull-right" color="primary" big @click="$store.dispatch('addInvitation')">Next</q-btn>
+      <q-btn class="pull-left" color="secondary text-black text-medium" big @click="$router.push('/invite/1')">Back</q-btn>
+      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="$store.dispatch('addInvitation')">Next</q-btn>
     </div>
 
   </div>
