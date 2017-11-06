@@ -4,15 +4,7 @@
       <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2" icon="arrow back"/>
       <q-btn v-else class="col-2" icon="blank"/>
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
-      <q-btn class="col-2" icon="settings">
-        <q-popover ref="popover" self="top middle">
-          <q-list link>
-            <q-item @click="openBlockModal" style="min-width:120px">
-              Block User
-            </q-item>
-          </q-list>
-        </q-popover>
-      </q-btn>
+      <q-btn class="col-2" icon="settings" @click="openChatActions"/>
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
        <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
@@ -56,7 +48,7 @@
 </template>
 
 <script>
-import { Dialog } from 'quasar'
+import { Dialog, ActionSheet } from 'quasar'
 import { mapState } from 'vuex'
 import { get, post, log } from '../../util'
 
@@ -141,11 +133,24 @@ export default {
           },
         ],
       })
-      this.$refs.popover.close()
     },
     enterRoom() {
       this.$socket.emit('subscribe', [this.currentRoom.id])
       this.$store.dispatch('getRoomMessages', this.currentRoom.id)
+    },
+    openChatActions() {
+      ActionSheet.create({
+        actions: [
+          {
+            label: 'Block User',
+            icon: 'block',
+            handler: this.openBlockModal,
+          },
+        ],
+        dismiss: {
+          label: 'Cancel',
+        },
+      })
     },
   },
 
