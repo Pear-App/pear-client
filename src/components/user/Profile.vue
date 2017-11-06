@@ -4,19 +4,20 @@
   <q-card v-else class="person no-margin">
     <q-card-media v-if="user.isMe">
       <div v-if="user.photos != null" class="row photos">
-        <div v-for="(photo, i) in user.photos" :key="photo" class="photo col-4">
-          <img :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`" @click="choosePhotos(i)">
-        </div>
-        <div v-if="user.photos.length < 6" class="photo col-4" @click="choosePhotos(user.photos.length)">
+        <div v-for="(photo, i) in user.photos" :key="photo" class="photo"
+          :style="{ 'background-image': `url(https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo})` }"
+          @click="choosePhotos(i)"
+        ></div>
+        <div v-if="user.photos.length < 6" class="photo" @click="choosePhotos(user.photos.length)">
           <img src="~assets/add-photo.png">
         </div>
       </div>
     </q-card-media>
     <q-card-media v-else>
       <div v-if="user.photos != null" class="row photos">
-        <div v-for="(photo, i) in user.photos" :key="photo" class="photo col-4">
-          <img :src="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`">
-        </div>
+        <div v-for="(photo, i) in user.photos" :key="photo" class="photo"
+          :style="{ 'background-image': `url(https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo})` }"
+        ></div>
       </div>
     </q-card-media>
     <q-card-title>
@@ -109,13 +110,15 @@ export default {
 @import '../../themes/app.variables'
 
 .photos 
-  padding 10px
+  padding 20px
   .photo
-    padding 10px
-    img
-      width 100%
-      border-radius 100%
-      box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+    margin 5px auto
+    width calc(33vw - 30px)
+    height calc(33vw - 30px)
+    border-radius 100%
+    background-position 50% 50%
+    background-size cover
+    box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
 
 .name
   font-weight 500
