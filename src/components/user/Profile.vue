@@ -19,11 +19,15 @@
         </div>
       </div>
     </q-card-media>
-    <q-card-title>{{ user.facebookName }}, {{ user.age }}</q-card-title>
-    <q-card-main>
-      <span class="school">{{ user.school }}</span>
-      <span class="major">{{ user.major }}</span>
+    <q-card-title>
+      <p>
+        <span class="name">{{ user.facebookName }}, {{ user.age }}</span><br>
+        <span class="school">{{ user.school }}</span><br>
+        <span class="major">{{ user.major }}</span>
+      </p>
+    </q-card-title>
 
+    <q-card-main>
       <p v-if="user.desc != null && user.desc !== ''">
         <small class="caption text-primary">About</small><br>
         <span class="major">{{ user.desc }}</span>
@@ -102,4 +106,11 @@ export default {
       width 100%
       border-radius 100%
       box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+
+.name
+  font-weight 500
+  font-size 1.3em
+  
+.major
+  color grey
 </style>

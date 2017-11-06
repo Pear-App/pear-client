@@ -29,11 +29,15 @@
             <div :class="{ active: isProfileExpanded }"></div>
           </div>
           <div class="profile" v-touch-swipe="swipeProfile" @click="isProfileExpanded = !isProfileExpanded">
-            <span class="title">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
-            <span class="subtitle">
-              <span class="school">{{ matches[0].school }}</span>
-              <span class="major">{{ matches[0].major }}</span>
-            </span>
+            <p class="information">
+              <span class="name">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
+              <template v-if="matches[0].school != null">
+                <br><span class="school">{{ matches[0].school }}</span>
+              </template>
+              <template v-if="matches[0].major != null">
+                <br><span class="major">{{ matches[0].major }}</span>
+              </template>
+            </p>
             <transition name="expand-y">
               <div v-show="isProfileExpanded" class="expanded-profile">
                 <hr>
@@ -266,17 +270,22 @@ $padding = 16px
     position absolute
     width calc(100% - 20px)
 
-    .title
+    .information
+      margin 0
+
+    .name
       padding 0 $padding
       display block
       font-size 1.3em
       margin-left -1px
       margin-bottom 0.2em
 
-    .subtitle
-      padding 0 $padding
-      display block
-      font-size 1em
+    .name
+      font-weight 500
+      font-size 1.3em
+      
+    .major
+      color grey
 
     .content
       margin-bottom 1.5em
