@@ -155,8 +155,7 @@ export default {
   async acceptInvitation({ commit }, hash) {
     const [, err] = await post(`/invitation/${hash}/accept`)
     if (err != null) return log(err)
-    commit('acceptInvitation', hash)
-    router.push('/settings')
+    return commit('acceptInvitation', hash)
   },
 
   async deleteInvitation({ commit }, hash) {

@@ -36,7 +36,7 @@
         <q-range v-model="ageRange" :min="18" :max="80" label-always />
       </q-field>
 
-      <q-btn class="pull-right" color="primary" big @click="back">Done</q-btn>
+      <q-btn class="pull-right" color="primary" big @click="done">Done</q-btn>
     </div>
 
   </div>
@@ -86,8 +86,12 @@ export default {
   },
 
   methods: {
-    back() {
-      window.history.back()
+    done() {
+      if (this.$route.query.onboard !== undefined) {
+        this.$router.replace(`/user/${this.$store.state.me}/profile`)
+      } else {
+        window.history.back()
+      }
     },
   },
 }
