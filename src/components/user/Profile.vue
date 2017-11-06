@@ -70,18 +70,28 @@ export default {
 
   methods: {
     choosePhotos(i) {
-      ActionSheet.create({
-        title: 'Pick a Photo',
-        // specify ONLY IF you want gallery mode:
-        gallery: true,
-        actions: this.photos.map(photo => ({
-          avatar: `https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`,
+      const actions = this.photos.map(photo => ({
+        avatar: `https://s3-ap-southeast-1.amazonaws.com/pear-server/album${photo}`,
+        handler: () => {
+          const photos = [...this.user.photos]
+          photos[i] = photo
+          this.$store.dispatch('choosePhotos', photos)
+        },
+      }))
+      if (this.user.photos[i] != null) {
+        actions.push({
+          icon: 'delete',
           handler: () => {
             const photos = [...this.user.photos]
-            photos[i] = photo
+            photos.splice(i, 1)
             this.$store.dispatch('choosePhotos', photos)
           },
-        })),
+        })
+      }
+      ActionSheet.create({
+        title: 'Pick a Photo',
+        actions,
+        gallery: true,
         dismiss: { label: 'Cancel' },
       })
     },
