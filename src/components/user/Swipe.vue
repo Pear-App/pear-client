@@ -272,13 +272,10 @@ $padding = 16px
 
     .information
       margin 0
-
-    .name
       padding 0 $padding
       display block
-      font-size 1.3em
       margin-left -1px
-      margin-bottom 0.2em
+      margin-bottom 0
 
     .name
       font-weight 500
