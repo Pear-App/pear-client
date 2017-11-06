@@ -189,7 +189,7 @@ export default {
   padding-bottom:1.5vh
   background-color: rgb(250,235,187)
 .chat-size
-  height: calc(97vh - 210px)
+  height: calc(97vh - 230px)
   padding:1.5vw 3vw
 .chat-event-bg
   background-color: $primary
