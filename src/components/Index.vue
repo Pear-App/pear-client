@@ -54,6 +54,7 @@ export default {
   }),
 
   mounted() {
+    this.$store.dispatch('fetchMe')
     if (this.$route.path === '/' && this.$route.name != null) {
       if (this.$store.state.friends.length > 0) {
         this.$router.replace(`/user/${this.$store.state.me}/swipe`)
