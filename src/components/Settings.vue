@@ -86,7 +86,8 @@ export default {
   },
 
   methods: {
-    done() {
+    async done() {
+      await this.$store.dispatch('fetchMe')
       if (this.$route.query.onboard !== undefined) {
         this.$router.replace(`/user/${this.$store.state.me}/profile`)
       } else {
