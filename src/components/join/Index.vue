@@ -32,11 +32,11 @@ export default {
   methods: {
     async accept() {
       await this.$store.dispatch('acceptInvitation', this.hash)
-      router.push('/settings?onboard')
+      this.$router.push('/settings?onboard')
     },
     async reject() {
       await this.$store.dispatch('rejectInvitation', this.hash)
-      router.push('/')
+      this.$router.push('/')
     },
   },
 }

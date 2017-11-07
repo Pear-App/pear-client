@@ -126,6 +126,7 @@ export default {
 
   watch: {
     id(id) {
+      this.image = 0
       this.$store.dispatch('fetchMatches', id)
     },
   },
@@ -143,10 +144,12 @@ export default {
     },
     reject(e) {
       const candidateId = e.target.dataset.id
+      this.image = 0
       this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
     accept(e) {
       const candidateId = e.target.dataset.id
+      this.image = 0
       this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     },
     swipeImage({ direction }) {

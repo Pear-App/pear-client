@@ -1,9 +1,8 @@
 <template>
 	<div class="bg-light">
-    <router-link replace to="/" class="fixed-bottom-right" style="margin-bottom:16px; margin-right:16px">
-        <q-btn icon="arrow back" round big color="primary">
-        </q-btn>
-    </router-link>
+    <q-fixed-position corner="bottom-right" :offset="[18, 18]">
+      <q-btn icon="arrow back" round big color="primary" @click="back"></q-btn>
+    </q-fixed-position>
     <div class="layout-view layout-padding">
       <div class="text-center">
         <h4><strong>Terms of Service</strong></h4>
@@ -88,10 +87,21 @@
 	</div>
 </template>
 
+<script>
+export default {
+  name: 'terms',
+
+  methods: {
+    back() {
+      window.history.back()
+    },
+  },
+}
+</script>
+
 <style scoped lang="stylus">
 .subtitle
   margin-top:25px
   margin-bottom:25px
   font-size:18px
-  font-weight: bold
 </style>

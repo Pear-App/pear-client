@@ -22,9 +22,9 @@
     </q-card-media>
     <q-card-title>
       <p>
-        <span class="name">{{ user.facebookName }}, {{ user.age }}</span><br>
-        <span class="school">{{ user.school }}</span><br>
-        <span class="major">{{ user.major }}</span>
+        <span class="name">{{ user.facebookName }}, {{ user.age }}</span>
+        <span class="school" v-if="user.school != null"><br>{{ user.school }}</span>
+        <span class="major" v-if="user.major != null"><br>{{ user.major }}</span>
       </p>
     </q-card-title>
 
@@ -56,7 +56,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'profile',
 
-  components: { Invitation },
+  components: { Invitation, Loader },
 
   props: ['id'],
 
