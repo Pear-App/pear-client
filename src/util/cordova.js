@@ -1,11 +1,14 @@
 import router from '../router'
+import { post } from './'
+import { Toast } from 'quasar'
 
-function getFcmToken() {
+function tryGetToken(maxRetry) {
   window.FCMPlugin.getToken(function(token) {
-    if (token === null) {
-      setTimeout(getFcmToken, 1000)
-    } else {
+    if (token !== null) {
       localStorage.setItem('fcmToken', token)
+      post('/user/fcmToken', { fcmToken: token })
+    } else if (maxRetry > 0) {
+      setTimeout(tryGetToken(maxRetry - 1), 1000)
     }
   })
 }
@@ -19,7 +22,16 @@ document.addEventListener('deviceready', () => {
 
   // Push Notifications
   if (typeof FCMPlugin !== 'undefined') {
-    setTimeout(getFcmToken, 1000)
+    if (localStorage.getItem('fcmToken') === 'null') {
+      tryGetToken(10)
+    }
+
+    window.FCMPlugin.onTokenRefresh(function(token) {
+      if (token !== null) {
+        localStorage.setItem('fcmToken', token)
+        post('/user/fcmToken', { fcmToken: token })
+      }
+    })
 
     window.FCMPlugin.onNotification(function(data) {
       if (data.wasTapped) {
@@ -33,6 +45,19 @@ document.addEventListener('deviceready', () => {
             text: data.text,
             foreground: true,
             data: { route: data.route },
+          })
+        } else {
+          Toast.create({
+            html: data.text,
+            timeout: 3000,
+            color: 'black',
+            bgColor: 'white',
+            button: {
+              label: 'Go',
+              handler() {
+                router.push(data.route)
+              },
+            },
           })
         }
       }
