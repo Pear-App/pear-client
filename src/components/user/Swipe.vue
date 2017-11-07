@@ -28,8 +28,8 @@
             ></div>
             <div :class="{ active: isProfileExpanded }"></div>
           </div>
-          <div class="profile" v-touch-swipe="swipeProfile" @click="isProfileExpanded = !isProfileExpanded">
-            <p class="information">
+          <div class="profile" @click="isProfileExpanded = !isProfileExpanded">
+            <p class="information" v-touch-swipe="swipeProfile">
               <span class="name">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
               <template v-if="matches[0].school != null">
                 <br><span class="school">{{ matches[0].school }}</span>
@@ -183,32 +183,28 @@ export default {
             label: 'Inappropriate Profile',
             color: 'black',
             handler: () => {
-              // Not sure how to get current match id? so just put 500
-              this.reportUser(500, 1)
+              this.reportUser(matches[0].id, 1)
             },
           },
           {
             label: 'Inappropriate Messaging',
             color: 'black',
             handler: () => {
-              // Not sure how to get current match id? so just put 500
-              this.reportUser(500, 2)
+              this.reportUser(matches[0].id, 2)
             },
           },
           {
             label: 'Fake Profile',
             color: 'black',
             handler: () => {
-              // Not sure how to get current match id? so just put 500
-              this.reportUser(500, 3)
+              this.reportUser(matches[0].id, 3)
             },
           },
           {
             label: 'Other',
             color: 'black',
             handler: () => {
-              // Not sure how to get current match id? so just put 500
-              this.reportUser(500, 4)
+              this.reportUser(matches[0].id, 4)
             },
           },
           {
@@ -320,6 +316,7 @@ $padding = 16px
       background-color $secondary
 
   .profile
+    overflow scroll
     background-color white
     border-radius 25px
     padding $padding 0
@@ -357,7 +354,6 @@ $padding = 16px
   opacity 0
 
 .expanded-profile
-  overflow hidden
   height calc(80vh \- 200px)
   max-height calc(80vh \- 200px)
 
