@@ -1,5 +1,6 @@
 import router from '../router'
 import { post } from './'
+import { Toast } from 'quasar'
 
 function tryGetToken(maxRetry) {
   window.FCMPlugin.getToken(function(token) {
@@ -44,6 +45,19 @@ document.addEventListener('deviceready', () => {
             text: data.text,
             foreground: true,
             data: { route: data.route },
+          })
+        } else {
+          Toast.create({
+            html: data.text,
+            timeout: 3000,
+            color: 'black',
+            bgColor: 'white',
+            button: {
+              label: 'Go',
+              handler() {
+                router.push(data.route)
+              },
+            },
           })
         }
       }
