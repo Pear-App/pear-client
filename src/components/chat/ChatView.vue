@@ -4,7 +4,7 @@
       <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2" icon="arrow back"/>
       <q-btn v-else class="col-2" icon="blank"/>
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
-      <q-btn class="col-2" icon="settings" @click="openChatActions"/>
+      <q-btn class="col-2" icon="more horiz" @click="openChatActions"/>
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
        <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
@@ -32,14 +32,13 @@
       placeholder="Enter your message"
       :min-rows="1"
       clearable
-      inverted
       align="center"
-      color="primary"
+      color=""
       @keydown.enter="sendMessage"
-      @click=""
       :after="[
                 {
                   icon: 'send',
+                  color: 'black',
                   handler: sendMessage
                 }
               ]"
@@ -182,12 +181,23 @@ export default {
 
 .message-input
   margin: 0
+  background-color: $chatHeader
+  height: 40px
+  padding-top: 6px
+  padding-left: 8px
+  padding-right: 8px
+.message-input::before
+  content: none
+.message-input::after
+  content: none
+.message-input i
+  color: black
 .chat-bg
   background-color: $chatBg
 .chat-header
   padding-top:1.5vh
   padding-bottom:1.5vh
-  background-color: rgb(250,235,187)
+  background-color: $chatHeader
 .chat-size
   height: calc(97vh - 230px)
   padding:1.5vw 3vw
