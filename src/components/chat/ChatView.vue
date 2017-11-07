@@ -1,10 +1,10 @@
 <template v-if="currentRoom != null">
   <div class="chat-bg">
     <div class="row chat-header">
-      <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2" icon="arrow back"/>
-      <q-btn v-else class="col-2" icon="blank"/>
+      <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2 no-box-shadow" icon="arrow back"/>
+      <q-btn v-else class="col-2 no-box-shadow" icon="blank"/>
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
-      <q-btn class="col-2" icon="more horiz" @click="openChatActions"/>
+      <q-btn class="col-2 no-box-shadow" icon="more horiz" @click="openChatActions"/>
     </div>
      <q-scroll-area class="chat-size" v-chat-scroll>
        <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
@@ -209,4 +209,6 @@ export default {
   margin-left: 5%
 .unblock-button
   height: 40px
+.no-box-shadow
+  box-shadow: none
 </style>
