@@ -51,6 +51,8 @@
                       <q-item-main>{{ friend.Friendships.review }}</q-item-main>
                     </q-item>
                   </q-list>
+                  <div class="text-center">
+                    <q-btn @click="openSwipeModal" class="report-button">Report User</q-btn></div>
                 </div>
               </div>
             </transition>
@@ -65,7 +67,8 @@
 
 <script>
 import VueSwing from 'vue-swing'
-import { TouchSwipe } from 'quasar'
+import { TouchSwipe, Dialog, Toast } from 'quasar'
+import { post } from '../../util'
 
 import Loader from '../Loader'
 
@@ -175,6 +178,62 @@ export default {
         this.isProfileExpanded = false
       }
     },
+    openSwipeModal() {
+      Dialog.create({
+        title: 'Report User',
+        buttons: [
+          {
+            label: 'Inappropriate Profile',
+            color: 'black',
+            handler: () => {
+              // Not sure how to get current match id? so just put 500
+              this.reportUser(500, 1)
+            },
+          },
+          {
+            label: 'Inappropriate Messaging',
+            color: 'black',
+            handler: () => {
+              // Not sure how to get current match id? so just put 500
+              this.reportUser(500, 2)
+            },
+          },
+          {
+            label: 'Fake Profile',
+            color: 'black',
+            handler: () => {
+              // Not sure how to get current match id? so just put 500
+              this.reportUser(500, 3)
+            },
+          },
+          {
+            label: 'Other',
+            color: 'black',
+            handler: () => {
+              // Not sure how to get current match id? so just put 500
+              this.reportUser(500, 4)
+            },
+          },
+          {
+            label: 'Cancel',
+            color: 'primary',
+          },
+        ],
+        stackButtons: true,
+        noBackdropDismiss: true,
+      })
+    },
+    reportUser(flageeId, reason) {
+      post(`/flaglist/`, {
+        flageeId,
+        reason,
+      })
+      Toast.create({
+        html: 'User reported!',
+        icon: 'mail',
+        bgColor: '#F2C037',
+      })
+    },
   },
 }
 </script>
@@ -239,7 +298,7 @@ $padding = 16px
 
     &.expanded
       opacity 0.5
-    
+
   .pagination
     position absolute
     top 30px
@@ -283,7 +342,7 @@ $padding = 16px
     .name
       font-weight 500
       font-size 1.3em
-      
+
     .major
       color grey
 
@@ -347,5 +406,12 @@ $padding = 16px
   100%
     transform translateY(0)
     border-radius 0 0 50vw 50vw
+
+.report-button
+  background-color: #F4FAF3
+  border-radius: 25px
+  width: 40vw
+  font-weight: 400
+  margin-top: 20px
 
 </style>
