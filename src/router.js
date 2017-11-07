@@ -84,7 +84,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
   if (to.path === '/') {
     if (store.state.friends.length > 0) {
       next({ path: `/user/${store.state.me}/swipe`, replace: true })

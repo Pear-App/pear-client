@@ -46,9 +46,9 @@ document.addEventListener('deviceready', () => {
 
   // Universal Links
   /* global universalLinks */
-  universalLinks.subscribe('launchFromLink', data =>
-    console.log('Did launch application from the link: ' + data.url)
-  )
+  universalLinks.subscribe(null, data => {
+    router.push(data.path)
+  })
 
   // Statusbar Color
   /* global StatusBar */
