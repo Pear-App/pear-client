@@ -85,8 +85,8 @@ export default {
     ageRange: {
       get() {
         return {
-          min: this.$store.state.users[this.id].minAge,
-          max: this.$store.state.users[this.id].maxAge,
+          min: this.$store.state.users[this.id].minAge || 18,
+          max: this.$store.state.users[this.id].maxAge || 80,
         }
       },
       set(ageRange) {
