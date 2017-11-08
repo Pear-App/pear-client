@@ -29,7 +29,7 @@
       <div slot="slide" class="slide">
         <div class="tutorial bg-secondary">
           <img class="image" src="~assets/tutorial-3.png" width="154" height="204">
-          <p class="subtitle">Have singles that should not be single?</p>
+          <p class="subtitle">Have friends that should not be single?</p>
           <p class="content">Swipe right to pear them up now!</p>
           <q-btn class="finish-tutorial" color="tertiary" @click="finish">Let's go!</q-btn>
         </div>
@@ -65,6 +65,9 @@ export default {
 .q-carousel-right-button i
 .q-carousel-left-button i
   background transparent
+
+.q-carousel-dots
+  color #CBD57F
 </style>
 
 <style lang="stylus" scoped>
@@ -80,7 +83,7 @@ export default {
     height 100%
 
     .title
-      font-weight 700
+      font-weight 500
 
     .image
       display block
@@ -89,7 +92,7 @@ export default {
       height auto
 
     .subtitle
-      font-weight 700
+      font-weight 500
       font-size 1.2em
     
     .finish-tutorial
