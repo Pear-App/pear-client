@@ -140,6 +140,7 @@ export default {
     padding 0.3em
 
 .q-item-icon
-  height 38px
+  padding-top 7px
+  padding-bottom 7px
   width 38px
 </style>
