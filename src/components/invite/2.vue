@@ -7,17 +7,19 @@
 
       <q-field :error="reviewHasError" :count="120">
         <q-input type="textarea" :min-rows="10" v-model="review"
-          :placeholder="`What makes ${pronoun} a good friend?                              A surprising fact about ${pronoun}?                              Your fondest memory of ${pronoun}?`"/>
+          :placeholder="`What makes ${pronoun} a good friend?                                                                                                    A surprising fact about ${pronoun}?                                                                                                    Your fondest memory of ${pronoun}?`"/>
       </q-field>
 
       <q-btn class="pull-left" color="secondary text-black text-medium" big @click="$router.push('/invite/1')">Back</q-btn>
-      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="$store.dispatch('addInvitation')">Next</q-btn>
+      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="addInvitation">Next</q-btn>
     </div>
 
   </div>
 </template>
 
 <script>
+import { Toast } from 'quasar'
+
 export default {
   name: 'user-add-2',
 
@@ -37,7 +39,25 @@ export default {
       },
     },
     reviewHasError() {
-      return this.review.length > 120
+      return this.review.length > 120 || this.review.length < 30
+    },
+  },
+
+  methods: {
+    addInvitation() {
+      if (this.reviewHasError) {
+        if (this.review.length > 120) {
+          Toast.create.negative({
+            html: 'Keep it short and sweet.',
+          })
+        } else {
+          Toast.create.negative({
+            html: 'Write more good things about your friend!',
+          })
+        }
+      } else {
+        this.$store.dispatch('addInvitation')
+      }
     },
   },
 }

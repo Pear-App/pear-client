@@ -37,7 +37,8 @@
     <q-card-main>
       <p v-if="user.isMe">
         <small class="caption text-primary">About</small><br>
-        <q-input v-model="desc" placeholder="Write something about yourself!"></q-input>
+        <q-input type="textarea" :min-rows="1"
+          v-model="desc" placeholder="Write something about yourself!"></q-input>
       </p>
 
       <p v-else-if="user.desc != null && user.desc !== ''">
