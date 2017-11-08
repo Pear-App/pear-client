@@ -34,7 +34,6 @@ export default {
 
   watch: {
     $route($route) {
-      console.log($route)
       this.isTermsOrPolicy =
         $route.path === '/terms' || $route.path === '/privacy'
     },
