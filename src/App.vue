@@ -42,6 +42,8 @@ export default {
 </style>
 
 <style lang="stylus">
+@import 'themes/app.variables'
+
 body
   font-family Montserrat, sans-serif
 
@@ -55,4 +57,10 @@ body
 
 .text-medium
   font-weight 500 !important
+
+.text-primary-light
+  color $primary-light
+
+.bg-primary-light
+  background-color $primary-light
 </style>

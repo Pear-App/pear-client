@@ -10,7 +10,7 @@
       <p>
         <span>We need a few more details before {{ inviter.facebookName }} can begin matchmaking.</span>
       </p>
-      <q-btn big color="primary" @click="accept">Start</q-btn>
+      <q-btn big color="primary-light" class="text-black" @click="accept">Start</q-btn>
     </q-modal>
   </div>
 </template>

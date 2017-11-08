@@ -8,7 +8,7 @@
       <p>
         <span>For {{ whom }} to indicate {{ whose }} dating prefernces before your curation begins.</span>
       </p>
-      <q-btn big color="primary" @click="shareInvitationLink">Invite</q-btn>
+      <q-btn big color="primary-light" class="text-black" @click="shareInvitationLink">Invite</q-btn>
     </div>
   </div>
 </template>

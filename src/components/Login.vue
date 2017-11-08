@@ -66,7 +66,7 @@ export default {
 @import '../themes/app.variables'
 
 .login
-  background-color $secondary
+  background-color #fed960
   padding-top 20vh
   height 100vh
   text-align center

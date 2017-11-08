@@ -23,13 +23,13 @@
       <q-side-link item key="addInvitation" replace :to="'/invite/1'">
         <q-item-side icon="add" />
         <q-item-main>
-          Recommend for a friend!
+          Matchmake your friends
         </q-item-main>
       </q-side-link>
       <q-item item key="shareLink" @click="shareLink">
         <q-item-side icon="share" />
         <q-item-main>
-          Get Friends to Matchmake You!
+          Invite friends to Pear!
         </q-item-main>
       </q-item>
       <q-side-link item key="settings" to="/settings">
@@ -136,4 +136,7 @@ export default {
     position absolute
     bottom 0
     padding 0.3em
+
+.q-item-icon
+  height 38px
 </style>

@@ -64,7 +64,7 @@
                     </q-item>
                   </q-list>
                   <div class="text-center">
-                    <q-btn @click="openSwipeModal" class="report-button">Report User</q-btn></div>
+                    <q-btn @click="openSwipeModal" class="report-button primary-light">Report User</q-btn></div>
                 </div>
               </div>
             </transition>
@@ -422,7 +422,6 @@ $padding = 16px
     border-radius 0 0 50vw 50vw
 
 .report-button
-  background-color: #F4FAF3
   border-radius: 25px
   width: 40vw
   font-weight: 400
