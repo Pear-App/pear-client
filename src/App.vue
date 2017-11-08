@@ -1,7 +1,10 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <login v-if="!isLoggedIn" />
+    <q-layout v-if="isTermsOrPolicy" ref="layout" view="lHr LpR lFr" class="layout">
+      <router-view />
+    </q-layout>
+    <login v-else-if="!isLoggedIn" />
     <tutorial v-else-if="!hasSeenTutorial" />
     <index v-else />
   </div>
@@ -18,7 +21,24 @@ export default {
 
   components: { Login, Tutorial, Index },
 
-  computed: mapState(['isLoggedIn', 'hasSeenTutorial']),
+  data() {
+    return {
+      isTermsOrPolicy:
+        this.$route.path === '/terms' || this.$route.path === '/privacy',
+    }
+  },
+
+  computed: {
+    ...mapState(['isLoggedIn', 'hasSeenTutorial']),
+  },
+
+  watch: {
+    $route($route) {
+      console.log($route)
+      this.isTermsOrPolicy =
+        $route.path === '/terms' || $route.path === '/privacy'
+    },
+  },
 }
 </script>
 
