@@ -111,10 +111,11 @@ export default {
 
 .photos
   padding 20px
+  width 99vw
   .photo
-    margin 5px auto
-    width calc(33vw - 30px)
-    height calc(33vw - 30px)
+    margin 5px
+    width calc(33vw - 25px)
+    height calc(33vw - 25px)
     border-radius 100%
     background-position 50% 50%
     background-size cover
