@@ -100,4 +100,7 @@ body
 
 big
   font-size 130%
+
+.q-message-container .q-message-text
+  max-width 290px
 </style>
