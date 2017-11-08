@@ -11,7 +11,7 @@
       </q-field>
 
       <q-btn class="pull-left" color="secondary text-black text-medium" big @click="$router.push('/invite/1')">Back</q-btn>
-      <q-btn class="pull-right" loader color="secondary text-black text-medium" big @click="addInvitation">Next</q-btn>
+      <q-btn class="pull-right" v-model="isLoading" color="secondary text-black text-medium" big @click="addInvitation">Next</q-btn>
     </div>
 
   </div>
@@ -23,7 +23,12 @@ import { Toast } from 'quasar'
 export default {
   name: 'user-add-2',
 
-  data: () => ({ id: 'new' }),
+  data() {
+    return {
+      id: 'new',
+      isLoading: false,
+    }
+  },
 
   computed: {
     pronoun() {
@@ -44,7 +49,8 @@ export default {
   },
 
   methods: {
-    addInvitation() {
+    async addInvitation() {
+      this.isLoading = true
       if (this.reviewHasError) {
         if (this.review.length > 120) {
           Toast.create.negative({
@@ -56,8 +62,9 @@ export default {
           })
         }
       } else {
-        this.$store.dispatch('addInvitation')
+        await this.$store.dispatch('addInvitation')
       }
+      this.isLoading = false
     },
   },
 }

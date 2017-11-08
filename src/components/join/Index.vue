@@ -10,7 +10,7 @@
       <p>
         <span>We need a few more details before {{ inviter.facebookName }} can begin matchmaking.</span>
       </p>
-      <q-btn big loader color="primary-light" class="text-black" @click="accept">Start</q-btn>
+      <q-btn big v-model="isLoading" color="primary-light" class="text-black" @click="accept">Start</q-btn>
     </q-modal>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       open: true,
+      isLoading: false,
     }
   },
 
@@ -46,11 +47,15 @@ export default {
 
   methods: {
     async accept() {
+      this.isLoading = true
       await this.$store.dispatch('acceptInvitation', this.hash)
+      this.isLoading = false
       this.$router.push('/settings?onboard')
     },
     async reject() {
+      this.isLoading = true
       await this.$store.dispatch('rejectInvitation', this.hash)
+      this.isLoading = false
       this.$router.push('/')
     },
   },
