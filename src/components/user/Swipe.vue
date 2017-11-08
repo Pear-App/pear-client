@@ -11,7 +11,7 @@
         <div v-if="matches.length === 0">
           <img class="sad-pear" src="~assets/sad-pear.png">
           <p class="text-tertiary">
-            <big>Sorry, you ran out of pears.</big>
+            <big class="text-medium">Sorry, you ran out of pears.</big>
           </p>
           <p class="text-tertiary">
             <span>Notify your friends now to find more!</span>
