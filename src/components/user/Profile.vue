@@ -21,7 +21,13 @@
       </div>
     </q-card-media>
     <q-card-title>
-      <p>
+      <p v-if="user.isMe">
+        <span class="name">{{ user.facebookName }}, {{ user.age }}</span>
+        <q-input class="school" v-model="school" placeholder="School"></q-input>
+        <q-input class="major" v-model="major" placeholder="Major"></q-input>
+      </p>
+
+      <p v-else>
         <span class="name">{{ user.facebookName }}, {{ user.age }}</span>
         <span class="school" v-if="user.school != null"><br>{{ user.school }}</span>
         <span class="major" v-if="user.major != null"><br>{{ user.major }}</span>
@@ -29,9 +35,14 @@
     </q-card-title>
 
     <q-card-main>
-      <p v-if="user.desc != null && user.desc !== ''">
+      <p v-if="user.isMe">
         <small class="caption text-primary">About</small><br>
-        <span class="major">{{ user.desc }}</span>
+        <q-input v-model="desc" placeholder="Write something about yourself!"></q-input>
+      </p>
+
+      <p v-else-if="user.desc != null && user.desc !== ''">
+        <small class="caption text-primary">About</small><br>
+        {{ user.desc }}
       </p>
 
       <p v-if="user.friend != null && user.friend.length !== 0">
@@ -67,6 +78,30 @@ export default {
       },
       photos: ({ photos }) => photos,
     }),
+    desc: {
+      get() {
+        return this.user.desc
+      },
+      set(desc) {
+        this.$store.dispatch('setUser', { ...this.user, desc })
+      },
+    },
+    school: {
+      get() {
+        return this.user.school
+      },
+      set(school) {
+        this.$store.dispatch('setUser', { ...this.user, school })
+      },
+    },
+    major: {
+      get() {
+        return this.user.major
+      },
+      set(major) {
+        this.$store.dispatch('setUser', { ...this.user, major })
+      },
+    },
   },
 
   methods: {
