@@ -6,7 +6,19 @@
       <div class="header-bg bg-secondary"></div>
     </div>
 
-    <div class="person placeholder"></div>
+    <div class="person placeholder text-center">
+      <div>
+        <img class="sad-pear" src="~assets/sad-pear.png">
+        <p class="text-tertiary">
+          <big>Sorry, you ran out of pears.</big>
+        </p>
+        <p class="text-tertiary">
+          <span>Notify your friends now to find more!</span>
+        </p>
+        <br>
+        <!-- <q-btn color="primary">Nudge my friends!</q-btn> -->
+      </div>
+    </div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
       <transition v-if="matches.length !== 0" name="scale">
         <div class="person" :data-id="matches[0].id" :key="matches[0].id">
@@ -276,6 +288,12 @@ $padding = 16px
     background-color white
     width calc(100% - 80px)
     height calc(100% - 80px)
+    display flex
+    align-items center
+    justify-content center
+
+    .sad-pear
+      margin-bottom 1em
 
   .photos
     position absolute
