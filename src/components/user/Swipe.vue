@@ -7,17 +7,19 @@
     </div>
 
     <div class="person placeholder text-center">
-      <div>
-        <img class="sad-pear" src="~assets/sad-pear.png">
-        <p class="text-tertiary">
-          <big>Sorry, you ran out of pears.</big>
-        </p>
-        <p class="text-tertiary">
-          <span>Notify your friends now to find more!</span>
-        </p>
-        <br>
-        <!-- <q-btn color="primary">Nudge my friends!</q-btn> -->
-      </div>
+      <transition name="fade">
+        <div v-if="matches.length === 0">
+          <img class="sad-pear" src="~assets/sad-pear.png">
+          <p class="text-tertiary">
+            <big>Sorry, you ran out of pears.</big>
+          </p>
+          <p class="text-tertiary">
+            <span>Notify your friends now to find more!</span>
+          </p>
+          <br>
+          <!-- <q-btn color="primary">Nudge my friends!</q-btn> -->
+        </div>
+      </transition>
     </div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
       <transition v-if="matches.length !== 0" name="scale">
@@ -72,8 +74,12 @@
         </div>
       </transition>
     </vue-swing>
-    <div class="like" :style="{ opacity: offset > 0 ? offset / 2 : 0 }"></div>
-    <div class="unlike" :style="{ opacity: offset < 0 ? -offset / 2 : 0 }"></div>
+    <div class="like" :style="{ transform: `translateX(${Math.min(-65 + offset * 150, 0)}vw)`, opacity: offset > 0 ? offset * 2 : 0 }">
+      <img src="~assets/like.svg">
+    </div>
+    <div class="unlike" :style="{ transform: `translateX(${Math.max(65 + offset * 150, 0)}vw)`, opacity: offset < 0 ? -offset * 2 : 0 }">
+      <img src="~assets/cancel.svg">
+    </div>
   </div>
 </template>
 
@@ -147,12 +153,8 @@ export default {
   },
 
   methods: {
-    dragmove({ throwDirection, throwOutConfidence }) {
-      if (throwDirection === VueSwing.Direction.LEFT) {
-        this.offset = -throwOutConfidence
-      } else if (throwDirection === VueSwing.Direction.RIGHT) {
-        this.offset = throwOutConfidence
-      }
+    dragmove({ offset, target }) {
+      this.offset = offset / target.offsetWidth
     },
     dragend() {
       this.offset = 0
@@ -258,12 +260,6 @@ $padding = 16px
   height 100vh
   user-select none
   pointer-events none
-
-.like
-  background-color green
-
-.unlike
-  background-color red
 
 .swipe
   overflow hidden
@@ -427,4 +423,11 @@ $padding = 16px
   font-weight: 400
   margin-top: 20px
 
+.like
+.unlike
+  z-index 2
+  width 30vw
+  height 30vh
+  top calc(50% - 15vw)
+  left calc(50% - 15vw)
 </style>
