@@ -87,8 +87,7 @@ export default {
       return this.$store.state.me
     },
     isSingle() {
-      return true
-      // return this.$store.state.users[this.id].isSingle
+      return this.$store.state.users[this.id].isSingle
     },
     pronoun() {
       return this.sex === 'M' ? 'He is' : 'She is'
