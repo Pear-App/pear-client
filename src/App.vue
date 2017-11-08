@@ -63,4 +63,7 @@ body
 
 .bg-primary-light
   background-color $primary-light
+
+big
+  font-size 130%
 </style>

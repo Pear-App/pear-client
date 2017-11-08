@@ -2,6 +2,7 @@
   <loader v-if="me == null"/>
   <div v-else>
     <q-list no-border link inset-delimiter>
+      <q-list-header>Select a Profile</q-list-header>
       <q-side-link v-if="me.isSingle" item :key="me.id" replace :to="`/user/${me.id}/swipe`">
         <q-item-side :avatar="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${me.photos[0]}`" />
         <q-item-main>
@@ -26,6 +27,7 @@
           Matchmake your friends
         </q-item-main>
       </q-side-link>
+      <q-item-separator />
       <q-item item key="shareLink" @click="shareLink">
         <q-item-side icon="share" />
         <q-item-main>
@@ -139,4 +141,5 @@ export default {
 
 .q-item-icon
   height 38px
+  width 38px
 </style>

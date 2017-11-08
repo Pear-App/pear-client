@@ -69,7 +69,7 @@ export default {
 
 <style lang="stylus" scoped>
 .invitation
-  padding 15%
+  padding 20%
   display flex
   justify-content center
   align-items center

@@ -11,10 +11,10 @@
         <div v-if="matches.length === 0">
           <img class="sad-pear" src="~assets/sad-pear.png">
           <p class="text-tertiary">
-            <big class="text-medium">Sorry, you ran out of pears.</big>
+            <big class="text-medium">Sorry, you ran out<br>of pears.</big>
           </p>
           <p class="text-tertiary">
-            <span>Notify your friends now to find more!</span>
+            <span>Ask your friends now<br>to find more!</span>
           </p>
           <br>
           <!-- <q-btn color="primary">Nudge my friends!</q-btn> -->
@@ -281,6 +281,7 @@ $padding = 16px
   &.placeholder
     top 40px
     left 40px
+    padding 40px
     background-color white
     width calc(100% - 80px)
     height calc(100% - 80px)
