@@ -210,4 +210,12 @@ export default {
       commit('blockPerson', otherPersonId)
     }
   },
+
+  // Reviews
+  async updateReview({ commit }, { id, review }) {
+    const [, err] = await post(`/user/${id}/review`, { review })
+    if (err != null) {
+      log(err)
+    }
+  },
 }

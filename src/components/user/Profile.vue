@@ -51,7 +51,12 @@
         <q-list no-border sparse>
           <q-item v-for="friend in user.friend" :key="friend.id" class="no-padding">
             <q-item-side :avatar="`https://graph.facebook.com/${friend.facebookId}/picture?type=large`" />
-            <q-item-main>{{ friend.Friendships.review }}</q-item-main>
+            <q-item-main>
+              <q-input v-if="friend.id === me" v-model="review"
+                type="textarea" class="review" placeholder="School">
+              </q-input>
+              <span v-else>{{ friend.Friendships.review }}</span>
+            </q-item-main>
           </q-item>
         </q-list>
       </p>
@@ -77,8 +82,18 @@ export default {
       user({ users }) {
         return users[this.id]
       },
+      me: ({ me }) => me,
       photos: ({ photos }) => photos,
     }),
+    review: {
+      get() {
+        const friend = this.user.friend.find(({ id }) => id === this.me)
+        return friend.Friendships.review
+      },
+      set(review) {
+        this.$store.dispatch('updateReview', { id: this.user.id, review })
+      },
+    },
     desc: {
       get() {
         return this.user.desc
