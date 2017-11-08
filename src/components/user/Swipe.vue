@@ -66,7 +66,7 @@
                     </q-item>
                   </q-list>
                   <div class="text-center">
-                    <q-btn @click="openSwipeModal" class="report-button primary-light">Report User</q-btn></div>
+                    <q-btn @click="openSwipeModal" class="report-button primary">Report User</q-btn></div>
                 </div>
               </div>
             </transition>
