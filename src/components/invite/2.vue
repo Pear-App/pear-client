@@ -11,7 +11,7 @@
       </q-field>
 
       <q-btn class="pull-left" color="secondary text-black text-medium" big @click="$router.push('/invite/1')">Back</q-btn>
-      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="addInvitation">Next</q-btn>
+      <q-btn class="pull-right" loader color="secondary text-black text-medium" big @click="addInvitation">Next</q-btn>
     </div>
 
   </div>
