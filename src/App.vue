@@ -100,4 +100,7 @@ body
 
 big
   font-size 130%
+
+*
+  user-select none
 </style>
