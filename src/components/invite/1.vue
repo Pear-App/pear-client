@@ -13,14 +13,14 @@
       <p class="caption">I refer to them by</p>
       <q-field>
         <q-btn
-          class="men text-black" big color="primary"
+          class="men" big color="primary"
           :class="{ 'is-active': sex === 'M' }"
           :flat="sex !== 'M'"
           @click="sex = 'M'"
         >
           Him
         </q-btn>
-        <q-btn class="women text-black" big color="primary"
+        <q-btn class="women" big color="primary"
           :class="{ 'is-active': sex === 'F' }"
           :flat="sex !== 'F'"
           @click="sex = 'F'"
