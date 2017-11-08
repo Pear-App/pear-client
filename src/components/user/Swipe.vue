@@ -14,7 +14,7 @@
             <big class="text-medium">Sorry, you ran out<br>of pears.</big>
           </p>
           <p class="text-tertiary">
-            <span>Ask your friends now<br>to find more!</span>
+            <span>Ask your friends to<br>pear you up!</span>
           </p>
           <br>
           <!-- <q-btn color="primary">Nudge my friends!</q-btn> -->
