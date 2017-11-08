@@ -2,7 +2,7 @@
   <div class="chat-bg">
     <div class="row chat-header">
       <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2 no-box-shadow" icon="arrow back"/>
-      <q-btn v-else class="col-2 no-box-shadow" icon="blank"/>
+      <div v-else class="col-2 no-box-shadow"></div>
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
       <q-btn class="col-2 no-box-shadow" icon="more horiz" @click="openChatActions"/>
     </div>
