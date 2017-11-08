@@ -123,7 +123,7 @@ export default {
   padding 0 30px
 
 .age
-  max-width 100px
+  max-width 120px
   margin-left auto
   margin-right auto
 </style>

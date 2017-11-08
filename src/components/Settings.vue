@@ -162,4 +162,9 @@ export default {
 
 .footer
   margin 50px 0
+
+.age
+  max-width 120px
+  margin-left auto
+  margin-right auto
 </style>
