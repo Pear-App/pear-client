@@ -13,14 +13,14 @@
       <p class="caption">I refer to them by</p>
       <q-field>
         <q-btn
-          class="men text-black" big color="primary"
+          class="men" big color="primary"
           :class="{ 'is-active': sex === 'M' }"
           :flat="sex !== 'M'"
           @click="sex = 'M'"
         >
           Him
         </q-btn>
-        <q-btn class="women text-black" big color="primary"
+        <q-btn class="women" big color="primary"
           :class="{ 'is-active': sex === 'F' }"
           :flat="sex !== 'F'"
           @click="sex = 'F'"
@@ -32,13 +32,15 @@
       <p class="caption">{{ pronoun }}</p>
       <q-input class="age" suffix="years old" :error="ageHasError" type="number" v-model="age" :min="18" :max="80" label-always />
 
-      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="$router.push('/invite/2')">Next</q-btn>
+      <q-btn class="pull-right" color="secondary text-black text-medium" big @click="next">Next</q-btn>
     </div>
 
   </div>
 </template>
 
 <script>
+import { Toast } from 'quasar'
+
 export default {
   name: 'user-setup-1',
 
@@ -47,6 +49,9 @@ export default {
   computed: {
     pronoun() {
       return this.sex === 'M' ? 'He is' : 'She is'
+    },
+    whose() {
+      return this.sex === 'M' ? 'his' : 'her'
     },
     nickname: {
       get() {
@@ -77,6 +82,29 @@ export default {
     },
     ageHasError() {
       return this.age < 18 || this.age > 80
+    },
+  },
+
+  methods: {
+    next() {
+      if (this.nicknameHasError) {
+        if (this.nickname.length === 0) {
+          Toast.create.negative({
+            html: 'Your friend needs a name!',
+          })
+        } else {
+          Toast.create.negative({
+            html: `Your friend's name is too long. Use ${this
+              .whose} nickname instead!`,
+          })
+        }
+      } else if (this.ageHasError) {
+        Toast.create.negative({
+          html: 'Sorry, we only allow users above 18 years old.',
+        })
+      } else {
+        this.$router.push('/invite/2')
+      }
     },
   },
 }

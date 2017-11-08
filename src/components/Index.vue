@@ -28,7 +28,7 @@
       </keep-alive>
     </transition>
 
-    <q-toolbar v-if="id != null" slot="footer" class="text-tertiary bg-white">
+    <q-toolbar v-if="(id != null) && $store.state.showFooter" slot="footer" class="text-tertiary bg-white">
       <q-toolbar-title>
         <router-view name="footer" />
       </q-toolbar-title>
@@ -89,7 +89,7 @@ export default {
   100%
     transform perspective(600px) rotateY(0deg)
 
-.fade-enter-active 
+.fade-enter-active
   transition all .3s ease
 
 .fade-leave-active
@@ -113,6 +113,6 @@ export default {
   perspective 800px
 
 .animating
-  animation flip 0.5s 
+  animation flip 0.5s
 
 </style>

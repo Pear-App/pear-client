@@ -34,4 +34,7 @@ export default {
 
   // List of blocked user ids
   blockedIds: [],
+
+  // Boolean of whether to show footer
+  showFooter: true,
 }

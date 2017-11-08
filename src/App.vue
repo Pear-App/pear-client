@@ -42,6 +42,8 @@ export default {
 </style>
 
 <style lang="stylus">
+@import 'themes/app.variables'
+
 body
   font-family Montserrat, sans-serif
 
@@ -69,4 +71,13 @@ body
 .q-toast-container.active
   transform translateY(100px)
   -webkit-transform translateY(100px)
+
+.text-primary-light
+  color $primary-light
+
+.bg-primary-light
+  background-color $primary-light
+
+big
+  font-size 130%
 </style>

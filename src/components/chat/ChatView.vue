@@ -2,11 +2,11 @@
   <div class="chat-bg">
     <div class="row chat-header">
       <q-btn v-if="isDaterChat" @click="$router.push(`/user/${id}/chat`)" class="col-2 no-box-shadow" icon="arrow back"/>
-      <q-btn v-else class="col-2 no-box-shadow" icon="blank"/>
+      <div v-else class="col-2 no-box-shadow"></div>
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
       <q-btn class="col-2 no-box-shadow" icon="more horiz" @click="openChatActions"/>
     </div>
-     <q-scroll-area class="chat-size" v-chat-scroll>
+     <div class="chat-size" ref="chatContainer" v-chat-scroll @mousedown="closeKeyboard">
        <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
          <q-chat-message
            v-if ="msg.isEvent"
@@ -24,7 +24,7 @@
            :text="[$escapeHtml(msg.text)]"
          />
        </template>
-    </q-scroll-area>
+    </div>
     <q-btn v-if="isBlocked" color="primary" class="full-width unblock-button" @click="openUnblockModal">Unblock</q-btn>
     <q-input v-else class="message-input"
       v-model.trim="message"
@@ -34,6 +34,8 @@
       clearable
       align="center"
       color=""
+      @focus="onKeyboardOpen"
+      @blur="onKeyboardClose"
       @keydown.enter="sendMessage"
       :after="[
                 {
@@ -151,6 +153,31 @@ export default {
         },
       })
     },
+    closeKeyboard() {
+      if (this.isCordovaApp && window.Keyboard) {
+        document.activeElement.blur()
+      }
+    },
+    onKeyboardOpen() {
+      this.$refs.chatContainer.style.height = 'calc(97vh - 150px)'
+      this.$store.state.showFooter = false
+      setTimeout(() => {
+        this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+      }, 0)
+    },
+    onKeyboardClose() {
+      this.$refs.chatContainer.style.height = 'calc(97vh - 230px)'
+      this.$store.state.showFooter = true
+      setTimeout(() => {
+        this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+      }, 0)
+    },
+    isCordovaApp() {
+      return (
+        document.URL.indexOf('http://') === -1 &&
+        document.URL.indexOf('https://') === -1
+      )
+    },
   },
 
   computed: {
@@ -201,6 +228,7 @@ export default {
 .chat-size
   height: calc(97vh - 230px)
   padding:1.5vw 3vw
+  overflow: scroll
 .chat-event-bg
   background-color: $primary
   border-radius: 20px

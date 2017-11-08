@@ -4,6 +4,28 @@
   <div v-else class="layout-padding text-center" color="secondary">
 
     <div class="fields" v-if="isSingle">
+      <p class="caption">I am a</p>
+      <q-field>
+        <q-btn
+          class="men" big color="primary"
+          :class="{ 'is-active': sex === 'M' }"
+          :flat="sex !== 'M'"
+          @click="sex = 'M'"
+        >
+          Him
+        </q-btn>
+        <q-btn class="women" big color="primary"
+          :class="{ 'is-active': sex === 'F' }"
+          :flat="sex !== 'F'"
+          @click="sex = 'F'"
+        >
+          Her
+        </q-btn>
+      </q-field>
+
+      <p class="caption">My age is:</p>
+      <q-input class="age" suffix="years old" :error="ageHasError" type="number" v-model="age" :min="18" :max="80" label-always />
+
       <p class="caption">I am interested in:</p>
       <q-field>
         <q-btn
@@ -71,9 +93,28 @@ export default {
     pronoun() {
       return this.sex === 'M' ? 'He is' : 'She is'
     },
+    user() {
+      return this.$store.state.users[this.id]
+    },
+    sex: {
+      get() {
+        return this.user.sex
+      },
+      set(desc) {
+        this.$store.dispatch('setUser', { ...this.user, sex })
+      },
+    },
+    age: {
+      get() {
+        return this.user.age
+      },
+      set(desc) {
+        this.$store.dispatch('setUser', { ...this.user, age })
+      },
+    },
     sexualOrientation: {
       get() {
-        return this.$store.state.users[this.id].sexualOrientation
+        return this.user.sexualOrientation
       },
       set(sexualOrientation) {
         this.$store.dispatch('setUser', {
@@ -85,8 +126,8 @@ export default {
     ageRange: {
       get() {
         return {
-          min: this.$store.state.users[this.id].minAge,
-          max: this.$store.state.users[this.id].maxAge,
+          min: this.user.minAge || 18,
+          max: this.user.maxAge || 80,
         }
       },
       set(ageRange) {

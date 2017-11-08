@@ -6,7 +6,21 @@
       <div class="header-bg bg-secondary"></div>
     </div>
 
-    <div class="person placeholder"></div>
+    <div class="person placeholder text-center">
+      <transition name="fade">
+        <div v-if="matches.length === 0">
+          <img class="sad-pear" src="~assets/sad-pear.png">
+          <p class="text-tertiary">
+            <big class="text-medium">Sorry, you ran out<br>of pears.</big>
+          </p>
+          <p class="text-tertiary">
+            <span>Ask your friends now<br>to find more!</span>
+          </p>
+          <br>
+          <!-- <q-btn color="primary">Nudge my friends!</q-btn> -->
+        </div>
+      </transition>
+    </div>
     <vue-swing @dragmove="dragmove" @dragend="dragend" @throwoutleft="reject" @throwoutright="accept" :config="swingConfig" class="swipe">
       <transition v-if="matches.length !== 0" name="scale">
         <div class="person" :data-id="matches[0].id" :key="matches[0].id">
@@ -28,8 +42,8 @@
             ></div>
             <div :class="{ active: isProfileExpanded }"></div>
           </div>
-          <div class="profile" v-touch-swipe="swipeProfile" @click="isProfileExpanded = !isProfileExpanded">
-            <p class="information">
+          <div class="profile" @click="isProfileExpanded = !isProfileExpanded">
+            <p class="information" v-touch-swipe="swipeProfile">
               <span class="name">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
               <template v-if="matches[0].school != null">
                 <br><span class="school">{{ matches[0].school }}</span>
@@ -51,6 +65,8 @@
                       <q-item-main>{{ friend.Friendships.review }}</q-item-main>
                     </q-item>
                   </q-list>
+                  <div class="text-center">
+                    <q-btn @click="openSwipeModal" class="report-button primary-light">Report User</q-btn></div>
                 </div>
               </div>
             </transition>
@@ -58,14 +74,19 @@
         </div>
       </transition>
     </vue-swing>
-    <div class="like" :style="{ opacity: offset > 0 ? offset / 2 : 0 }"></div>
-    <div class="unlike" :style="{ opacity: offset < 0 ? -offset / 2 : 0 }"></div>
+    <div class="like" :style="{ transform: `translateX(${Math.min(-65 + offset * 150, 0)}vw)`, opacity: offset > 0 ? offset * 2 : 0 }">
+      <img src="~assets/like.svg">
+    </div>
+    <div class="unlike" :style="{ transform: `translateX(${Math.max(65 + offset * 150, 0)}vw)`, opacity: offset < 0 ? -offset * 2 : 0 }">
+      <img src="~assets/cancel.svg">
+    </div>
   </div>
 </template>
 
 <script>
 import VueSwing from 'vue-swing'
-import { TouchSwipe } from 'quasar'
+import { TouchSwipe, Dialog, Toast } from 'quasar'
+import { post } from '../../util'
 
 import Loader from '../Loader'
 
@@ -132,12 +153,8 @@ export default {
   },
 
   methods: {
-    dragmove({ throwDirection, throwOutConfidence }) {
-      if (throwDirection === VueSwing.Direction.LEFT) {
-        this.offset = -throwOutConfidence
-      } else if (throwDirection === VueSwing.Direction.RIGHT) {
-        this.offset = throwOutConfidence
-      }
+    dragmove({ offset, target }) {
+      this.offset = offset / target.offsetWidth
     },
     dragend() {
       this.offset = 0
@@ -175,6 +192,58 @@ export default {
         this.isProfileExpanded = false
       }
     },
+    openSwipeModal() {
+      Dialog.create({
+        title: 'Report User',
+        buttons: [
+          {
+            label: 'Inappropriate Profile',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 1)
+            },
+          },
+          {
+            label: 'Inappropriate Messaging',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 2)
+            },
+          },
+          {
+            label: 'Fake Profile',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 3)
+            },
+          },
+          {
+            label: 'Other',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 4)
+            },
+          },
+          {
+            label: 'Cancel',
+            color: 'primary',
+          },
+        ],
+        stackButtons: true,
+        noBackdropDismiss: true,
+      })
+    },
+    reportUser(flageeId, reason) {
+      post(`/flaglist/`, {
+        flageeId,
+        reason,
+      })
+      Toast.create({
+        html: 'User reported!',
+        icon: 'mail',
+        bgColor: '#F2C037',
+      })
+    },
   },
 }
 </script>
@@ -191,12 +260,6 @@ $padding = 16px
   height 100vh
   user-select none
   pointer-events none
-
-.like
-  background-color green
-
-.unlike
-  background-color red
 
 .swipe
   overflow hidden
@@ -218,9 +281,16 @@ $padding = 16px
   &.placeholder
     top 40px
     left 40px
+    padding 40px
     background-color white
     width calc(100% - 80px)
     height calc(100% - 80px)
+    display flex
+    align-items center
+    justify-content center
+
+    .sad-pear
+      margin-bottom 1em
 
   .photos
     position absolute
@@ -239,7 +309,7 @@ $padding = 16px
 
     &.expanded
       opacity 0.5
-    
+
   .pagination
     position absolute
     top 30px
@@ -264,6 +334,7 @@ $padding = 16px
       background-color $secondary
 
   .profile
+    overflow scroll
     background-color white
     border-radius 25px
     padding $padding 0
@@ -283,7 +354,7 @@ $padding = 16px
     .name
       font-weight 500
       font-size 1.3em
-      
+
     .major
       color grey
 
@@ -301,7 +372,6 @@ $padding = 16px
   opacity 0
 
 .expanded-profile
-  overflow hidden
   height calc(80vh \- 200px)
   max-height calc(80vh \- 200px)
 
@@ -348,4 +418,17 @@ $padding = 16px
     transform translateY(0)
     border-radius 0 0 50vw 50vw
 
+.report-button
+  border-radius: 25px
+  width: 40vw
+  font-weight: 400
+  margin-top: 20px
+
+.like
+.unlike
+  z-index 2
+  width 30vw
+  height 30vh
+  top calc(50% - 15vw)
+  left calc(50% - 15vw)
 </style>
