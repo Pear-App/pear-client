@@ -6,7 +6,7 @@
       <big class="title">Share something interesting about {{ pronoun }}!</big>
 
       <q-field :error="reviewHasError" :count="120">
-        <q-input type="textarea" :min-rows="10" v-model="review"
+        <q-input type="textarea" :min-rows="6" v-model="review"
           :placeholder="`What makes ${pronoun} a good friend?                                                                                                    A surprising fact about ${pronoun}?                                                                                                    Your fondest memory of ${pronoun}?`"/>
       </q-field>
 
