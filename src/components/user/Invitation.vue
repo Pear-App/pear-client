@@ -6,7 +6,7 @@
         <big class="title">Invite {{ user.nickname }} to join Pear!</big>
       </p>
       <p>
-        <span>For {{ whom }} to indicate {{ whose }} dating prefernces before your curation begins.</span>
+        <span>For {{ whom }} to indicate {{ whose }} dating preferences before your curation begins.</span>
       </p>
       <q-btn big color="primary-light" class="text-black" @click="shareInvitationLink">Invite</q-btn>
     </div>

@@ -17,10 +17,21 @@
         Let us help you find<br>
         your perfect <strong class="text-bold">Pear</strong>!
       </p>
-      <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="login">
+      <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="isOpen = true">
         Login with Facebook
       </q-btn>
     </div>
+
+    <q-modal minimized v-model="isOpen" minimized content-classes="policy">
+      <p>
+        <big>Important!</big>
+      </p>
+      <p>
+        While Pear is free, we want to keep the experience fun and positive for everyone.
+        By continuing, you agree to our <router-link to="/terms">Terms of Service</router-link> and <router-link to="/privacy">Privacy Policy</router-link>
+      </p>
+      <q-btn class="finish-tutorial pull-right text-black" big color="secondary" @click="login">Ok, I understand</q-btn>
+    </q-modal>
   </div>
 </template>
 
@@ -28,6 +39,14 @@
 import { promisify } from '../util'
 
 export default {
+  name: 'login',
+
+  data() {
+    return {
+      isOpen: false,
+    }
+  },
+
   computed: {
     isInvited() {
       return this.$route.path.slice(0, 5) === '/join'
@@ -51,6 +70,7 @@ export default {
 
   methods: {
     async login() {
+      this.isOpen = false
       /* global FB */
       this.$store.dispatch('facebookLogin', {
         ...(await promisify(FB.login, {
@@ -73,7 +93,7 @@ export default {
 
 .intro
   display block
-  padding-right 20px
+  padding 0 20px
   margin 0 auto
   max-width calc(90vw - 60px)
   height auto
@@ -85,4 +105,9 @@ export default {
 .facebook-login
   background-color #3B5998 !important
   padding 10px 12px 10px 12px
+</style>
+
+<style lang="stylus">
+.policy
+  padding 20px
 </style>
