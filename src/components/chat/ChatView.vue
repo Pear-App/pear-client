@@ -6,7 +6,7 @@
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
       <q-btn class="col-2 no-box-shadow" icon="more horiz" @click="openChatActions"/>
     </div>
-     <div class="chat-size" v-chat-scroll @mousedown="closeKeyboard">
+     <div class="chat-size" ref="chatContainer" v-chat-scroll @mousedown="closeKeyboard">
        <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
          <q-chat-message
            v-if ="msg.isEvent"
@@ -34,6 +34,8 @@
       clearable
       align="center"
       color=""
+      @focus="onKeyboardOpen"
+      @blur="onKeyboardClose"
       @keydown.enter="sendMessage"
       :after="[
                 {
@@ -155,6 +157,16 @@ export default {
       if (window.Keyboard) {
         document.activeElement.blur()
       }
+    },
+    onKeyboardOpen() {
+      this.$refs.chatContainer.style.height = 'calc(97vh - 150px)'
+      this.$store.state.showFooter = false
+      this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+    },
+    onKeyboardClose() {
+      this.$refs.chatContainer.style.height = 'calc(97vh - 230px)'
+      this.$store.state.showFooter = true
+      this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
     },
   },
 

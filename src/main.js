@@ -15,7 +15,6 @@ import 'whatwg-fetch'
 import './util/polyfill'
 import './util/facebookSdk'
 import './util/cordova'
-import './util/chatKeyboard'
 import { SOCKET_URL } from './constants'
 
 import Vue from 'vue'
