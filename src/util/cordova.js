@@ -73,7 +73,7 @@ document.addEventListener('deviceready', () => {
   // Universal Links
   /* global universalLinks */
   universalLinks.subscribe(null, data => {
-    router.push(data.path)
+    router.push(data.hash)
   })
 
   // Statusbar Color
