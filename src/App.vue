@@ -58,6 +58,20 @@ body
 .text-medium
   font-weight 500 !important
 
+.q-toast
+  border-radius 10px
+
+.q-toast a
+  padding: 10px 0 10px 30px
+
+.q-toast-container
+  top -100px
+  bottom unset
+
+.q-toast-container.active
+  transform translateY(100px)
+  -webkit-transform translateY(100px)
+
 .text-primary-light
   color $primary-light
 

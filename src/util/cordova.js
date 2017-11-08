@@ -47,8 +47,9 @@ document.addEventListener('deviceready', () => {
             data: { route: data.route },
           })
         } else {
+          var text = data.text
           Toast.create({
-            html: data.text,
+            html: text.length > 50 ? text.slice(0, 50) + '...' : text,
             timeout: 3000,
             color: 'black',
             bgColor: 'white',
