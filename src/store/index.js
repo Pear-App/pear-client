@@ -11,7 +11,7 @@ Vue.use(Vuex)
 const persist = createPersistedState()
 
 export default new Vuex.Store({
-  state,
+  state: state(),
   mutations,
   actions,
   plugins: [persist],

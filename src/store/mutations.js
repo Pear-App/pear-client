@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { initialUser } from '../util'
+import newState from './state'
 
 export default {
   // Auth
@@ -12,8 +13,7 @@ export default {
     state.isLoggedIn = true
   },
   notLoggedIn(state) {
-    state.isLoggedIn = false
-    state.jwt = null
+    state = newState()
   },
   finishedTutorial(state) {
     state.hasSeenTutorial = true
