@@ -154,19 +154,29 @@ export default {
       })
     },
     closeKeyboard() {
-      if (window.Keyboard) {
+      if (this.isCordovaApp && window.Keyboard) {
         document.activeElement.blur()
       }
     },
     onKeyboardOpen() {
       this.$refs.chatContainer.style.height = 'calc(97vh - 150px)'
       this.$store.state.showFooter = false
-      this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+      setTimeout(() => {
+        this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+      }, 0)
     },
     onKeyboardClose() {
       this.$refs.chatContainer.style.height = 'calc(97vh - 230px)'
       this.$store.state.showFooter = true
-      this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+      setTimeout(() => {
+        this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight
+      }, 0)
+    },
+    isCordovaApp() {
+      return (
+        document.URL.indexOf('http://') === -1 &&
+        document.URL.indexOf('https://') === -1
+      )
     },
   },
 
