@@ -89,6 +89,11 @@ router.beforeEach((to, from, next) => {
       next({ path: `/user/${store.state.me}/swipe`, replace: true })
     } else if (store.state.singles.length > 0) {
       next({ path: `/user/${store.state.singles[0]}/swipe`, replace: true })
+    } else if (store.state.invitations.length > 0) {
+      next({
+        path: `/user/${store.state.invitations[0]}/profile`,
+        replace: true,
+      })
     } else {
       next({ path: `/invite/1`, replace: true })
     }
