@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding invitaiton text-tertiary text-center">
+  <div class="layout-padding invitation text-tertiary text-center">
     <div>
       <img class="pear" src="~assets/pear.png">
       <p>
