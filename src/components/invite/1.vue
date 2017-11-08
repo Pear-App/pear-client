@@ -10,7 +10,7 @@
         <q-input v-model="nickname" />
       </q-field>
 
-      <p class="caption">I refer to them by</p>
+      <p class="caption">I refer to my friend by</p>
       <q-field>
         <q-btn
           class="men" big color="primary"
