@@ -1,4 +1,5 @@
 import router from '../router'
+import store from '../store'
 import { post } from './'
 import { Toast } from 'quasar'
 
@@ -84,4 +85,27 @@ document.addEventListener('deviceready', () => {
   } else {
     StatusBar.backgroundColorByHexString('#fee591')
   }
+
+  // Native resume event when app is recovered from background
+  document.addEventListener(
+    'resume',
+    () => {
+      setTimeout(function() {
+        store.dispatch('fetchMe')
+        if (!window.Keyboard.isVisible) {
+          store.state.showFooter = true
+        }
+        const routeParams = router.currentRoute.params
+        if (routeParams.otherPersonId) {
+          const room = store.state.rooms.find(room => {
+            return room.otherPerson.id === parseInt(routeParams.otherPersonId)
+          })
+          if (room) {
+            store.dispatch('getRoomMessages', room.id)
+          }
+        }
+      }, 0)
+    },
+    false
+  )
 })
