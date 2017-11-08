@@ -9,7 +9,10 @@ export default {
     if (status === 'connected') {
       const fbToken = authResponse.accessToken
       const fcmToken = localStorage.getItem('fcmToken')
-      const body = fcmToken !== 'null' ? { fbToken, fcmToken } : { fbToken }
+      const body =
+        fcmToken == null || fcmToken !== 'null'
+          ? { fbToken, fcmToken }
+          : { fbToken }
       const [data, err] = await post('/authenticate', body)
       // TODO: catch error
       if (err != null) log(err)

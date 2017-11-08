@@ -22,7 +22,8 @@ document.addEventListener('deviceready', () => {
 
   // Push Notifications
   if (typeof FCMPlugin !== 'undefined') {
-    if (localStorage.getItem('fcmToken') === 'null') {
+    const fcmToken = localStorage.getItem('fcmToken')
+    if (fcmToken == null || fcmToken === 'null') {
       tryGetToken(10)
     }
 
