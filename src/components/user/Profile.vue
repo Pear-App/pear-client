@@ -120,6 +120,8 @@ export default {
     background-position 50% 50%
     background-size cover
     box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
+    img
+      margin 0
 
 .name
   font-weight 500
