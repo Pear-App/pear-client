@@ -13,7 +13,7 @@ export default {
     state.isLoggedIn = true
   },
   notLoggedIn(state) {
-    state = newState()
+    Object.assign(state, newState())
   },
   finishedTutorial(state) {
     state.hasSeenTutorial = true
