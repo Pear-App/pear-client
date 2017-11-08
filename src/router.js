@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { log } from './util'
+import store from './store'
 
 Vue.use(VueRouter)
 
@@ -81,5 +82,19 @@ if (process.env.NODE_ENV !== 'production') {
     next()
   })
 }
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/') {
+    if (store.state.friends.length > 0) {
+      next({ path: `/user/${store.state.me}/swipe`, replace: true })
+    } else if (store.state.singles.length > 0) {
+      next({ path: `/user/${store.state.singles[0]}/swipe`, replace: true })
+    } else {
+      next({ path: `/invite/1`, replace: true })
+    }
+  } else {
+    next()
+  }
+})
 
 export default router

@@ -1,5 +1,5 @@
 <template>
-  <q-tabs v-if="user != null" align="justify" color="tertiary" inverted>
+  <q-tabs v-if="user != null && !user.isInvitation" align="justify" color="tertiary" inverted>
     <q-route-tab replace :to="`/user/${id}/profile`" exact slot="title">
       <svg width="32px" height="32px" viewBox="0 0 300 300">
         <path d="M149.996,0C67.157,0,0.001,67.158,0.001,149.997c0,82.837,67.156,150,149.995,150s150-67.163,150-150
@@ -8,7 +8,7 @@
   			c0,18.178-8.896,33.756-21.555,40.361l1.19,6.349c10.019,11.658,49.802,12.418,49.802,58.488H150.453z"/>
       </svg>
     </q-route-tab>
-    <q-route-tab v-if="!user.isInvitation" replace :to="`/user/${id}/swipe`" exact slot="title">
+    <q-route-tab replace :to="`/user/${id}/swipe`" exact slot="title">
       <svg width="48px" height="48px" viewBox="0 0 300 300">
         <path d="M165.45,108.207l-9.788,9.786c-1.945,1.943-4.658,2.638-7.158,2.101c-1.541-0.241-3.009-0.936-4.173-2.103l-9.783-9.783
         c-6.549-6.546-15.149-9.822-23.749-9.822c-8.6,0-17.201,3.273-23.749,9.822c-12.82,12.823-12.698,33.374,0.283,47.805
@@ -21,7 +21,7 @@
         c19.161-19.161,50.341-19.159,69.508,0C242.726,115.975,242.848,145.731,224.239,166.417z"/>
       </svg>
     </q-route-tab>
-    <q-route-tab v-if="!user.isInvitation" replace :to="meId === parseInt(id, 10) ? `/user/${id}/chat` : `/user/${id}/chat/${id}` " exact slot="title">
+    <q-route-tab replace :to="meId === parseInt(id, 10) ? `/user/${id}/chat` : `/user/${id}/chat/${id}` " exact slot="title">
       <svg width="32px" height="32px" viewBox="0 0 60 60">
         <path d="M30,1.5c-16.542,0-30,12.112-30,27c0,5.204,1.646,10.245,4.768,14.604c-0.591,6.537-2.175,11.39-4.475,13.689
         c-0.304,0.304-0.38,0.769-0.188,1.153C0.275,58.289,0.625,58.5,1,58.5c0.046,0,0.092-0.003,0.139-0.01

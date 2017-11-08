@@ -3,7 +3,7 @@
   <loader v-if="id == null" />
   <div v-else class="layout-padding text-center" color="secondary">
 
-    <div class="fields">
+    <div class="fields" v-if="isSingle">
       <p class="caption">I am interested in:</p>
       <q-field>
         <q-btn
@@ -36,8 +36,18 @@
         <q-range v-model="ageRange" :min="18" :max="80" label-always />
       </q-field>
 
-      <q-btn class="pull-right" color="primary" big @click="done">Done</q-btn>
     </div>
+
+    <div class="footer">
+      <p>
+        <router-link to="/terms">Terms and Conditions</router-link>
+      </p>
+      <p>
+        <router-link to="/privacy">Privacy Policy</router-link>
+      </p>
+    </div>
+
+    <q-btn color="primary" big @click="done">Done</q-btn>
 
   </div>
 </template>
@@ -53,6 +63,10 @@ export default {
   computed: {
     id() {
       return this.$store.state.me
+    },
+    isSingle() {
+      return true
+      // return this.$store.state.users[this.id].isSingle
     },
     pronoun() {
       return this.sex === 'M' ? 'He is' : 'She is'
@@ -71,8 +85,8 @@ export default {
     ageRange: {
       get() {
         return {
-          min: this.$store.state.users[this.id].minAge,
-          max: this.$store.state.users[this.id].maxAge,
+          min: this.$store.state.users[this.id].minAge || 18,
+          max: this.$store.state.users[this.id].maxAge || 80,
         }
       },
       set(ageRange) {
@@ -88,11 +102,7 @@ export default {
   methods: {
     async done() {
       await this.$store.dispatch('fetchMe')
-      if (this.$route.query.onboard !== undefined) {
-        this.$router.replace(`/user/${this.$store.state.me}/profile`)
-      } else {
-        window.history.back()
-      }
+      this.$router.replace(`/user/${this.$store.state.me}/profile`)
     },
   },
 }
@@ -109,4 +119,7 @@ export default {
 
 .fields
   padding 0 30px
+
+.footer
+  margin 50px 0
 </style>

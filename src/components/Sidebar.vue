@@ -5,7 +5,7 @@
       <q-side-link v-if="me.isSingle" item :key="me.id" replace :to="`/user/${me.id}/swipe`">
         <q-item-side :avatar="`https://s3-ap-southeast-1.amazonaws.com/pear-server/album${me.photos[0]}`" />
         <q-item-main>
-          {{ me.facebookName }}
+          {{ me.facebookName }} (You)
         </q-item-main>
       </q-side-link>
       <q-side-link item v-for="person in singles" :key="person.id" replace :to="`/user/${person.id}/swipe`">

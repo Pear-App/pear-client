@@ -28,8 +28,8 @@
             ></div>
             <div :class="{ active: isProfileExpanded }"></div>
           </div>
-          <div class="profile" v-touch-swipe="swipeProfile" @click="isProfileExpanded = !isProfileExpanded">
-            <p class="information">
+          <div class="profile" @click="isProfileExpanded = !isProfileExpanded">
+            <p class="information" v-touch-swipe="swipeProfile">
               <span class="name">{{ matches[0].facebookName }}, {{ matches[0].age }}</span>
               <template v-if="matches[0].school != null">
                 <br><span class="school">{{ matches[0].school }}</span>
@@ -51,6 +51,8 @@
                       <q-item-main>{{ friend.Friendships.review }}</q-item-main>
                     </q-item>
                   </q-list>
+                  <div class="text-center">
+                    <q-btn @click="openSwipeModal" class="report-button">Report User</q-btn></div>
                 </div>
               </div>
             </transition>
@@ -65,7 +67,8 @@
 
 <script>
 import VueSwing from 'vue-swing'
-import { TouchSwipe } from 'quasar'
+import { TouchSwipe, Dialog, Toast } from 'quasar'
+import { post } from '../../util'
 
 import Loader from '../Loader'
 
@@ -126,6 +129,7 @@ export default {
 
   watch: {
     id(id) {
+      this.image = 0
       this.$store.dispatch('fetchMatches', id)
     },
   },
@@ -143,10 +147,12 @@ export default {
     },
     reject(e) {
       const candidateId = e.target.dataset.id
+      this.image = 0
       this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
     accept(e) {
       const candidateId = e.target.dataset.id
+      this.image = 0
       this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     },
     swipeImage({ direction }) {
@@ -171,6 +177,58 @@ export default {
       } else if (direction === 'down') {
         this.isProfileExpanded = false
       }
+    },
+    openSwipeModal() {
+      Dialog.create({
+        title: 'Report User',
+        buttons: [
+          {
+            label: 'Inappropriate Profile',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 1)
+            },
+          },
+          {
+            label: 'Inappropriate Messaging',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 2)
+            },
+          },
+          {
+            label: 'Fake Profile',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 3)
+            },
+          },
+          {
+            label: 'Other',
+            color: 'black',
+            handler: () => {
+              this.reportUser(matches[0].id, 4)
+            },
+          },
+          {
+            label: 'Cancel',
+            color: 'primary',
+          },
+        ],
+        stackButtons: true,
+        noBackdropDismiss: true,
+      })
+    },
+    reportUser(flageeId, reason) {
+      post(`/flaglist/`, {
+        flageeId,
+        reason,
+      })
+      Toast.create({
+        html: 'User reported!',
+        icon: 'mail',
+        bgColor: '#F2C037',
+      })
     },
   },
 }
@@ -236,7 +294,7 @@ $padding = 16px
 
     &.expanded
       opacity 0.5
-    
+
   .pagination
     position absolute
     top 30px
@@ -261,6 +319,7 @@ $padding = 16px
       background-color $secondary
 
   .profile
+    overflow scroll
     background-color white
     border-radius 25px
     padding $padding 0
@@ -280,7 +339,7 @@ $padding = 16px
     .name
       font-weight 500
       font-size 1.3em
-      
+
     .major
       color grey
 
@@ -298,7 +357,6 @@ $padding = 16px
   opacity 0
 
 .expanded-profile
-  overflow hidden
   height calc(80vh \- 200px)
   max-height calc(80vh \- 200px)
 
@@ -344,5 +402,12 @@ $padding = 16px
   100%
     transform translateY(0)
     border-radius 0 0 50vw 50vw
+
+.report-button
+  background-color: #F4FAF3
+  border-radius: 25px
+  width: 40vw
+  font-weight: 400
+  margin-top: 20px
 
 </style>
