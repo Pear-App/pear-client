@@ -6,7 +6,7 @@
       <div class="col-8 row flex-center">{{ currentRoom.otherPerson.facebookName }}</div>
       <q-btn class="col-2 no-box-shadow" icon="more horiz" @click="openChatActions"/>
     </div>
-     <q-scroll-area class="chat-size" v-chat-scroll>
+     <div class="chat-size" v-chat-scroll @mousedown="closeKeyboard">
        <template v-for="(msg, index) in this.$store.state.roomMessages[currentRoom.id]">
          <q-chat-message
            v-if ="msg.isEvent"
@@ -24,7 +24,7 @@
            :text="[$escapeHtml(msg.text)]"
          />
        </template>
-    </q-scroll-area>
+    </div>
     <q-btn v-if="isBlocked" color="primary" class="full-width unblock-button" @click="openUnblockModal">Unblock</q-btn>
     <q-input v-else class="message-input"
       v-model.trim="message"
@@ -151,6 +151,11 @@ export default {
         },
       })
     },
+    closeKeyboard() {
+      if (window.Keyboard) {
+        document.activeElement.blur()
+      }
+    },
   },
 
   computed: {
@@ -201,6 +206,7 @@ export default {
 .chat-size
   height: calc(97vh - 230px)
   padding:1.5vw 3vw
+  overflow: scroll
 .chat-event-bg
   background-color: $primary
   border-radius: 20px

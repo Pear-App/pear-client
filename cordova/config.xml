@@ -34,6 +34,9 @@
         <preference name="StatusBarStyle" value="default" />
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="Orientation" value="portrait" />
+        <preference name="SuppressesIncrementalRendering" value="true" />
+        <preference name="HideKeyboardFormAccessoryBar" value="true" />
+        <preference name="KeyboardShrinksView" value="true" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
@@ -59,4 +62,5 @@
     <plugin name="cordova-plugin-local-notifications" spec="git+https://github.com/katzer/cordova-plugin-local-notifications.git" />
     <plugin name="cordova-universal-links-plugin" spec="git+https://github.com/martindrapeau/cordova-universal-links-plugin.git#22225179a5debfcff801e306eb1bf5477200aeda" />
     <plugin name="cordova-plugin-statusbar" spec="git+https://github.com/apache/cordova-plugin-statusbar.git" />
+    <plugin name="cordova-plugin-keyboard" spec="^1.1.5" />
 </widget>
