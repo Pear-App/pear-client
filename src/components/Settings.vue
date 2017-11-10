@@ -99,16 +99,16 @@ export default {
       get() {
         return this.user.sex
       },
-      set(desc) {
-        this.$store.dispatch('setUser', { ...this.user, sex })
+      set(sex) {
+        this.$store.dispatch('setUser', { id: this.id, sex })
       },
     },
     age: {
       get() {
         return this.user.age
       },
-      set(desc) {
-        this.$store.dispatch('setUser', { ...this.user, age })
+      set(age) {
+        this.$store.dispatch('setUser', { id: this.id, age })
       },
     },
     sexualOrientation: {
@@ -116,18 +116,12 @@ export default {
         return this.user.sexualOrientation
       },
       set(sexualOrientation) {
-        this.$store.dispatch('setUser', {
-          id: this.id,
-          sexualOrientation,
-        })
+        this.$store.dispatch('setUser', { id: this.id, sexualOrientation })
       },
     },
     ageRange: {
       get() {
-        return {
-          min: this.user.minAge || 18,
-          max: this.user.maxAge || 80,
-        }
+        return { min: this.user.minAge || 18, max: this.user.maxAge || 80 }
       },
       set(ageRange) {
         this.$store.dispatch('setUser', {
@@ -136,6 +130,9 @@ export default {
           maxAge: ageRange.max,
         })
       },
+    },
+    ageHasError() {
+      return this.age < 18 || this.age > 80
     },
   },
 
