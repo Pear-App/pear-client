@@ -13,18 +13,24 @@ export default {
     state.isLoggedIn = true
   },
   notLoggedIn(state) {
+    const { hasSeenTutorial, hasAcceptedBefore, hasRejectedBefore } = state
     Object.assign(state, newState())
+    state.hasSeenTutorial = hasSeenTutorial
+    state.hasAcceptedBefore = hasAcceptedBefore
+    state.hasRejectedBefore = hasRejectedBefore
   },
   finishedTutorial(state) {
     state.hasSeenTutorial = true
   },
 
   // Swiping
-  removeMatch(state, { id, candidateId }) {
+  removeMatch(state, { id, candidateId, isAccept }) {
     const index = state.users[id].matches.findIndex(
       _ => toString(_.id) === toString(candidateId)
     )
     state.users[id].matches.splice(index, 1)
+    if (isAccept) state.hasAcceptedBefore = true
+    else state.hasRejectedBefore = true
   },
 
   // Profile

@@ -86,8 +86,9 @@
 <script>
 import VueSwing from 'vue-swing'
 import { TouchSwipe, Dialog, Toast } from 'quasar'
-import { post } from '../../util'
+import { mapState } from 'vuex'
 
+import { post } from '../../util'
 import Loader from '../Loader'
 
 export default {
@@ -107,7 +108,7 @@ export default {
       counter: 0,
       image: 0,
       swingConfig: {
-        isThrowOut: (x, y, el, confidence) => confidence > 0.4,
+        isThrowOut: (x, y, el, confidence) => confidence > 0.5,
         minThrowOutDistance: document.body.clientWidth + 400,
         maxThrowOutDistance: document.body.clientWidth + 500,
         allowedDirections: [VueSwing.Direction.LEFT, VueSwing.Direction.RIGHT],
@@ -135,6 +136,7 @@ export default {
   },
 
   computed: {
+    ...mapState(['hasAcceptedBefore', 'hasRejectedBefore']),
     matches() {
       const user = this.$store.state.users[this.id]
       return user != null && user.matches
@@ -161,11 +163,27 @@ export default {
     },
     reject(e) {
       const candidateId = e.target.dataset.id
+      if (!this.hasRejectedBefore) {
+        Dialog.create({
+          title: 'Rotten Pear!',
+          message:
+            "Swiping left on someone means you don't think they're a match.",
+          buttons: [{ label: 'OK' }],
+        })
+      }
       this.image = 0
       this.$store.dispatch('rejectMatch', { id: this.id, candidateId })
     },
     accept(e) {
       const candidateId = e.target.dataset.id
+      if (!this.hasAcceptedBefore) {
+        Dialog.create({
+          title: 'Perfect Pear!',
+          message:
+            "Swiping right on someone means you think they're a perfect match!",
+          buttons: [{ label: 'OK' }],
+        })
+      }
       this.image = 0
       this.$store.dispatch('acceptMatch', { id: this.id, candidateId })
     },

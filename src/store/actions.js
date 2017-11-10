@@ -56,7 +56,7 @@ export default {
       post(`/match/friend/${id}`, { candidateId, friendChoice: true })
     }
     // TODO: catch error
-    commit('removeMatch', { id, candidateId })
+    commit('removeMatch', { id, candidateId, isAccept: true })
   },
 
   async rejectMatch({ state, commit }, { id, candidateId }) {
@@ -67,7 +67,7 @@ export default {
       post(`/match/friend/${id}`, { candidateId, friendChoice: false })
     }
     // TODO: catch error
-    commit('removeMatch', { id, candidateId })
+    commit('removeMatch', { id, candidateId, isAccept: false })
   },
 
   // Profile

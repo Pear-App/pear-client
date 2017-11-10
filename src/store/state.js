@@ -4,6 +4,8 @@ export default function() {
   return {
     isLoggedIn: null,
     hasSeenTutorial: false,
+    hasRejectedBefore: false,
+    hasAcceptedBefore: false,
     jwt: null,
 
     // Map of ID -> User (me, friend, single)
