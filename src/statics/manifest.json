@@ -1,0 +1,24 @@
+{
+  "short_name": "Pear",
+  "name": "Pear",
+  "icons": [
+    {
+      "src": "statics/favicon.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "statics/favicon-256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ],
+  "start_url": "/",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "me.goweiwen.pear"
+    }
+  ]
+}
