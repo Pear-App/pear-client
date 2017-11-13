@@ -6,24 +6,24 @@
   "background_color": "#fed960",
   "icons": [
     {
-      "src": "statics/favicon.png",
+      "src": "/statics/favicon.png",
       "type": "image/png",
       "sizes": "128x128"
     },
     {
-      "src": "statics/favicon-192.png",
+      "src": "/statics/favicon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "statics/favicon-256.png",
+      "src": "/statics/favicon-256.png",
       "type": "image/png",
       "sizes": "256x256"
     },
     {
-      "src": "statics/favicon-512.png",
+      "src": "/statics/favicon-512.png",
       "type": "image/png",
-      "sizes": "512"
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",
