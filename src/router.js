@@ -27,7 +27,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: load('Loader'),
+      component: load('Redirect'),
     },
     { path: '/login', component: load('Login') },
 
@@ -88,7 +88,7 @@ router.beforeEach((to, from, next) => {
     if (store.state.friends.length > 0) {
       next({ path: `/user/${store.state.me}/swipe`, replace: true })
     } else if (store.state.singles.length > 0) {
-      next({ path: `/user/${store.state.singles[0]}/swipe`, replace: true })
+      next({ path: `/user/${store.state.singles[0]}/profile`, replace: true })
     } else if (store.state.invitations.length > 0) {
       next({
         path: `/user/${store.state.invitations[0]}/profile`,

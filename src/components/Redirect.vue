@@ -4,7 +4,7 @@ export default {
     if (store.state.friends.length > 0) {
       this.$router.replace(`/user/${store.state.me}/swipe`)
     } else if (store.state.singles.length > 0) {
-      this.$router.replace(`/user/${store.state.singles[0]}/swipe`)
+      this.$router.replace(`/user/${store.state.singles[0]}/profile`)
     } else if (store.state.invitations.length > 0) {
       this.$router.replace(`/user/${store.state.invitations[0]}/profile`)
     } else {
@@ -16,7 +16,7 @@ export default {
     if (store.state.friends.length > 0) {
       this.$router.replace(`/user/${store.state.me}/swipe`)
     } else if (store.state.singles.length > 0) {
-      this.$router.replace(`/user/${store.state.singles[0]}/swipe`)
+      this.$router.replace(`/user/${store.state.singles[0]}/profile`)
     } else if (store.state.invitations.length > 0) {
       this.$router.replace(`/user/${store.state.invitations[0]}/profile`)
     } else {
