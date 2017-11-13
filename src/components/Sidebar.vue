@@ -22,7 +22,7 @@
         </q-item-main>
       </q-side-link>
       <q-side-link item key="addInvitation" replace :to="'/invite/1'">
-        <q-item-side icon="add" />
+        <q-item-side icon="favorite" />
         <q-item-main>
           Matchmake your friends
         </q-item-main>
