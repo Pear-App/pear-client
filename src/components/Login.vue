@@ -17,19 +17,35 @@
         Let us help you find<br>
         your perfect <strong class="text-bold">Pear</strong>!
       </p>
-      <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="openTermsAndPrivacy">
+      <q-btn class="facebook-login" big color="blue" icon="fa-facebook-official" @click="isOpen = true">
         Login with Facebook
       </q-btn>
     </div>
+
+    <q-modal minimized v-model="isOpen" minimized content-classes="policy">
+      <p>
+        <big>Important!</big>
+      </p>
+      <p>
+        While Pear is free, we want to keep the experience fun and positive for everyone.
+        By continuing, you agree to our <router-link to="/terms">Terms of Service</router-link> and <router-link to="/privacy">Privacy Policy</router-link>
+      </p>
+      <q-btn class="finish-tutorial pull-right text-black" big color="secondary" @click="login">Ok, I understand</q-btn>
+    </q-modal>
   </div>
 </template>
 
 <script>
-import { Dialog } from 'quasar'
 import { promisify } from '../util'
 
 export default {
   name: 'login',
+
+  data() {
+    return {
+      isOpen: false,
+    }
+  },
 
   computed: {
     isInvited() {
@@ -60,14 +76,6 @@ export default {
         ...(await promisify(FB.login, {
           scope: ['public_profile', 'user_photos'],
         })),
-      })
-    },
-    openTermsAndPrivacy() {
-      Dialog.create({
-        title: 'Important!',
-        message: `While Pear is free, we want to keep the experience fun and positive for everyone.
-By continuing, you agree to our <router-link to="/terms">Terms of Service</router-link> and <router-link to="/privacy">Privacy Policy</router-link>`,
-        buttons: [{ label: 'Ok, I understand', handler: this.login }],
       })
     },
   },
