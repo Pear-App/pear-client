@@ -60,6 +60,29 @@
 
           </li>
 
+          <li class="subtitle">Community Guidelines
+            <span class="terms-body">
+                <span>
+                  <p>By using the Pear App, you agree that you will not:</p>
+
+                  <p style="padding:0">
+                    <ol>
+                      <li>use Pear for any purpose that is illegal or prohibited by this Agreement;</li>
+                      <li>impersonate any entity or person by using their pictures without their permission;</li>
+                      <li>post any content that is pornographic or sexually explicit or contains nudity;</li>
+                      <li>post any content that incites violence or is hate speech or is threatening;</li>
+                      <li>post any content that promotes bigotry, racism or perpetuates bullying;</li>
+                      <li>post any content that infringes on the rights of other parties, including copyright, trademark or other intellectual property;</li>
+                      <li>spam other users with content or advertise services;</li>
+                      <li>use the account of another user;</li>
+                      <li>create another account after we have terminated your account due to violation of our guidelines;</li>
+                    </ol>
+                  </p>
+                  <p>Violation of any of the above rules will result in immediate investigation and termination of your Pear user account.</p>
+                </span>
+            </span>
+          </li>
+
           <li class="subtitle">Links
 
             <span class="terms-body">
