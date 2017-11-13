@@ -37,13 +37,6 @@
       @focus="onKeyboardOpen"
       @blur="onKeyboardClose"
       @keydown.enter="sendMessage"
-      :after="[
-                {
-                  icon: 'send',
-                  color: 'black',
-                  handler: sendMessage
-                }
-              ]"
     />
   </div>
 </template>
@@ -68,9 +61,12 @@ export default {
   },
 
   sockets: {
-    message: function(message) {
-      const roomId = this.currentRoom.id
-      this.$store.commit('patchRoomMessage', { roomId, message })
+    message: function(msg) {
+      if (msg.ownerId == this.$store.state.me) return
+      this.$store.commit('patchRoomMessage', {
+        roomId: this.currentRoom.id,
+        message: msg,
+      })
     },
   },
 
@@ -79,6 +75,14 @@ export default {
       if (this.message === '') {
         return
       }
+      this.$store.commit('patchRoomMessage', {
+        roomId: this.currentRoom.id,
+        message: {
+          isEvent: false,
+          ownerId: this.$store.state.me,
+          text: this.message,
+        },
+      })
       const [_, err] = await post(`/room/${this.currentRoom.id}/messages`, {
         message: this.message,
       })
