@@ -31,10 +31,11 @@ export default {
     }
   },
 
-  logout({ commit }) {
+  async logout({ commit }) {
     /* global FB */
     FB.logout()
-    commit('notLoggedIn')
+    await commit('notLoggedIn')
+    router.push('/')
   },
 
   // Swipe
