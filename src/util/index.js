@@ -15,7 +15,7 @@ async function api(method, path, body) {
 
   if (body != null) {
     options.headers['Content-Type'] = 'application/json'
-    options.data = body
+    options.body = JSON.stringify(body)
   }
 
   let res
