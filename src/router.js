@@ -25,10 +25,6 @@ const router = new VueRouter({
    */
 
   routes: [
-    {
-      path: '/',
-      component: load('Redirect'),
-    },
     { path: '/login', component: load('Login') },
 
     // Users
@@ -72,7 +68,7 @@ const router = new VueRouter({
     { path: '/terms', component: load('Terms') },
 
     // Always leave this last one
-    { path: '*', component: load('Error404') }, // Not found
+    { path: '*', component: load('Redirect') },
   ],
 })
 
