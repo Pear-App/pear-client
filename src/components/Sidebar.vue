@@ -120,7 +120,7 @@ export default {
 
       // Copy
       document.execCommand('copy')
-      // document.body.removeChild(dummy)
+      document.body.removeChild(dummy)
       console.log(dummy)
 
       Toast.create.positive({
