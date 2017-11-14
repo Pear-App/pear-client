@@ -6,8 +6,8 @@
       <big class="title">Tell us more about your friend!</big>
 
       <p class="caption">My friend's name is</p>
-      <q-field :error="nicknameHasError" :count="50">
-        <q-input v-model="nickname" />
+      <q-field :error="nicknameHasError">
+        <q-input v-model="nickname" :count="50"/>
       </q-field>
 
       <p class="caption">I refer to my friend by</p>
