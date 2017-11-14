@@ -52,6 +52,7 @@ export default {
         await this.$store.dispatch('acceptInvitation', this.hash)
       } catch (e) {}
       this.isLoading = false
+      this.open = false
       this.$router.push('/settings?onboard')
     },
     async reject() {
@@ -60,6 +61,7 @@ export default {
         await this.$store.dispatch('rejectInvitation', this.hash)
       } catch (e) {}
       this.isLoading = false
+      this.open = false
       this.$router.push('/')
     },
   },
