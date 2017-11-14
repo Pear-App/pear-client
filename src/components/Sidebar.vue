@@ -16,7 +16,7 @@
         </q-item-main>
       </q-side-link>
       <q-side-link item v-for="person in invitations" :key="person.id" replace :to="`/user/${person.id}/profile`">
-        <q-item-side avatar="https://static.xx.fbcdn.net/rsrc.php/v3/yA/r/gPCjrIGykBe.gif" />
+        <q-item-side avatar="/statics/pending-face.png" />
         <q-item-main>
           {{ person.nickname }} ({{ person.status ==='P' ? 'Pending' : 'Declined' }})
         </q-item-main>
