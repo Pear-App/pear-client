@@ -13,12 +13,13 @@
   <title>Pear</title>
   <link rel="icon" href="statics/favicon.png" type="image/x-icon">
   <link rel="alternate" href="android-app://me.goweiwen.pear/https/pear.netlify.com">
-  <link rel="manifest" href="/statics/manifest.json">
+  <link rel="manifest" href="/manifest.json">
 </head>
 
 <body>
   <div id="q-app"></div>
   <!-- built files will be auto injected -->
+  <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
 </body>
 
 </html>

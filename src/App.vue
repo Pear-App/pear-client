@@ -1,6 +1,16 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
+    <q-modal v-show="!isOnline" minimized>
+      <div style="padding:20px">
+        <p>
+          <big>Offline</big>
+        </p>
+        <p>
+          Pear requires a network connection.
+        </p>
+      </div>
+    </q-modal>
     <q-layout v-if="isTermsOrPolicy" ref="layout" view="lHr LpR lFr" class="layout">
       <router-view />
     </q-layout>
@@ -25,11 +35,21 @@ export default {
     return {
       isTermsOrPolicy:
         this.$route.path === '/terms' || this.$route.path === '/privacy',
+      isOnline: navigator.onLine,
     }
   },
 
-  computed: {
-    ...mapState(['isLoggedIn', 'hasSeenTutorial']),
+  computed: mapState(['isLoggedIn', 'hasSeenTutorial']),
+
+  mounted() {
+    window.addEventListener('offline', () => {
+      this.isOnline = false
+      console.log('online')
+    })
+    window.addEventListener('online', () => {
+      this.isOnline = true
+      console.log('offline')
+    })
   },
 
   watch: {

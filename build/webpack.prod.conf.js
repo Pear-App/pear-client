@@ -8,7 +8,9 @@ var
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
-  OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+  OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'),
+  SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin'),
+  loadMinified = require('./load-minified')
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -50,7 +52,9 @@ module.exports = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
+      serviceWorkerLoader: `<script>${loadMinified(path.join(__dirname,
+        './service-worker-prod.js'))}</script>`
     }),
     new CopyWebpackPlugin([
       {
@@ -59,6 +63,14 @@ module.exports = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ]),
+    // service worker caching
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'pear',
+      filename: 'service-worker.js',
+      staticFileGlobs: ['dist/**/*.{js,html,css}'],
+      minify: true,
+      stripPrefix: 'dist/'
+    }),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
