@@ -31,7 +31,7 @@
         We do not tolerate objectionable content or abusive users.
       </p>
       <p>
-        By continuing, you agree to our <router-link to="/terms">Terms of Service</router-link> and <router-link to="/privacy">Privacy Policy</router-link>
+        By continuing, you agree to our <router-link to="/terms" @click="isOpen = false">Terms of Service</router-link> and <router-link to="/privacy" @click="isOpen = false">Privacy Policy</router-link>
       </p>
       <q-btn class="finish-tutorial pull-right text-black" big color="secondary" @click="login">Ok, I understand</q-btn>
     </q-modal>
