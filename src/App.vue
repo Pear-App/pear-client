@@ -71,6 +71,9 @@ body
   border none
   box-shadow none
 
+.layout-page
+  overflow-y scroll
+
 .q-item-avatar
   box-shadow 0 2px 5px rgba(0, 0, 0, 0.1)
 

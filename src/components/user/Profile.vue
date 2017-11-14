@@ -160,6 +160,9 @@ export default {
 <style lang="stylus" scoped>
 @import '../../themes/app.variables'
 
+.person
+  position absolute
+
 .photos
   padding 20px
   width 99vw
