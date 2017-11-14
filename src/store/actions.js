@@ -158,10 +158,10 @@ export default {
   },
 
   async acceptInvitation({ commit, dispatch }, hash) {
-    const [, err] = await post(`/invitation/${hash}/accept`)
-    if (err != null) return log(err)
+    try {
+      await post(`/invitation/${hash}/accept`)
+    } catch (e) {}
     await dispatch('fetchMe')
-    if (err != null) return log(err)
     return commit('acceptInvitation', hash)
   },
 
