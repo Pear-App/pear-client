@@ -48,13 +48,17 @@ export default {
   methods: {
     async accept() {
       this.isLoading = true
-      await this.$store.dispatch('acceptInvitation', this.hash)
+      try {
+        await this.$store.dispatch('acceptInvitation', this.hash)
+      } catch (e) {}
       this.isLoading = false
       this.$router.push('/settings?onboard')
     },
     async reject() {
       this.isLoading = true
-      await this.$store.dispatch('rejectInvitation', this.hash)
+      try {
+        await this.$store.dispatch('rejectInvitation', this.hash)
+      } catch (e) {}
       this.isLoading = false
       this.$router.push('/')
     },
