@@ -6,7 +6,7 @@
       <big class="title">Share something interesting about {{ pronoun }}!</big>
 
       <q-field :error="reviewHasError"></q-field>
-        <q-input type="textarea" :min-rows="6" v-model="review" :count="120"
+        <q-input type="textarea" :min-rows="6" v-model="review" :count="500"
           :placeholder="`What makes ${pronoun} a good friend?                                                                                                    A surprising fact about ${pronoun}?                                                                                                    Your fondest memory of ${pronoun}?`"/>
       </q-field>
 
@@ -44,7 +44,7 @@ export default {
       },
     },
     reviewHasError() {
-      return this.review.length > 120 || this.review.length < 30
+      return this.review.length > 500 || this.review.length < 30
     },
   },
 
@@ -52,7 +52,7 @@ export default {
     async addInvitation() {
       this.isLoading = true
       if (this.reviewHasError) {
-        if (this.review.length > 120) {
+        if (this.review.length > 500) {
           Toast.create.negative({
             html: 'Keep it short and sweet.',
           })
