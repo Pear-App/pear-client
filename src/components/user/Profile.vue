@@ -130,7 +130,7 @@ export default {
           this.$store.dispatch('choosePhotos', photos)
         },
       }))
-      if (this.user.photos[i] != null) {
+      if (this.user.photos[i] != null || this.user.photos.length !== 1) {
         actions.push({
           icon: 'delete',
           handler: () => {
