@@ -100,12 +100,29 @@ export default {
           return
         } catch (e) {}
       }
-      const dummy = document.createElement('input')
+
+      // Create TextArea
+      const dummy = document.createElement('textArea')
       document.body.appendChild(dummy)
-      dummy.setAttribute('value', url)
-      dummy.select()
+      dummy.value = url
+
+      // Select all
+      if (navigator.userAgent.match(/ipad|iphone/i)) {
+        const range = document.createRange()
+        range.selectNodeContents(dummy)
+        const selection = window.getSelection()
+        selection.removeAllRanges()
+        selection.addRange(range)
+        dummy.setSelectionRange(0, 999999)
+      } else {
+        dummy.select()
+      }
+
+      // Copy
       document.execCommand('copy')
-      document.body.removeChild(dummy)
+      // document.body.removeChild(dummy)
+      console.log(dummy)
+
       Toast.create.positive({
         html: 'Copied link!',
         icon: 'clipboard',
