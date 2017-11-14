@@ -58,7 +58,8 @@ export default {
           })
         } else {
           Toast.create.negative({
-            html: 'Write more good things about your friend!',
+            html:
+              'Write more good things about your friend! (at least 30 characters)',
           })
         }
       } else {
